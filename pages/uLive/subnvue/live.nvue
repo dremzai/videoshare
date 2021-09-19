@@ -1,0 +1,207 @@
+<template>
+	<div class="nlv__container">
+		<view class="nlv_main">
+	<swiper class="nlv-swiper" :indicator-dots="false" :vertical="false" :current="videoIndex" @change="handleSlider">
+	<swiper-item v-for="(item, index) in vlist" :key="index">
+			<view class="nlv-playerbox">
+			<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video" :src="item.src" :autoplay="index == videoIndex"
+				:controls="false" :loop="true" :show-center-play-btn="false" objectFit="fill" :style="{height: winHeight, width: winWidth}">
+				</video>
+			<view class="nlv_topbar" :style="{ height: headerBarH, 'padding-top': statusBarH }">
+			<view class="topbar-info">
+				<view class="avator-box">
+					<image class="ta-avator" :src="item.avator" mode="aspectFill" />
+				<view class="tabox"><text class="ta-name">{{item.author}}</text><text class="ta-num">{{item.hotNum}}</text></view>
+				<text class="ta-gz" :class="item.attention ? 'ta-gz-on' : ''" @tap="handleAttention(index)">{{item.attention ? '已关注' : '关注'}}</text>
+				</view>
+				<scroll-view class="avator-scroll" scroll-x show-scrollbar="false">
+					<image class="ta-avator" src="/static/uimg/u__chat_img24.jpg" mode="aspectFill" @click="handlePopInfo" /><image class="ta-avator" src="/static/uimg/u__chat_img28.jpg" mode="aspectFill" @click="handlePopInfo" /><image class="ta-avator" src="/static/uimg/u__chat_img32.jpg" mode="aspectFill" @click="handlePopInfo" /><image class="ta-avator" src="/static/uimg/u__chat_img19.jpg" mode="aspectFill" @click="handlePopInfo" />
+					<image class="ta-avator" src="/static/uimg/u__chat_img20.jpg" mode="aspectFill" @click="handlePopInfo" /><image class="ta-avator" src="/static/uimg/u__chat_img23.jpg" mode="aspectFill" @click="handlePopInfo" />
+				</scroll-view>
+				<text class="member-num">{{item.attentionNum}}</text>
+				</view>
+			<view class="topbar-right"><text class="topbar_ico iconfont" @tap="GoBack">&#xe84f;</text></view>
+			</view>
+		<view class="nlv-rankbox" :style="{top: headerBarH}">
+			<view class="nlv-rkls">
+				<text class="rkitem" style="background: rgba(0,0,0,.3);">礼券 {{item.allRank}}</text>
+				<text v-if="item.hourRank" class="rkitem" style="background: rgba(0,0,0,.3);">守护 {{item.hourRank}}人></text>
+			</view>
+			<text class="nlv-uid">ID: {{item.uid}}</text>
+		</view>
+		<view class="nlv-footToolbar">
+			<view class="nlv-giftGif" v-if="isShowgiftGif">
+				<image src="/static/gif/img-gift01.gif" mode="aspectFill" />
+			</view>
+			<view class="nlv-giftTipPanel">
+			<view class="giftip-item">
+				<image class="gt-avator" src="/static/uimg/u__chat_img5.jpg" mode="aspectFill" />
+			<view class="gt-info"><text class="gt-tit">依拉曼💄</text><text class="gt-subtit">送主播 爱心球</text></view>
+					<image class="gt-gift" src="/static/gift/gift-img11.png" mode="aspectFill" />
+				</view>
+			</view>		
+			<scroll-view class="nlv-rollMsgPanel" scroll-y show-scrollbar="false">
+				<block v-for="(msgitem, msgidx) in item.rollmsg" :key="msgidx"><view class="nlv-msglist"><view class="msg_bg"><text class="msg_name">{{msgitem.uname}}</text> <text class="msg_text">{{msgitem.content}}</text></view></view></block>
+			</scroll-view>
+			<view class="nlv-infobox">
+			<view class="nlv_reply" @tap="handleRollMsg(index)"><text class="nlv_reply_text">聊一聊...</text></view>
+			<view class="nlv_btntool">
+				<view class="btn-toolitem"><text class="iconfont i-btntool">&#xe656;</text></view>
+				<view class="btn-toolitem btn-toolitem-cart" @tap="handleLiveGift"><text class="iconfont i-btntool">&#xe600;</text></view>
+				<view v-if="item.cart" class="btn-toolitem" @tap="handleLiveCart(index)"><text class="iconfont i-btntool" style="color: #ff4e0e;font-size: 20px;">&#xe61e;</text></view>
+				<view class="btn-toolitem"><text class="iconfont i-btntool">&#xe682;</text></view>
+				<!-- <view class="btn-toolitem"><text class="iconfont i-btntool">&#xe61f;</text></view> -->
+			</view>
+		</view>
+		</view>
+		</view>
+	</swiper-item>
+	</swiper>
+</view>
+<pop-info ref="popRef" />
+<live-cart ref="liveCart" :vlist="vlist" />
+	<roll-msg ref="rollMsg" :vlist="vlist" />
+	<live-gift ref="liveGift" @click="handleGiftClick" />
+	</div>
+</template>
+
+<script>
+	const liveJson = require('../mock-live.js')
+	import popInfo from './cp-live/popinfo.vue'
+	import liveCart from './cp-live/cart.vue'
+	import rollMsg from './cp-live/rollmsg'
+	import liveGift from './cp-live/gift'
+	let timer = null
+	export default {
+		data() {
+			return {statusBarH: '',headerBarH: '',winHeight: '',winWidth: '',
+				videoIndex: 0,vlist: liveJson,
+				clickNum: 0,	//记录点击次数
+				isShowgiftGif: false,
+			}
+		},
+		components: {popInfo, liveCart, rollMsg, liveGift},
+		beforeCreate() {
+			// #ifdef APP-PLUS
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				fontFamily: "nvueIcon",
+				'src': "url('../../../static/fonts/iconfont.ttf')"
+			});
+			// #endif
+		},
+		created() {
+		let _sH = uni.getSystemInfoSync().statusBarHeight
+		let _hH = _sH + 50
+		let _wH = uni.getSystemInfoSync().windowHeight
+		let _wW = uni.getSystemInfoSync().windowWidth
+		this.statusBarH = `${_sH}px`
+		this.headerBarH = `${_hH}px`
+		this.winHeight = `${_wH}px`
+		this.winWidth = `${_wW}px`
+		},
+		onLoad(option) {this.videoIndex = parseInt(option.index)
+		},
+		onReady() {this.init()
+		},
+		methods: {
+		init() {
+			this.videoContextList = []
+		for(var i = 0; i < this.vlist.length; i++) {
+			// this.videoContextList.push(uni.createVideoContext('myVideo' + i, this))
+					// #ifdef APP-PLUS-NVUE
+			this.videoContextList.push(this.$refs['myVideo' + i][0])
+					// #endif
+					// #ifndef APP-PLUS
+			this.videoContextList.push(uni.createVideoContext('myVideo' + i, this))
+					// #endif
+				}
+			},
+			handleSlider(e) {
+				let curIndex = e.detail.current
+				if(this.videoIndex >= 0){
+				this.videoContextList[this.videoIndex].pause()
+				this.videoContextList[this.videoIndex].seek(0)
+				}
+				if(curIndex === this.videoIndex + 1) {
+					this.videoContextList[this.videoIndex + 1].play()
+				}else if(curIndex === this.videoIndex - 1) {
+					this.videoContextList[this.videoIndex - 1].play()
+				}
+				this.videoIndex = curIndex
+			},
+			play(index) {this.videoContextList[index].play()
+			},
+			pause(index) {this.videoContextList[index].pause()
+			},
+			handleAttention(index) {
+			let vlist = this.vlist
+			vlist[index].attention =! vlist[index].attention
+				this.vlist = vlist
+			},
+			handlePopInfo() {this.$refs.popRef.show()
+			},
+			handleRollMsg(index) {this.$refs.rollMsg.show(index)
+			},
+			handleLiveCart(index) {this.$refs.liveCart.show(index)
+			},
+			handleLiveGift() {this.$refs.liveGift.show()
+			},
+			GoBack() {uni.navigateBack()
+			},
+			
+			// 点击礼物
+			handleGiftClick() {
+				this.isShowgiftGif = true;
+				setTimeout(() => {
+					this.isShowgiftGif = false
+				}, 7000)
+			}
+		}
+	}
+</script>
+<style scoped>
+.iconfont {font-family: nvueIcon;}
+.nlv__container {flex: 1; height: 100%;
+}
+.nlv_topbar {flex:1; flex-direction: row; align-items: center;position: absolute; left: 0; right: 0; top: 0; z-index: 1001;
+}
+.topbar-info {flex: 1; flex-direction: row; align-items: center; padding-left: 20upx;}.avator-box {background-color: rgba(0,0,0,.4); border-radius: 20px; flex-direction: row; align-items: center; padding-right: 3px; height: 30px;}
+.ta-avator {border-radius: 50%; margin-right: 10upx; height: 30px; width: 30px;}
+.tabox {text-overflow: ellipsis; width: 150upx;}.ta-name {color: #fff; font-size: 24upx;}
+.ta-num {color: #fff; font-size: 24upx;}.ta-gz {background-image: linear-gradient(to right, #ff540a, #ff0f33); border-radius: 20px; color: #fff; font-size: 24upx; text-align: center; padding: 4px 0; width: 45px;}
+.ta-gz-on {background-color: rgba(255,255,255,.2); background-image: none;}
+.avator-scroll {
+	/* #ifndef APP-PLUS-NVUE */
+	white-space: nowrap;
+	/* #endif */
+	flex-direction: row; padding: 0 10upx; height: 30px; width: 230upx;
+}
+.member-num {background-color: rgba(0,0,0,.4); border-radius: 20px; color: #fff; font-size: 24upx; text-align: center; padding: 5px 7px;}
+.topbar-right {flex-direction: row;}.topbar_ico {color: #fff; font-size: 40upx; padding: 15upx; position: relative; z-index: 1001;}
+.nlv-rankbox {position: absolute; left: 0; right: 0; z-index: 1001;}
+.nlv-rkls {flex-direction: row; align-items: center;}.rkitem {background-image: linear-gradient(to right, rgba(255, 56, 166, .5), rgba(57, 159, 255, .5)); border-radius: 20px; color: #fff; font-size: 24upx; margin-left: 20upx; padding: 2px 5px;}
+.nlv-uid {color: rgba(255,255,255,.5); font-size: 28upx; position: absolute; right: 20upx; top: 0;}
+.nlv_main {flex: 1; height: 100%;}.nlv-swiper {flex: 1;}.nlv-playerbox {flex: 1;}.player-video {height: 100%; width: 100%;}
+.nlv-footToolbar {position: absolute; left: 0; right: 0; bottom: 0;
+}
+.nlv-giftTipPanel {flex-direction: row; margin-left: 20upx; margin-bottom: 20upx;}
+.giftip-item {background-color: rgba(0,0,0,.3); border-radius: 50px; padding: 4px; padding-right: 50px; flex-direction: row; align-items: center;}
+.gt-avator {border-radius: 50%; height: 36px; width: 36px;}
+.gt-info {padding: 0 20upx; overflow: hidden; width: 230upx;}
+.gt-tit {color: #fff; font-size: 28upx; overflow: hidden; height: 40upx; line-height: 40upx;}
+.gt-subtit {color: rgba(255,255,255,.7); font-size: 24upx;}
+.gt-gift {height: 70px; width: 70px; position: absolute; top: -30upx; right: -5px;}
+.nlv-rollMsgPanel {margin-left: 20upx; margin-bottom: 20upx; height: 400upx; width: 500upx;}
+.nlv-msglist {margin-top: 10upx; flex-direction: column; align-items: flex-start;}
+.msg_bg {background-color: rgba(0,0,0,.3); border-radius: 12px; padding: 4px 7px; flex-direction: row; flex-wrap: wrap;}
+.msg_name {color: #00ffff; font-size: 28upx;}
+.msg_text {color: rgba(255,255,255,1); font-size: 28upx;}
+.nlv-infobox {padding: 20upx; flex: 1; flex-direction: row; align-items: center;}
+.nlv_reply {flex:1; flex-direction: row; background-color: rgba(0,0,0,.3); border-radius: 50upx; padding: 23upx;}
+.nlv_reply_text {color: #fff; font-size: 30upx;}
+.nlv_btntool {flex-direction: row; justify-content: flex-end;}
+.btn-toolitem {background-color: rgba(0,0,0,.3); border-radius: 50%; align-items: center; justify-content: center; margin-left: 10upx; height: 75upx; width: 75upx;}
+.btn-toolitem-cart {background-image: linear-gradient(to right, #ff955d, #f93b37);}
+.i-btntool {color: #fff; font-size: 40upx;}
+</style>

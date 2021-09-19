@@ -1,0 +1,77 @@
+{
+	"pages": [
+		{
+			"path": "pages/auth/login","style": {"navigationBarTitleText": "登录"}
+		},
+		{
+			"path": "pages/auth/register","style": {"navigationBarTitleText": "注册"}
+		},
+		{
+			"path": "pages/index/index","style": {"navigationBarTitleText": "优直播"
+			}
+		},
+		{
+			"path": "pages/ucenter/index","style": {"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/ucenter/uhome","style": {"navigationBarTitleText": "个人主页"
+			}
+		},
+		{
+			"path": "pages/uZone/index","style": {"navigationBarTitleText": "动态","enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/uZone/publish","style": {"navigationBarTitleText": "发布"
+			}
+		},
+		{
+			"path": "pages/contact/index","style": {"navigationBarTitleText": "好友"
+			}
+		},
+		{
+			"path": "pages/contact/add-friends","style": {"navigationBarTitleText": "添加好友"
+			}
+		},
+		{
+			"path": "pages/uVideo/index","style": {"navigationBarTitleText": "小视频列表"
+			}
+		},
+		{
+			"path": "pages/uVideo/play","style": {"navigationBarTitleText": "小视频"
+			}
+		},
+		// #ifdef APP-PLUS
+		{
+			"path": "pages/uVideo/subnvue/player","style": {"navigationBarTitleText": "基于nvue小视频"
+			}
+		},
+		// #endif
+		{"path": "pages/uLive/index",
+			"style": {"navigationBarTitleText": "直播"
+			}
+		},
+		{"path": "pages/uLive/subnvue/live","style": {"navigationBarTitleText": "基于nvue直播"
+			}
+		},
+		{"path": "pages/chat/privateChat/chat","style": {"navigationBarTitleText": "聊天"
+			}
+		},
+		{
+			"path": "pages/chat/chat-setting","style": {"navigationBarTitleText": "聊天设置"
+			}
+		},
+		{
+			"path": "pages/chat/redPacket/index","style": {"navigationBarTitleText": "红包"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "custom"
+	}
+}

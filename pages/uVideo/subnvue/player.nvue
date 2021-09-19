@@ -1,0 +1,160 @@
+<template>
+	<view class="nvd__container">
+		<view class="nvd_topbar" :style="{ width: winWidth }">
+	<view class="topbar-inner" :style="{ height: headerBarH, 'padding-top': statusBarH }">
+		<text class="topbar_ico iconfont icon-close" @tap="GoBack">&#xe84f;</text><text class="topbar-title"></text>
+	<view class="topbar-right"><text class="topbar_ico iconfont icon-sousuo">&#xe622;</text><text class="topbar_ico iconfont icon-dots">&#xe653;</text></view>
+	</view>
+		</view>
+	<view class="nvd_main">
+	<swiper class="nvd-swiper" :indicator-dots="false" :vertical="false" :current="videoIndex" @change="handleSlider">
+		<swiper-item v-for="(item, index) in vlist" :key="index">
+		<view class="nvd-playerbox">
+			<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video" :src="item.src" :autoplay="index == videoIndex"
+				:controls="false" :loop="true" :show-center-play-btn="false" objectFit="fill" :style="{height: winHeight, width: winWidth}"></video>
+			<view class="nvd-cover" @click="handleClicked(index)"><text v-if="!isPlay" class="btnplay_ico iconfont icon-bofang">&#xe63e;</text></view>
+				<view class="nvd-footToolbar">
+					<view class="nvd-infobox">
+			<view v-if="item.keyword" class="nvd_item nvd_at"><view class="nvd_at_kw" v-for="(kwItem, kwIndex) in item.keyword" :key="kwIndex"><text class="kw-unit">＃</text> <text class="kw-text">{{kwItem}}</text></view></view>
+					<text class="nvd_item nvd_subtext">{{item.subtitle}}</text>
+					<view class="nvd_item nvd_uinfo"><image class="nvd-avator" :src="item.avator" mode="aspectFill" /><text class="nvd-name">{{item.author}}</text><text class="btn-attention" :class="item.attention ? 'btn-attention-on' : ''" @tap="handleAttention(index)">{{item.attention ? '已关注' : '关注'}}</text></view>
+				<view class="nvd_item nvd_reply" @tap="handleVideoComment"><text class="iconfont icon-pinglun">&#xe7d3;</text> <text class="nvd_reply_text">写评论...</text></view>
+				</view>
+				<view class="nvd-sidebar">
+				<view v-if="item.cart" class="side-ls side-cart-bg" @tap="handleVideoCart(index)"><text class="iconfont icon-cart side-iconfont side-iconfont-cart">&#xe64f;</text></view>
+				<view class="side-ls" @tap="handleIsLike(index)"><text class="iconfont icon-like side-iconfont" :class="item.islike ? 'side-iconfont-like' : ''">&#xe63b;</text><text class="side-num">{{ item.likeNum+(item.islike ? 1: 0) }}</text></view><view class="side-ls" @tap="handleVideoComment"><text class="iconfont icon-liuyan side-iconfont">&#xe67c;</text><text class="side-num">{{item.replyNum}}</text></view>
+		<view class="side-ls"><text class="iconfont icon-share side-iconfont">&#xe626;</text><text class="side-num">{{item.shareNum}}</text></view>
+							</view>
+			</view>
+		</view>
+		</swiper-item>
+			</swiper>
+		</view>
+		<video-cart ref="videoCart" :vlist="vlist" />
+		<video-comment ref="videoComment" />
+	</view>
+</template>
+
+<script>
+	const videoJson = require('../mock-video.js')
+	import videoCart from './cp-video/cart.vue'
+	import videoComment from './cp-video/comment'
+	let timer = null
+	export default {
+		data() {
+			return {statusBarH: '',headerBarH: '',
+				winHeight: '',winWidth: '',
+				videoIndex: 0,vlist: videoJson,
+				isPlay: true,	//当前视频是否播放中
+				clickNum: 0,	//记录点击次数
+			}
+		},
+		components: {videoCart, videoComment
+		},beforeCreate() {
+			const domModule = weex.requireModule('dom')
+			domModule.addRule('fontFace', {
+				fontFamily: "nvueIcon",
+				'src': "url('../../../static/fonts/iconfont.ttf')"
+			});
+		},
+		created() {
+		let _sH = uni.getSystemInfoSync().statusBarHeight
+			let _hH = _sH + 50
+		let _wH = uni.getSystemInfoSync().windowHeight
+		let _wW = uni.getSystemInfoSync().windowWidth
+		this.statusBarH = `${_sH}px`
+		this.headerBarH = `${_hH}px`
+		this.winHeight = `${_wH}px`
+		this.winWidth = `${_wW}px`
+		},
+		onLoad(option) {this.videoIndex = parseInt(option.index)
+		},onReady() {this.init()
+		},
+		methods: {
+			init() {this.videoContextList = []
+		for(var i = 0; i < this.vlist.length; i++) {
+					this.videoContextList.push(this.$refs['myVideo' + i][0])
+				}
+			},
+		handleSlider(e) {
+			let curIndex = e.detail.current
+			if(this.videoIndex >= 0){
+				this.videoContextList[this.videoIndex].pause()
+				this.videoContextList[this.videoIndex].seek(0)
+					this.isPlay = false
+				}
+				if(curIndex === this.videoIndex + 1) {this.videoContextList[this.videoIndex + 1].play()
+					this.isPlay = true
+				}else if(curIndex === this.videoIndex - 1) {this.videoContextList[this.videoIndex - 1].play()
+					this.isPlay = true
+				}
+				this.videoIndex = curIndex
+			},
+			play(index) {this.videoContextList[index].play()
+				this.isPlay = true
+			},
+			pause(index) {this.videoContextList[index].pause()
+				this.isPlay = false
+			},
+			handleClicked(index) {
+				if(timer) {clearTimeout(timer)
+				}
+				this.clickNum++
+				timer = setTimeout(() => {
+					if(this.clickNum >= 2){
+					}else{
+			if(this.isPlay){
+					this.pause(index)
+				}else{
+				this.play(index)
+				}
+					}
+			this.clickNum = 0
+				}, 300)
+			},
+			handleAttention(index) {
+				let vlist = this.vlist
+				vlist[index].attention =! vlist[index].attention
+				this.vlist = vlist
+			},
+			handleIsLike(index){
+				let vlist = this.vlist
+				vlist[index].islike =! vlist[index].islike
+				this.vlist = vlist
+			},
+			handleVideoComment() {this.$refs.videoComment.show()
+			},
+			handleVideoCart(index) {this.$refs.videoCart.show(index)
+			},
+			GoBack() {uni.navigateBack()},
+		}
+	}
+</script>
+
+<style scoped>
+.iconfont {font-family: nvueIcon;}
+.nvd__container {flex: 1; height: 100%;
+}
+.nvd_topbar {position: relative; z-index: 9999;}
+.topbar-inner {flex:1; flex-direction: row; align-items: center;position: fixed; left: 0; right: 0; top: 0;
+}
+.topbar-title {flex: 1; color: #fff; font-size: 34upx;}.topbar-right {flex-direction: row;}.topbar_ico {color: #fff; font-size: 40upx; padding: 15upx 24upx; position: relative; z-index: 1001;}
+
+.nvd_main {flex: 1; height: 100%;}.nvd-swiper {flex: 1;}.nvd-playerbox {flex: 1;}
+.player-video {height: 100%; width: 100%;}.nvd-cover {align-items: center; justify-content: center; position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: 101;}
+.btnplay_ico {color: rgba(255,255,255,.7); font-size: 48px;}
+.nvd-footToolbar {flex-direction: row; align-items: flex-end; position: absolute; left: 0; right: 0; bottom: 0;
+}.nvd-infobox {padding-left: 30upx; flex: 1;}
+.nvd_item {margin-bottom: 20upx;}.nvd_at {flex-direction: row;}
+.nvd_at_kw {flex: 0; flex-direction: row; background-color: rgba(0,0,0,.4); border-radius: 10upx; margin-right: 10upx; padding: 8upx 15upx;}.kw-unit {color: #fff; font-size: 28upx; font-weight: 700; margin-right: 5upx;}
+.kw-text {color: #fff; font-size: 28upx;}.nvd_subtext {color: #fff; font-size: 30upx;}
+.nvd_uinfo {flex-direction: row; align-items: center;}.nvd-avator {border-radius: 50%; height: 36px; width: 36px;}
+.nvd-name {color: #fff; font-size: 32upx; padding: 0 20upx;}.btn-attention {background-image: linear-gradient(to right, #fef719, #feb719); border-radius: 12px; color: #fff; font-size: 28upx; text-align: center; padding: 5px 0; width: 50px;}
+.btn-attention-on {background-color: rgba(0,0,0,.4); background-image: none;}
+.nvd_reply {flex-direction: row; background-color: rgba(0,0,0,.4); border-radius: 50upx; padding: 23upx;}
+.icon-pinglun {color: #fff; font-size: 36upx; margin-right: 10upx;}.nvd_reply_text {color: #fff; font-size: 30upx;}
+.nvd-sidebar {padding: 0 30upx;}.side-ls {text-align: center; align-items: center; padding: 25upx 0;}
+.side-iconfont {color: #fff; font-size: 30px;}.side-iconfont-cart {font-size: 20px;}
+.side-iconfont-like {color: #ff1455;}.side-num {color: #fff; font-size: 24upx; margin-top: 10upx;}
+.side-cart-bg {background-image: linear-gradient(to right, #ff1d51, #fef719); border-radius: 50%; align-items: center; justify-content: center; margin-bottom: 25upx; height: 80upx; width: 80upx;}
+</style>
