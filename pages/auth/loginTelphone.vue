@@ -4,7 +4,7 @@
 			<view class="uni-lgregPanel">
 				<view class="lgreg-header">
 					<view class="slogan">
-						<image src="../../static/logo12.png" style="width: 100px;height: 100px;margin-bottom: 10px;border-radius:15px;opacity:0.8;"></image>
+						<image src="../../static/logo12.png" style="width: 90px;height: 90px;margin-bottom: 10px;border-radius:15px;opacity:0.7;"></image>
 						<text class="text">面向视频</text>
 					</view>
 					<view class="forms">
@@ -47,6 +47,7 @@
 			return { 
 				formObj: {},
 				vcodeText: '获取验证码',
+				vcode:'',
 				disabled: false,
 				time: 0,
 			}
@@ -63,29 +64,27 @@
 		},
 		methods: {
 			handleSubmit(e) {
-				uni.showLoading();
 				let that = this
 				let uniPop = this.$refs.uniPop
-				if (!this.formObj.telephone) {
+				if (this.vcode==='') {
 					uniPop.show({
-						content: '手机号不能为空',
+						content: '请先获取验证码',
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
-				} else if (!util.checkTel(this.formObj.telephone)) {
+					return;
+				}  
+				else if (this.vcode!=this.formObj.vcode) {
 					uniPop.show({
-						content: '手机号格式有误',
+						content: '验证码不对',
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
-				} else if (!this.formObj.password) {
-					uniPop.show({
-						content: '密码不能为空',
-						style: 'background:#353535;color:#fff;',
-						time: 2
-					})
-				} else {
-					Api.httpResponse("/stm/api/login/login", 'POST', this.formObj, "json").then(
+					return;
+				}  
+				else {
+					uni.showLoading();
+					Api.httpResponse("/stm/api/user/showUser/getById", 'GET', {telephone:this.formObj.telephone}).then(
 						res => {
 							uni.setStorage({
 								key: 'userId',
@@ -107,13 +106,13 @@
 			},
 			handleVcode() {
 				let uniPop = this.$refs.uniPop
-				if (!this.formObj.tel) {
+				if (!this.formObj.telephone) {
 					uniPop.show({
 						content: '手机号不能为空',
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
-				} else if (!util.checkTel(this.formObj.tel)) {
+				} else if (!util.checkTel(this.formObj.telephone)) {
 					uniPop.show({
 						content: '手机号格式有误',
 						style: 'background:#353535;color:#fff;',
@@ -123,6 +122,15 @@
 					this.time = 60
 					this.disabled = true
 					this.countDown()
+					
+					Api.httpResponse("/stm/api/login/sendCode", 'POST', {telephone:this.formObj.telephone}, "").then(
+						res => {    
+							 this.vcode=res;
+						},
+						error => {
+							console.log(error);
+						}
+					)
 				}
 			},
 			countDown() {
@@ -134,6 +142,8 @@
 					this.vcodeText = '获取验证码'
 					this.time = 0
 					this.disabled = false
+					
+					
 				}
 			}
 		}

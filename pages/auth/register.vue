@@ -4,7 +4,7 @@
 			<view class="uni-lgregPanel">
 				<view class="lgreg-header">
 					<view class="slogan">
-						<image src="../../static/logo12.png" style="width: 100px;height: 100px;margin-bottom: 10px;border-radius:15px;opacity:0.8;"></image>
+						<image src="../../static/logo12.png" style="width: 90px;height: 90px;margin-bottom: 10px;border-radius:15px;opacity:0.7;"></image>
 						<text class="text">面向视频</text>
 					</view>
 					<view class="forms">
