@@ -9,7 +9,7 @@
 				<view class="txt flex1 c_feb719" >
 					{{item.doState==0?"审核中":"已提现"}}
 					￥{{item.doMoney}}</view> 
-				<text class="c_999 fs_12">{{item.doTime}}</text> 
+				<text class="c_999 fs_12">{{item.createTime}}</text> 
 			</view>
 				
 		 
