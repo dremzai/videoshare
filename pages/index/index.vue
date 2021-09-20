@@ -5,13 +5,13 @@
 <template>
 	<view class="uni__container flexbox flex_col">
 		<header-bar v-if="currentTabIndex == 0" :isBack="false" title=" " titleTintColor="#353535" :bgColor="{'background': '#fff'}">
-			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(0)"><text class="fs_14" :class="[currentNavIndex == 0 ? 'fs_20 bold' : '']">最新推荐</text></view>
+			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(0)"><text class="fs_14" :class="[currentNavIndex == 0 ? 'fs_20 bold' : '']">最新活动</text></view>
 			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(1)"><text class="fs_14" :class="[currentNavIndex == 1 ? 'fs_20 bold' : '']">我参与的</text></view>
 			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(2)"><text class="fs_14" :class="[currentNavIndex == 2 ? 'fs_20 bold' : '']">指南</text></view>
 					
 		</header-bar>
 		<header-bar v-else-if="currentTabIndex == 1" :isBack="false" title=" " titleTintColor="#353535" :bgColor="{'background': '#fff'}">
-			<view slot="headerL" class="uni_btnIco flexbox"><text class="fs_20 bold">视频号</text></view>  
+			<view slot="headerL" class="uni_btnIco flexbox"><text class="fs_20 bold">推荐视频</text></view>  
 		</header-bar>
 		<header-bar v-else-if="currentTabIndex == 2" :isBack="false" title=" " titleTintColor="#353535" :bgColor="{'background': '#fff'}">
 			<view slot="headerL" class="uni_btnIco flexbox"><text class="fs_20 bold">数据</text></view> 
@@ -28,6 +28,9 @@
 				</view>
 				<view v-if="currentNavIndex == 1" class="uni__nearPeoples">
 					 <uthememy />
+				</view>
+				<view v-if="currentNavIndex == 2" class="uni__nearPeoples">
+					 <guide />
 				</view>
 				 
 			</block>
@@ -59,12 +62,13 @@
 	import udata from '@/pages/index/data.vue'
 	import utheme from '@/pages/index/theme.vue'
 	import uthememy from '@/pages/index/thememy.vue'
+	import guide from '@/pages/index/guide.vue'
 	export default {
 		data() {
 			return {currentNavIndex: 0,currentTabIndex: 0
 			}
 		},
-		components: {ucenter, uvideo, ulive,udata,utheme,uthememy
+		components: {ucenter, uvideo, ulive,udata,utheme,uthememy,guide
 		},
 		computed: {...mapState(['user', 'token'])
 		},

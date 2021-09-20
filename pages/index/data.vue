@@ -1,39 +1,59 @@
 /**
- * @tpl 首页模板
- */
+* @tpl 首页模板
+*/
 
 <template>
 	<view class="uni__attentions">
-	<view class="uni__listview"><view class="item uni__list uni__material" @tap="GoUhome" @longpress="handleAttentionMenu">
-			<view class="avator"><image src="/static/uimg/u__chat_img35.jpg" mode="widthFix" /></view><view class="uinfo flex1">
-				<view class="name ellipsis">小蛮腰</view><view class="subinfo ellipsis mt_5"><view class="uni-age"><text class="iconfont icon-nv"></text>21</view><view class="uni-distance ml_10"><text class="iconfont icon-dingwei"></text>郑州</view></view>
-			</view><view class="btn bg_linear1">关注</view>
-		</view><view class="item uni__list uni__material" @tap="GoUhome" @longpress="handleAttentionMenu"><view class="avator"><image src="/static/uimg/u__chat_img3.jpg" mode="widthFix" /></view>
-			<view class="uinfo flex1"><view class="name ellipsis">素颜自然美</view><view class="subinfo ellipsis mt_5"><view class="uni-age"><text class="iconfont icon-nv"></text>18</view><view class="uni-distance ml_10"><text class="iconfont icon-dingwei"></text>深圳</view></view>
-			</view><view class="btn cancel">取消关注</view>
-		</view><view class="item uni__list uni__material" @tap="GoUhome" @longpress="handleAttentionMenu"><view class="avator"><image src="/static/uimg/u__chat_img29.jpg" mode="widthFix" /></view>
-			<view class="uinfo flex1"><view class="name ellipsis">如此的依赖</view><view class="subinfo ellipsis mt_5"><view class="uni-age"><text class="iconfont icon-nv"></text>27</view><view class="uni-distance ml_10"><text class="iconfont icon-dingwei"></text>0.29km</view></view>
-			</view><view class="btn cancel">取消关注</view>
-		</view><view class="item uni__list uni__material" @tap="GoUhome" @longpress="handleAttentionMenu"><view class="avator"><image src="/static/uimg/u__chat_img22.jpg" mode="widthFix" /></view><view class="uinfo flex1"><view class="name ellipsis">美婷</view><view class="subinfo ellipsis mt_5"><view class="uni-age"><text class="iconfont icon-nv"></text>23</view><view class="uni-distance ml_10"><text class="iconfont icon-dingwei"></text>大理</view></view>
-			</view><view class="btn cancel">取消关注</view></view>
-	</view>
+		<view class="uni__listview">
+			<view class="item uni__list uni__material"  v-for="(item, index) in dataList" :key="index">
+				<view class="avator">
+					<image :src="item.videoPic"  />
+				</view>
+				<view class="uinfo flex1">
+					<view style="float: right;color: #FEB719;font-size: medium;">￥{{item.toUserMoney}}</view>
+					<view class="name ellipsis " style="margin-left: 10px;">{{item.theDate}}</view>
+					<view class="subinfo ellipsis mt_5">  
+						 <text class="c_bbb fs_12 ml_10">{{item.numShow}}次播放</text>
+						 <text class="c_bbb fs_12 ml_10">{{item.numLike}}个转发</text>
+						 <text class="c_bbb fs_12 ml_10">{{item.numLike}}个赞</text>
+						 <text class="c_bbb fs_12 ml_10">{{item.numComment}}个评论</text>
+					</view>
+				</view> 
+			</view> 
+		</view>
 	</view>
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex' 
+	import Api from '../../utils/requestApi.js'
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	export default {
 		data() {
-			return { 
-				
+			return {
+				dataList: [],
+				listQuery: {},
+				userData: {},
 			}
-		},  
-		mounted(){
-			 
+		},
+		mounted() {
+			this.userData = uni.getStorageSync('user')
+			this.listQuery.videoUserId = this.userData.id;
+			uni.showLoading();
+			Api.httpResponse("/stm/api/video/showDate/viewList", 'GET', this.listQuery).then(
+				res => {
+					uni.hideLoading();
+					this.dataList = res.records;
+				},
+				error => {
+					console.log(error);
+				}
+			)
 		},
 		methods: {
-			GoUhome() {uni.navigateTo({url: '/pages/ucenter/uhome'})
-			},
+
 		}
 	}
 </script>

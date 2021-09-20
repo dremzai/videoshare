@@ -4,6 +4,9 @@
 			"path": "pages/auth/login","style": {"navigationBarTitleText": "登录"}
 		},
 		{
+			"path": "pages/auth/loginTelphone","style": {"navigationBarTitleText": "登录"}
+		},
+		{
 			"path": "pages/auth/register","style": {"navigationBarTitleText": "注册"}
 		},
 		{
@@ -12,6 +15,18 @@
 		},
 		{
 			"path": "pages/ucenter/index","style": {"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/ucenter/bindWxVideoAccount","style": {"navigationBarTitleText": "绑定视频号"
+			}
+		},
+		{
+			"path": "pages/ucenter/setUserInfo","style": {"navigationBarTitleText": "编辑个人信息"
+			}
+		},
+		{
+			"path": "pages/ucenter/outMoneyList","style": {"navigationBarTitleText": "提现记录"
 			}
 		},
 		{

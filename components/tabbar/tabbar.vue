@@ -17,7 +17,7 @@
 		return {
 			tabList: [
 				{icon: 'icon-tab01',text: '活动'},
-				{icon: 'icon-tab02',text: '视频号'},
+				{icon: 'icon-tab02',text: '视频'},
 				// {icon: 'icon-tab03',text: '参与'},
 				{icon: 'icon-tab04',text: '数据'
 				// ,badge: 15
