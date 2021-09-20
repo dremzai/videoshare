@@ -3,8 +3,9 @@
 		<view class="uni__scrollview flex1">
 			<view class="uni-lgregPanel">
 				<view class="lgreg-header">
-					<view class="slogan"><text class="ico-zb iconfont icon-Icon-zhibozhong"></text><text
-							class="text">视频管家</text>
+					<view class="slogan">
+						<image src="../../static/logo12.png" style="width: 100px;height: 100px;margin-bottom: 10px;border-radius:15px;opacity:0.8;"></image>
+						<text class="text">面向视频</text>
 					</view>
 					<view class="forms">
 						<form @submit.prevent="handleSubmit">
