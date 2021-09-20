@@ -4,7 +4,7 @@
 			<view class="uni-lgregPanel">
 				<view class="lgreg-header">
 					<view class="slogan"><text class="ico-zb iconfont icon-Icon-zhibozhong"></text><text
-							class="text">视频号管家</text>
+							class="text">视频管家</text>
 					</view>
 					<view class="forms">
 						<form @submit.prevent="handleSubmit">
