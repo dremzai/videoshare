@@ -63,6 +63,7 @@
 </template>
 
 <script>
+	import Api from '../../utils/requestApi.js'
 	export default {
 		data() {
 			return {
@@ -97,6 +98,7 @@
 						  Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
 						  	resUser => {  
 						  		  uni.hideLoading();    
+								  this.userData=resUser;
 						  		  this.$store.commit('SET_USER', resUser) 
 						  	},
 						  	error => {

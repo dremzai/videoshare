@@ -60,8 +60,8 @@
 	import uvideo from '@/pages/uVideo'
 	import ulive from '@/pages/uLive'
 	import udata from '@/pages/index/data.vue'
-	import utheme from '@/pages/index/theme.vue'
-	import uthememy from '@/pages/index/thememy.vue'
+	import utheme from '@/pages/theme/theme.vue'
+	import uthememy from '@/pages/theme/thememy.vue'
 	import guide from '@/pages/index/guide.vue'
 	export default {
 		data() {

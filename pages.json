@@ -26,6 +26,10 @@
 			}
 		},
 		{
+			"path": "pages/theme/detail","style": {"navigationBarTitleText": "活动详情"
+			}
+		},
+		{
 			"path": "pages/ucenter/outMoneyList","style": {"navigationBarTitleText": "提现记录"
 			}
 		},
@@ -57,9 +61,17 @@
 			"path": "pages/uVideo/play","style": {"navigationBarTitleText": "小视频"
 			}
 		},
+		{
+			"path": "pages/uVideo/playOne","style": {"navigationBarTitleText": "小视频"
+			}
+		},
 		// #ifdef APP-PLUS
 		{
 			"path": "pages/uVideo/subnvue/player","style": {"navigationBarTitleText": "基于nvue小视频"
+			}
+		},
+		{
+			"path": "pages/uVideo/subnvue/playerOne","style": {"navigationBarTitleText": "基于nvue小视频"
 			}
 		},
 		// #endif
