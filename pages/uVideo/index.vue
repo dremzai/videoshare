@@ -3,22 +3,16 @@
  */
 
 <template>
-	<view class="uni__videoWrapper">
-<!-- <view class="uni__subNavs">
-	<view class="ls flexbox flex_alignc">
-		<text class="item on">推荐</text>
-		<text class="item">我的</text>
-		<text class="item">附近</text>
-	</view>
-</view> -->
+	<view class="uni__videoWrapper"> 
 		<view class="uni_videoLs">
-		<block v-for="(item,index) in videoList" :key="index">
-		<view class="item" @tap="GoVideoPlay(index)">
-			<image class="v-thumb" :src="item.poster" mode="aspectFill" />
+		<block v-for="(item,index) in dataList" :key="index">
+		<view class="item" @tap="GoVideoPlay(item)">
+			<image class="v-thumb" :src="item.videoPic" mode="aspectFill" />
 			<view class="v-ftinfo">
-				<view class="title flexbox flex_alignb">{{item.subtitle}}</view>
+				<view class="title flexbox flex_alignb">{{item.videoTitle}}</view>
 			<view class="flexbox flex_alignc">
-				<view class="play flex1"><text class="iconfont icon-bofang"></text> {{item.playNum}}次播放</view><text class="like">{{item.likeNum}}赞</text></view>
+				<view class="play flex1"><text class="iconfont icon-bofang"></text> {{item.numShow}}次播放</view>
+				<text class="like">￥{{item.numLike}}</text></view>
 			</view>
 		</view>
 			</block>
@@ -27,19 +21,35 @@
 </template>
 
 <script>
+	import Api from '../../utils/requestApi.js'
 	const videoJson = require('./mock-video.js')
 	export default {
 		data() {
-			return {videoList: videoJson
+			return {
+				videoList: videoJson, 
+				dataList:[],
+				listQuery:{}
 			}
 		},
+		mounted(){
+			 uni.showLoading(); 
+			 Api.httpResponse("/stm/api/video/showVideo/list", 'GET',this.listQuery).then(
+			 	res => {     
+			 		  uni.hideLoading();  
+					  this.dataList=res.records;
+			 	},
+			 	error => {
+			 		console.log(error);
+			 	}
+			 ) 
+		},
 		methods: {
-			GoVideoPlay(index) {
+			GoVideoPlay(item) {
 			// #ifndef APP-PLUS
-			uni.navigateTo({url: '/pages/uVideo/play?index=' + index})
+			uni.navigateTo({url: '/pages/uVideo/play?index=' + 1 +'&dataItem='+ encodeURIComponent(JSON.stringify(item))})
 				// #endif
 				// #ifdef APP-PLUS
-				uni.navigateTo({url: '/pages/uVideo/subnvue/player?index=' + index})
+				uni.navigateTo({url: '/pages/uVideo/subnvue/player?index=' + 1 +'&dataItem='+ encodeURIComponent(JSON.stringify(item))})
 				// #endif
 			}
 		}

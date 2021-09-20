@@ -65,8 +65,8 @@
 		{
 			"path": "pages/chat/redPacket/index","style": {"navigationBarTitleText": "红包"
 			}
-		}
-	],
+		} 
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

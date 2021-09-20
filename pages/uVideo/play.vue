@@ -1,7 +1,11 @@
 
 <template>
 	<view class="uni__container uni__videopage flexbox flex_col">
-		<header-bar :isBack="true" title=" " :bgColor="{background: 'transparent'}" center transparent><text slot="back" class="uni_btnIco iconfont icon-close"></text><text slot="iconfont" class="uni_btnIco iconfont icon-sousuo"></text><text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5"></text></header-bar>
+		<header-bar :isBack="true" title=" " :bgColor="{background: 'transparent'}" center transparent>
+			<text slot="back" class="uni_btnIco iconfont icon-close"></text><!-- 
+			<text slot="iconfont" class="uni_btnIco iconfont icon-sousuo"></text>
+			<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5"></text> -->
+			</header-bar>
 		<view class="uni__scrollview flex1">
 <swiper :indicator-dots="false" :duration="200" :vertical="true" :current="videoIndex" @change="handleSlider" style="height: 100%;">
 	<block v-for="(item,index) in vlist" :key="index">
@@ -14,8 +18,10 @@
 				<view class="vd-info flex1">
 				<view class="item at"><view class="kw" v-for="(kwItem,kwIndex) in item.keyword" :key="kwIndex"><text class="bold fs_18 mr_5">＃</text> {{kwItem}}</view></view>
 			<view class="item subtext">{{item.subtitle}}</view>
-					<view class="item uinfo flexbox flex_alignc"><image class="avator" :src="item.avator" mode="aspectFill" /><text class="name">{{item.author}}</text> <text class="btn-attention bg_linear1" :class="item.attention ? 'on' : ''" @tap="handleAttention(index)">{{item.attention ? '已关注' : '关注'}}</text></view>
-		<view class="item reply" @tap="handleVideoComment"><text class="iconfont icon-pinglun mr_5"></text> 写评论...</view>
+	<view class="item uinfo flexbox flex_alignc"><image class="avator" :src="item.avator" mode="aspectFill" /><text class="name">{{item.author}}</text> 
+	<!-- <text class="btn-attention bg_linear1" :class="item.attention ? 'on' : ''" @tap="handleAttention(index)">{{item.attention ? '已关注' : '关注'}}</text> -->
+	</view>
+		<!-- <view class="item reply" @tap="handleVideoComment"><text class="iconfont icon-pinglun mr_5"></text> 写评论...</view> -->
 			</view>
 			<view class="vd-sidebar">
 		<view v-if="item.cart" class="ls cart flexbox bg_linear3" @tap="handleVideoCart(index)"><text class="iconfont icon-cart"></text></view><view class="ls" @tap="handleIsLike(index)"><text class="iconfont icon-like" :class="item.islike ? 'like' : ''"></text><text class="num">{{ item.likeNum+(item.islike ? 1: 0) }}</text></view><view class="ls" @tap="handleVideoComment"><text class="iconfont icon-liuyan"></text><text class="num">{{item.replyNum}}</text></view>
@@ -39,15 +45,20 @@
 	let timer = null
 	export default {
 		data() {
-			return {videoIndex: 0,vlist: videoJson,
-			isPlay: true,	//当前视频是否播放中
-			clickNum: 0,	//记录点击次数
+			return {
+				videoIndex: 0,
+				vlist: videoJson,
+				isPlay: true,	//当前视频是否播放中
+				clickNum: 0,	//记录点击次数
 				isLike: false,
+				dataItem:{},
 			}
 		},
 		components: {videoCart, videoComment
 		},
-		onLoad(option) {this.videoIndex = parseInt(option.index)
+		onLoad(option) {
+			this.videoIndex = parseInt(option.index)
+			this.dataItem=JSON.parse(decodeURIComponent(option.dataItem));
 		},
 		onReady() {this.init()
 		},

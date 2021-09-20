@@ -3,13 +3,17 @@
 <view class="uni__ucenterWrapper">
 <view class="uc-header"><view class="uni__listview">
 		<view class="uni__list uni__material">
-	<image class="avator mr_15" src="/static/uimg/u__chat_img18.jpg" mode="widthFix" style="border-radius:50%;height: 55px;width:55px;" /><view class="txt flex1 fs_18">流浪少年
+	<image class="avator mr_15" :src="userData.userHeadpic" mode="widthFix" style="border-radius:50%;height: 55px;width:55px;" />
+	<view class="txt flex1 fs_18">{{userData.nickName}}
 	 <!-- <text class="iconfont icon-nan c_589bee ml_5"></text> -->
-	 <text class="db c_999 fs_12 mt_5">Tel: 15988112228</text></view><text class="iconfont icon-arrR c_999 fs_12"></text>
+	 <text class="db c_999 fs_12 mt_5">Tel: {{userData.telephone}}</text></view><text class="iconfont icon-arrR c_999 fs_12"></text>
 		</view>
 	<view class="uni__list flex_alignc flex_col">
-		<text class="fs_12 bold db">余额(A币)</text><view style="font-size: 70upx; font-weight: 700; padding: 30upx 0;"><text class="iconfont icon-jingbi"></text> 10800</view>
-		<view class="flexbox align_c" style="width: 100%;"><text class="flex1 lh_45 c_feb719">提现</text><text class="flex1 lh_45 c_399fff">充值</text>
+		<text class="fs_12 bold db">余额</text><view style="font-size: 70upx; font-weight: 700; padding: 30upx 0;">
+		<text class="iconfont icon-jingbi"></text> {{userData.banlance}}</view>
+		<view class="flexbox align_c" style="width: 100%;">
+		<text class="flex1 lh_45 c_feb719">提现</text>
+		<!-- <text class="flex1 lh_45 c_399fff">充值</text> -->
 		</view></view></view>
 </view>
 	<!-- <view class="uni__listview mt_15">
@@ -18,27 +22,28 @@
 	</view>
 	</view> -->
 	<view class="uni__listview mt_15">
-	<view class="item uni__list uni__material" @tap="GoUzone">
+	<view class="item uni__list uni__material" @tap="GoBindAccount">
 		<view class="txt flex1">视频号</view> 
-		<text class="c_999 fs_12">林林15988112228</text>
+		<text class="c_999 fs_12">{{userData.wxVideoAccount}}</text>
 		<text class="iconfont icon-arrR c_999 fs_12"></text>
 	</view>
 	</view>
 <view class="uni__listview mt_15">
-	<view class="item uni__list uni__material" @tap="qrcodeCard">
-	<view class="txt flex1">充值记录</view><text class="iconfont icon-arrR c_999 fs_12"></text></view>
+<!-- 	<view class="item uni__list uni__material" @tap="qrcodeCard">
+	<view class="txt flex1">充值记录</view><text class="iconfont icon-arrR c_999 fs_12"></text>
+	</view> -->
 	<view class="item uni__list uni__material">
 		<view class="txt flex1">提现记录</view> 
-		<text class="c_999 fs_12">￥333元</text>
+		<text class="c_999 fs_12 c_feb719">￥333元</text>
 		<text class="iconfont icon-arrR c_999 fs_12"></text></view>
 		
 	<view class="item uni__list uni__material">
-		<view class="txt flex1">每日数据</view> 
-		<text class="c_999 fs_12">昨日：￥-200</text>
-		<text class="iconfont icon-arrR c_999 fs_12"></text>
+		<view class="txt flex1">客服电话</view> 
+		<text class="c_999 fs_12">0571-88350565</text>
+		<!-- <text class="iconfont icon-arrR c_999 fs_12"></text> -->
 	</view>
 		
-	<view class="item uni__list uni__material" @tap="aboutSys">
+	<view class="item uni__list uni__material" >
 	<view class="txt flex1">版本信息</view>
 	<text class="c_999 fs_12">版本1.0.5</text>
 	<!-- <text class="iconfont icon-arrR c_999 fs_12"></text> -->
@@ -56,37 +61,29 @@
 	export default {
 		data() {
 			return {
+				userData:{},
 			}
 		},
+		mounted(){ 
+			this.userData=uni.getStorageSync('user') 
+		},
 		methods: {
-			GoUzone() {uni.navigateTo({url: '/pages/uZone/index'})
+			GoUzone() { 
+			uni.navigateTo({url: '/pages/uZone/index'})
+			},
+			GoBindAccount(){
+				
 			},
 			qrcodeCard() {
 				let uniPop = this.$refs.uniPop
-			uniPop.show({content: `
-						<div class="aboutme" style="text-align: center;"><img src="./static/wx-qrcode.jpg" style="height:160px;width:160px;" /><div style="color:#999;font-family:simsun;margin-top:10px;">扫一扫，加我名片</div>
-						</div>
-					`,
-				})
+				uniPop.show({content: `
+							<div class="aboutme" style="text-align: center;"><img src="./static/wx-qrcode.jpg" style="height:160px;width:160px;" /><div style="color:#999;font-family:simsun;margin-top:10px;">扫一扫，加我名片</div>
+							</div>
+						`,
+					})
 			},
-			
-			aboutSys() {
-				let uniPop = this.$refs.uniPop
-				uniPop.show({
-					content: `
-						<div class="aboutme" style="text-align: center;padding:20px 0 10px;">
-							<img src="./static/logo.png" style="height:72px;width:72px;" /><div style="color: #589bee; font-size:16px;margin-top:10px;">uni-liveShow</div>
-							<div style="color:#999;font-family:simsun;margin-top:10px;">基于vue+uniapp技术开发聊天直播项目，完美兼容H5/小程序/App端</div><div style="color:#aaa;font-size:12px;font-family:arial;margin-top:10px;">QQ：282310962</div>
-						</div>
-					`,
-					btns: [{text: 'close',style: 'color: #999;',onTap() {uniPop.close()
-						}
-						}
-					]
-				})
-			},
-			
-			logoutSys(){
+			 
+		logoutSys(){
 			let that = this
 				let uniPop = this.$refs.uniPop
 				uniPop.show({skin: 'android',content: `<p>确定要退出登录吗？`,

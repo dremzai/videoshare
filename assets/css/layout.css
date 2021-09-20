@@ -230,7 +230,7 @@
 .fz_item .fzitem_content {}.fzitem_content .fz_user {color: #576b95; font-size: 14px;}
 .fzitem_content .fz_cnts {color: #353535; font-size: 14px; margin-top: 2px; line-height: 20px;}.fzitem_content .fz_photos {flex-wrap: wrap; margin-top: 7px;}
 .fzitem_content .fz_photos .fz_img {margin: 3px 3px 0 0; height: 70px; width: 70px;}
-.fzitem_content .fz_photos .fz_img_auto {max-height: 150px; max-width: 150px;}
+.fzitem_content .fz_photos .fz_img_auto {max-height: 140px; max-width: 140px;}
 .fzitem_content .fz_foot {margin-top: 10px;}.fzitem_content .fz_foot .fz_time {color: #999; font-size: 12px;}.fzitem_content .fz_foot .icon-pinglun {color: #576B95;}
 .fzitem_content .fz_replybox {background: #ebebeb; margin-top: 15px; padding: 7px; padding-bottom: 0; position: relative;}
 .fzitem_content .fz_replybox:before {content: ''; border-color: transparent transparent #ebebeb transparent; border-style: dashed dashed solid dashed; border-width: 10px; position: absolute; top: -18px; left: 7px;}
