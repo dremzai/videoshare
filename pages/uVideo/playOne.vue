@@ -12,13 +12,13 @@
 							<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video"
 								:src="item.videoUrl" :controls="false" :loop="true" :show-center-play-btn="false"
 								objectFit="fill" z-index="0"></video>
-							<view  z-index="999" class="vd-cover flexbox" @click="handleClicked(index)"><text v-if="!isPlay"
-									class="iconfont icon-bofang"></text></view>
-							<view  z-index="999" class="vd-footToolbar flexbox flex_alignb">
+							<view z-index="999" class="vd-cover flexbox" @click="handleClicked(index)"><text
+									v-if="!isPlay" class="iconfont icon-bofang"></text></view>
+							<view z-index="999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
 										<view class="kw">
-											 {{item.numShow}}次浏览
+											{{item.numShow}}次浏览
 										</view>
 									</view>
 									<view class="item subtext">{{item.videoTitle}}</view>
@@ -28,15 +28,15 @@
 									</view>
 								</view>
 								<view class="vd-sidebar">
-									 
-									<view class="ls"><text class="iconfont icon-like" ></text><text
+
+									<view class="ls"><text class="iconfont icon-like"></text><text
 											class="num">{{ item.numLike }}</text></view>
 									<view class="ls"><text class="iconfont icon-liuyan"></text><text
 											class="num">{{item.numComment}}</text></view>
 									<view class="ls"><text class="iconfont icon-share"></text><text
 											class="num">{{item.numRelay}}</text></view>
-									<view class="ls"><text class="iconfontnew icon-xiazai"></text><text
-											class="num">{{item.numRelay}}</text></view>		
+									<view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
+											class="num">{{item.numRelay}}</text></view>
 								</view>
 							</view>
 						</view>
@@ -79,6 +79,33 @@
 			this.init()
 		},
 		methods: {
+			downloadFile(url) {
+				uni.downloadFile({
+					url: url,
+					success: (res) => {
+						if (res.statusCode === 200) {
+							uni.saveImageToPhotosAlbum({
+								filePath: res.tempFilePath,
+								success: function() {
+									uni.hideLoading()
+									uni.showToast({
+										title: "保存成功",
+										icon: "none"
+									});
+								},
+								fail: function() {
+									uni.hideLoading()
+									uni.showToast({
+										title: "保存失败，请稍后重试",
+										icon: "none"
+									});
+								}
+							});
+						}
+					}
+				});
+			},
+
 			init() {
 				this.videoContextList = []
 				for (var i = 0; i < this.vlist.length; i++) {
@@ -151,8 +178,8 @@
 </script>
 
 <style scoped>
-.vd-sidebar .iconfontnew{
-	font-size: 60rpx;
-	color: #FFFFFF;
-}
+	.vd-sidebar .iconfontnew {
+		font-size: 60rpx;
+		color: #FFFFFF;
+	}
 </style>
