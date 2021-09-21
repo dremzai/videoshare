@@ -35,6 +35,8 @@
 											class="num">{{item.numComment}}</text></view>
 									<view class="ls"><text class="iconfont icon-share"></text><text
 											class="num">{{item.numRelay}}</text></view>
+									<view class="ls"><text class="iconfontnew icon-xiazai"></text><text
+											class="num">{{item.numRelay}}</text></view>		
 								</view>
 							</view>
 						</view>
@@ -149,5 +151,8 @@
 </script>
 
 <style scoped>
-
+.vd-sidebar .iconfontnew{
+	font-size: 60rpx;
+	color: #FFFFFF;
+}
 </style>

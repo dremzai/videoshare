@@ -10,10 +10,21 @@
   /* src: url('https://at.alicdn.com/t/font_1457215_mc539ia4mv.ttf') format('truetype'); */
   src: url('~@/static/fonts/iconfont.ttf');
 }
-
+@font-face {font-family: "iconfontnew";
+  /* src: url('https://at.alicdn.com/t/font_1457215_mc539ia4mv.ttf') format('truetype'); */
+  src: url('~@/static/fonts/iconfontnew.ttf');
+}
 
 .iconfont {
   font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.iconfontnew {
+  font-family: "iconfontnew" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -268,3 +279,6 @@
   content: "\e84f";
 }
 
+.icon-xiazai:before {
+  content: "\e61c";
+}

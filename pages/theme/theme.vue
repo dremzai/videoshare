@@ -14,7 +14,11 @@
 				</view>
 				<view class="fz_cnts" @tap="goDetail(item)"> {{item.themeDesc}}#{{item.themeKey}}#</view>
 				<view class="fz_photos">
-					<image class="fz_img_auto" @tap="GoVideoPlay(atx)" v-for="atx in item.videoList" :key="atx.id" :src="atx.videoPic" mode="aspectFill" />
+					
+					<view class="fz_photos_item" @tap="GoVideoPlay(atx)" v-for="atx in item.videoList" :key="atx.id">
+						<image class="fz_img_auto"  :src="atx.videoPic" mode="aspectFill" />
+						<text class="iconfont icon-bofang"></text>
+					</view>
 				</view>
 				<view class="fz_foot flexbox flex_alignc">
 					<view class="flex1"><text class="fz_time">{{item.totalNumVideo}}次推广</text>
@@ -88,4 +92,17 @@
 </script>
 
 <style>
+	.fz_photos_item{
+		display: inline-block;
+		position: relative;
+	}
+	.icon-bofang{
+		position: absolute;
+		background-color: rgba(255,255,255,0.8);
+		left: calc(50% - 36rpx);
+		top: calc(50% - 36rpx);
+		border-radius: 80rpx;
+		font-size: 30rpx;
+		padding: 20rpx 20rpx 20rpx 23rpx;
+	}
 </style>
