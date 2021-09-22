@@ -49,6 +49,14 @@
 								<view class="side-ls"><text
 										class="iconfont icon-share side-iconfont">&#xe626;</text><text
 										class="side-num">{{item.numRelay}}</text></view>
+										
+										<view class="side-ls" @click="downloadFile(item.videoUrl)"><text
+												class="iconfont icon-share side-iconfont">&#xe786;</text><text
+												class="side-num">下载</text></view>
+										<!-- <view class="side-ls" @click="openWx()"><text 
+												class="iconfont icon-share side-iconfont">&#xe786;</text><text
+												class="side-num">打开微信</text></view>		 -->
+												
 							</view>
 						</view>
 					</view>
@@ -110,6 +118,40 @@
 			this.init()
 		},
 		methods: {
+			openWx(){
+				plus.runtime.openURL("weixin://")
+			},
+			downloadFile(url) {
+				uni.showLoading();
+				uni.downloadFile({
+					url: url,
+					success: (res) => {
+						if (res.statusCode === 200) {
+							uni.saveImageToPhotosAlbum({
+								filePath: res.tempFilePath,
+								success: function() {
+									uni.hideLoading()
+									uni.showToast({
+										title: "保存成功",
+										icon: "none"
+									});
+								},
+								fail: function() {
+									uni.hideLoading()
+									uni.showToast({
+										title: "保存失败，请稍后重试",
+										icon: "none"
+									});
+								}
+							});
+							
+						}
+					},
+					fail:()=>{
+						uni.hideLoading()
+					}
+				});
+			},
 			init() {
 				this.videoContextList = []
 				for (var i = 0; i < this.vlist.length; i++) {

@@ -60,7 +60,7 @@
 			this.getList();
 		},
 		methods: {
-			getList(){ 
+			getList(refresh){ 
 				uni.showLoading();
 				Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET', this.listQuery).then(
 					res => {
@@ -69,9 +69,15 @@
 						if(this.listQuery.page<res.pages){
 							this.listQuery.isLoadMore=false;
 						} 
+						if(refresh){
+								this.$emit("stopRefresh")
+						}
 					},
 					error => {
 						console.log(error);
+						if(refresh){
+								this.$emit("stopRefresh")
+						}
 					}
 				)
 			},

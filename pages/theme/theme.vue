@@ -4,32 +4,35 @@
 
 <template>
 	<view class="fz_container">
-		<view class="fz_item flexbox uni__material" v-for="(item, index) in dataList" :key="index">
-			<image class="fzitem_avator" :src="item.sponsorUserHeadpic" mode="aspectFill" />
-			<view class="fzitem_content flex1"  @longtap="copyVal(item.themeDesc+'#'+item.themeKey+'#')">
-				<text class="fz_user" @tap="goDetail(item)">{{item.themeTitle}}</text>
-				<view class="mt_5" @tap="goDetail(item)">
-				<view class="uni-age" style="width:120px;">奖金池：￥{{item.remainThemeToMoneyStr}}</view>
-				<view class="uni-vip v1 ml_5"  style="width:70px;">还剩{{item.endDay}}天</view>
-				</view>
-				<view class="fz_cnts" @tap="goDetail(item)"> {{item.themeDesc}}#{{item.themeKey}}#</view>
-				<view class="fz_photos">
-					
-					<view class="fz_photos_item" @tap="GoVideoPlay(atx)" v-for="atx in item.videoList" :key="atx.id">
-						<image class="fz_img_auto"  :src="atx.videoPic" mode="aspectFill" />
-						<text class="iconfont icon-bofang"></text>
+		<scroll-view :style="{height:height+'px'}" scroll-y :lower-threshold="100" :scroll-with-animation="true" @scrolltolower="onScrolltolower">
+			<view class="fz_item flexbox uni__material" v-for="(item, index) in dataList" :key="index">
+				<image class="fzitem_avator" :src="item.sponsorUserHeadpic" mode="aspectFill" />
+				<view class="fzitem_content flex1"  @longtap="copyVal(item.themeDesc+'#'+item.themeKey+'#')">
+					<text class="fz_user" @tap="goDetail(item)">{{item.themeTitle}}</text>
+					<view class="mt_5" @tap="goDetail(item)">
+					<view class="uni-age" style="width:120px;">奖金池：￥{{item.remainThemeToMoneyStr}}</view>
+					<view class="uni-vip v1 ml_5"  style="width:70px;">还剩{{item.endDay}}天</view>
+					</view>
+					<view class="fz_cnts" @tap="goDetail(item)"> {{item.themeDesc}}#{{item.themeKey}}#</view>
+					<view class="fz_photos">
+						
+						<view class="fz_photos_item" @tap="GoVideoPlay(atx)" v-for="atx in item.videoList" :key="atx.id">
+							<image class="fz_img_auto"  :src="atx.videoPic" mode="aspectFill" />
+							<text class="iconfont icon-bofang"></text>
+						</view>
+					</view>
+					<view class="fz_foot flexbox flex_alignc">
+						<view class="flex1"><text class="fz_time">{{item.totalNumVideo}}次推广</text>
+						<view class="uni-distance ml_10">
+						<text class="iconfont "></text>{{item.totalNumRelay}}个转发</view>
+						<text class="c_bbb fs_12 ml_10">{{item.totalNumLike}}个赞</text>
+						<text class="c_bbb fs_12 ml_10">{{item.totalNumComment}}个评论</text>
+						</view> 
 					</view>
 				</view>
-				<view class="fz_foot flexbox flex_alignc">
-					<view class="flex1"><text class="fz_time">{{item.totalNumVideo}}次推广</text>
-					<view class="uni-distance ml_10">
-					<text class="iconfont "></text>{{item.totalNumRelay}}个转发</view>
-					<text class="c_bbb fs_12 ml_10">{{item.totalNumLike}}个赞</text>
-					<text class="c_bbb fs_12 ml_10">{{item.totalNumComment}}个评论</text>
-					</view> 
-				</view>
 			</view>
-		</view>
+		</scroll-view>
+		
 	 
 		 
 	</view>
@@ -39,8 +42,12 @@
 	import { mapState, mapMutations } from 'vuex' 
 	import Api from '../../utils/requestApi.js'
 	export default {
+		props:{
+			height:Number
+		},
 		data() {
 			return { 
+				navHeight:400,
 				dataList:[],
 				listQuery:{
 					isLoadMore:true,
@@ -72,7 +79,12 @@
 			}, 1000);
 		},
 		methods: { 
-			getList(){ 
+			onScrolltolower(){
+				
+				console.log("xxxx")
+				
+			},
+			getList(refresh){ 
 				 uni.showLoading(); 
 				 Api.httpResponse("/stm/api/video/showTheme/viewList", 'GET',this.listQuery).then(
 					res => {     
@@ -80,10 +92,17 @@
 						  this.dataList=this.dataList.concat(res.records);
 						   if(this.listQuery.page<res.pages){
 								this.listQuery.isLoadMore=false;
+									
 						   } 
+							if(refresh){
+									this.$emit("stopRefresh")
+							}
 					},
 					error => {
 						console.log(error);
+						if(refresh){
+								this.$emit("stopRefresh")
+						}
 					}
 				 ) 
 			},
@@ -127,11 +146,11 @@
 	}
 	.icon-bofang{
 		position: absolute;
-		background-color: rgba(255,255,255,0.8);
-		left: calc(50% - 36rpx);
-		top: calc(50% - 36rpx);
+		background-color: rgba(255,255,255,0.4);
+		left: calc(50% - 31rpx);
+		top: calc(50% - 31rpx);
 		border-radius: 80rpx;
-		font-size: 30rpx;
+		font-size: 20rpx;
 		padding: 20rpx 20rpx 20rpx 23rpx;
 	}
 </style>
