@@ -47,10 +47,13 @@
 					userId:'', 
 					page:1,
 					pageSize:5,
-				}
+				},
+				userData:{},
 			}
 		},  
 		mounted(){
+			this.userData = uni.getStorageSync('user')
+			this.listQuery.userId = this.userData.id;
 			this.getList();
 		},
 	    onReachBottom(){  //上拉触底函数

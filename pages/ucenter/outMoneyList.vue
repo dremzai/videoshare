@@ -30,9 +30,12 @@
 					pageSize:20,
 					doType:2,
 				},
+				userData:{},
 			}
 		},
 		onLoad(options) {  
+			this.userData = uni.getStorageSync('user')
+			this.listQuery.userId = this.userData.id;
 			this.getList();
 		},
 	    onReachBottom(){  //上拉触底函数

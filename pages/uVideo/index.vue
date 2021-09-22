@@ -36,6 +36,7 @@
 					page:1,
 					pageSize:5,
 				},
+				userData:{},
 			}
 		},
 	    onReachBottom(){  //上拉触底函数
@@ -54,6 +55,8 @@
 			}, 1000);
 		},
 		mounted() { 
+			this.userData = uni.getStorageSync('user')
+			this.listQuery.userId = this.userData.id;
 			this.getList();
 		},
 		methods: {
