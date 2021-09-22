@@ -10,7 +10,10 @@
 			"path": "pages/auth/register","style": {"navigationBarTitleText": "注册"}
 		},
 		{
-			"path": "pages/index/index","style": {"navigationBarTitleText": "面向视频"
+			"path": "pages/index/index","style": {
+				"navigationBarTitleText": "面向视频",
+				"enablePullDownRefresh":true,  //下拉刷新
+				"onReachBottonDistance":200    //距离底部多少距离的时候触发
 			}
 		},
 		{
@@ -26,11 +29,18 @@
 			}
 		},
 		{
+			"path": "pages/ucenter/setPassword","style": {"navigationBarTitleText": "设置密码"
+			}
+		},
+		{
 			"path": "pages/theme/detail","style": {"navigationBarTitleText": "活动详情"
 			}
 		},
 		{
-			"path": "pages/ucenter/outMoneyList","style": {"navigationBarTitleText": "提现记录"
+			"path": "pages/ucenter/outMoneyList","style": {
+				"navigationBarTitleText": "提现记录",
+				"enablePullDownRefresh":true,  //下拉刷新
+				"onReachBottonDistance":200    //距离底部多少距离的时候触发
 			}
 		},
 		{
@@ -54,7 +64,10 @@
 			}
 		},
 		{
-			"path": "pages/uVideo/index","style": {"navigationBarTitleText": "短视频列表"
+			"path": "pages/uVideo/index","style": {
+				"navigationBarTitleText": "短视频列表",
+				"enablePullDownRefresh":true,  //下拉刷新
+				"onReachBottonDistance":200    //距离底部多少距离的时候触发
 			}
 		},
 		{

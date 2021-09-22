@@ -14,7 +14,7 @@
 									placeholder-style="color:#aaa" maxlength="11" />
 							</view>
 							<view class="item flexbox flex_alignc"><text class="iconfont icon-shouji"></text><input
-									class="iptxt flex1" type="text" v-model="formObj.tel" placeholder="请输入手机号"
+									class="iptxt flex1" type="text" v-model="formObj.telephone" placeholder="请输入手机号"
 									placeholder-style="color:#aaa" maxlength="11" />
 							</view>
 							<view class="item flexbox flex_alignc"><text class="iconfont icon-pass"></text><input
@@ -53,6 +53,7 @@
 				formObj: {},
 				vcodeText: '获取验证码',
 				disabled: false,
+				vcode:'',
 				time: 0,
 			}
 		},
@@ -70,13 +71,19 @@
 			handleSubmit(e) {
 				let that = this
 				let uniPop = this.$refs.uniPop
-				if (!this.formObj.tel) {
+				if (!this.formObj.telephone) {
 					uniPop.show({
 						content: '手机号不能为空',
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
-				} else if (!util.checkTel(this.formObj.tel)) {
+				}else if (!this.formObj.fromId) {
+					uniPop.show({
+						content: '邀请码不能为空',
+						style: 'background:#353535;color:#fff;',
+						time: 2
+					})
+				} else if (!util.checkTel(this.formObj.telephone)) {
 					uniPop.show({
 						content: '手机号格式有误',
 						style: 'background:#353535;color:#fff;',
@@ -94,31 +101,45 @@
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
-				} else {
-					this.$store.commit('SET_TOKEN', util.setToken())
-					this.$store.commit('SET_USER', this.formObj.tel)
+				}
+				else if (this.vcode!=this.formObj.vcode) {
 					uniPop.show({
-						content: '恭喜，注册成功！',
-						style: 'background:#41a863;color:#fff;',
-						time: 2,
-						shadeClose: false,
-						end: function() {
+						content: '验证码不对',
+						style: 'background:#353535;color:#fff;',
+						time: 2
+					})
+					return;
+				}  
+				else { 
+					Api.httpResponse("/stm/api/login/codeLoginOrRegister", 'POST', this.formObj,"JSON").then(
+						res => {
+							uni.setStorage({
+								key: 'userId',
+								data: res.id
+							});
+							uni.hideLoading();
+							// this.$store.commit('SET_TOKEN', util.setToken())
+							this.$store.commit('SET_USER', res)
+					
 							uni.redirectTo({
 								url: '/pages/index/index'
 							})
+						},
+						error => {
+							console.log(error);
 						}
-					})
+					)
 				}
 			},
 			handleVcode() {
 				let uniPop = this.$refs.uniPop
-				if (!this.formObj.tel) {
+				if (!this.formObj.telephone) {
 					uniPop.show({
 						content: '手机号不能为空',
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
-				} else if (!util.checkTel(this.formObj.tel)) {
+				} else if (!util.checkTel(this.formObj.telephone)) {
 					uniPop.show({
 						content: '手机号格式有误',
 						style: 'background:#353535;color:#fff;',
@@ -128,6 +149,14 @@
 					this.time = 60
 					this.disabled = true
 					this.countDown()
+					Api.httpResponse("/stm/api/login/sendCode", 'POST', {telephone:this.formObj.telephone}, "").then(
+						res => {    
+							 this.vcode=res;
+						},
+						error => {
+							console.log(error);
+						}
+					)
 				}
 			},
 			countDown() {

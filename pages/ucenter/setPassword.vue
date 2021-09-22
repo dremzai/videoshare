@@ -3,26 +3,13 @@
 		<header-bar :isBack="true" title="返回" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
-		<form style="margin-top: 15px;">
+		<form style="margin-top: 15px;"> 
 			<view class="uni-form-item uni-column">
-				<view class="title">账号</view>
+				<view class="title">密码</view>
 				<view> 
-					<input class="uni-input" v-model="userData.telephone" name="input" disabled />
+					<input class="uni-input" v-model="userData.password" name="input"  />
 				</view>
-			</view>  
-			<view class="uni-form-item uni-column">
-				<view class="title">名称</view>
-				<view> 
-					<input class="uni-input" v-model="userData.nickName" name="input"  />
-				</view>
-			</view> 
-			 <view class="uni-form-item uni-column">
-			 	<view class="title">头像</view>
-			 	<view>  
-					<img :src="userData.userHeadpic" style="height:100px;">
-					<button  type="default" @click="uploadPhoto" style="width:100%">拍照</button> 
-			 	</view>
-			 </view> 
+			</view>   
 			 <view class="uni-btn-v">
 				<button form-type="submit" type="primary" @click="submitForm">提交</button> 
 			</view>

@@ -84,7 +84,7 @@
 				}  
 				else {
 					uni.showLoading();
-					Api.httpResponse("/stm/api/user/showUser/getById", 'GET', {telephone:this.formObj.telephone}).then(
+					Api.httpResponse("/stm/api/login/codeLoginOrRegister", 'POST', this.formObj,"JSON").then(
 						res => {
 							uni.setStorage({
 								key: 'userId',
@@ -125,7 +125,7 @@
 					
 					Api.httpResponse("/stm/api/login/sendCode", 'POST', {telephone:this.formObj.telephone}, "").then(
 						res => {    
-							 this.vcode=res;
+							 this.vcode=res; 
 						},
 						error => {
 							console.log(error);

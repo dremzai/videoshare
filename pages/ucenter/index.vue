@@ -27,21 +27,26 @@
 			<text class="c_999 fs_12">{{userData.wxVideoAccount}}</text>
 			<text class="iconfont icon-arrR c_999 fs_12"></text>
 		</view>
-		<view class="item uni__list uni__material"  @longtap="copyVal(userData.id)">
-				<view class="txt flex1">邀请码</view> 
-				<text class="c_999 fs_12 c_399fff">{{userData.id}}</text> 
-			</view>
+		<view class="item uni__list uni__material" @tap="GoOutMoneyList">
+			<view class="txt flex1">提现记录</view> 
+			<text class="c_999 fs_12 c_feb719" v-show="userData.withdrawalIngMoney>0">￥{{userData.withdrawalIngMoney}}元</text>
+			<text class="iconfont icon-arrR c_999 fs_12"></text>
+		</view>
+		<view class="item uni__list uni__material"  @tap="ToSetPassword">
+				<view class="txt flex1">设置密码</view> 
+			<text class="iconfont icon-arrR c_999 fs_12"></text>
+		</view>
 		
 	</view>
 <view class="uni__listview mt_15">
 <!-- 	<view class="item uni__list uni__material" @tap="qrcodeCard">
 	<view class="txt flex1">充值记录</view><text class="iconfont icon-arrR c_999 fs_12"></text>
 	</view> -->
-	<view class="item uni__list uni__material" @tap="GoOutMoneyList">
-		<view class="txt flex1">提现记录</view> 
-		<text class="c_999 fs_12 c_feb719" v-show="userData.withdrawalIngMoney>0">￥{{userData.withdrawalIngMoney}}元</text>
-		<text class="iconfont icon-arrR c_999 fs_12"></text></view>
-		
+	
+	<view class="item uni__list uni__material"  @longtap="copyVal(userData.id)">
+			<view class="txt flex1">我的邀请码</view> 
+			<text class="c_999 fs_12 c_399fff">{{userData.id}}</text> 
+	</view> 
 	<view class="item uni__list uni__material">
 		<view class="txt flex1">客服电话</view> 
 		<text class="c_999 fs_12" @tap="callKefu">0571-88350565</text>
@@ -85,6 +90,9 @@
 			},
 			GoOutMoneyList(){
 				uni.navigateTo({url: '/pages/ucenter/outMoneyList'})
+			},
+			ToSetPassword(){
+				uni.navigateTo({url: '/pages/ucenter/setPassword'})
 			},
 			callKefu(){
 				uni.makePhoneCall({
