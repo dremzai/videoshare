@@ -14,7 +14,7 @@
 									maxlength="11" />
 							</view> 
 							<view class="item flexbox flex_alignc"><text class="iconfont icon-vcode"></text><input
-									class="iptxt flex1" type="text" v-model="formObj.vcode" placeholder="验证码"
+									class="iptxt flex1" type="text" v-model="formObj.code" placeholder="验证码"
 									placeholder-style="color:#aaa" /><button class="btn-getcode"
 									@click.prevent="handleVcode" :disabled="disabled">{{vcodeText}}</button>
 							</view>
@@ -74,7 +74,7 @@
 					})
 					return;
 				}  
-				else if (this.vcode!=this.formObj.vcode) {
+				else if (this.vcode!=this.formObj.code) {
 					uniPop.show({
 						content: '验证码不对',
 						style: 'background:#353535;color:#fff;',

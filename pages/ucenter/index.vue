@@ -10,7 +10,7 @@
 		</view>
 	<view class="uni__list flex_alignc flex_col">
 		<text class="fs_12 bold db">余额</text><view style="font-size: 70upx; font-weight: 700; padding: 30upx 0;">
-		<text class="iconfont icon-jingbi"></text> {{userData.balance}}</view>
+		<text class="iconfont icon-jingbi"></text> {{userData.balanceStr}}</view>
 		<view class="flexbox align_c" style="width: 100%;">
 		<text class="flex1 lh_45 c_feb719" @tap="getMoney">提现</text>
 		<!-- <text class="flex1 lh_45 c_399fff">充值</text> -->
@@ -29,7 +29,7 @@
 		</view>
 		<view class="item uni__list uni__material" @tap="GoOutMoneyList">
 			<view class="txt flex1">提现记录</view> 
-			<text class="c_999 fs_12 c_feb719" v-show="userData.withdrawalIngMoney>0">￥{{userData.withdrawalIngMoney}}元</text>
+			<text class="c_999 fs_12 c_feb719" v-show="userData.withdrawalIngMoney>0">￥{{userData.withdrawalIngMoneyStr}}元</text>
 			<text class="iconfont icon-arrR c_999 fs_12"></text>
 		</view>
 		<view class="item uni__list uni__material"  @tap="ToSetPassword">

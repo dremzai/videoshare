@@ -3,15 +3,15 @@
 		<header-bar :isBack="true" title="返回" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
-		<form style="margin-top: 15px;"> 
+		<form style="margin-top: 15px;" @submit.prevent="submitForm"> 
 			<view class="uni-form-item uni-column">
 				<view class="title">密码</view>
 				<view> 
 					<input class="uni-input" v-model="userData.password" name="input"  />
 				</view>
 			</view>   
-			 <view class="uni-btn-v">
-				<button form-type="submit" type="primary" @click="submitForm">提交</button> 
+			 <view class="uni-btn-v"> 
+				<button class="uni__btn-primary bg_linear2" type="primary" form-type="submit" >提交</button>
 			</view>
 		</form>
 	</view>

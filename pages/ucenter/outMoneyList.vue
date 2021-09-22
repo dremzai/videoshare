@@ -8,7 +8,7 @@
 			<view class="item uni__list uni__material" v-for="(item, index) in dataList" :key="index">
 				<view class="txt flex1 c_feb719" >
 					{{item.doState==0?"审核中":"已提现"}}
-					￥{{item.doMoney}}</view> 
+					￥{{item.doMoneyStr}}</view> 
 				<text class="c_999 fs_12">{{item.createTime}}</text> 
 			</view>
 				

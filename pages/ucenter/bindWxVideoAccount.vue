@@ -3,15 +3,15 @@
 		<header-bar :isBack="true" title="返回" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
-		<form style="margin-top: 15px;">
+		<form style="margin-top: 15px;"  @submit.prevent="submitForm">
 			<view class="uni-form-item uni-column">
 				<view class="title">微信视频号名称</view>
 				<view> 
-					<input class="uni-input" v-model="formData.wxVideoAccount" name="input"  />
+					<input class="uni-input" v-model="userData.wxVideoAccount" name="input"  />
 				</view>
 			</view> 
-			 <view class="uni-btn-v">
-				<button form-type="submit" type="primary" @click="submitForm">提交</button> 
+			 <view class="uni-btn-v"> 
+				<button class="uni__btn-primary bg_linear2" type="primary" form-type="submit" >提交</button>
 			</view>
 		</form>
 	</view>
@@ -29,16 +29,14 @@
 			}
 		},
 		onLoad(options) { 
-			this.userData=uni.getStorageSync('user')
-			this.formData.wxVideoAccount=this.userData.wxVideoAccount
+			this.userData=uni.getStorageSync('user') 
 		},
 		methods: { 
 			submitForm(){
 				uni.showLoading();  
-				Api.httpResponse("/stm/api/user/showUser/bingWxVideoAccount", 'POST',this.formData,'json').then(
+				Api.httpResponse("/stm/api/user/showUser/bingWxVideoAccount", 'POST',this.userData,'json').then(
 					result => {  
-						  uni.hideLoading();  
-						  this.userData.wxVideoAccount=this.formData.wxVideoAccount;
+						  uni.hideLoading();   
 						  this.$store.commit('SET_USER', this.userData)
 						  uni.navigateBack();
 					},

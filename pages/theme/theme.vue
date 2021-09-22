@@ -9,7 +9,7 @@
 			<view class="fzitem_content flex1"  @longtap="copyVal(item.themeDesc+'#'+item.themeKey+'#')">
 				<text class="fz_user" @tap="goDetail(item)">{{item.themeTitle}}</text>
 				<view class="mt_5" @tap="goDetail(item)">
-				<view class="uni-age" style="width:120px;">奖金池：￥{{item.remainThemeToMoney}}</view>
+				<view class="uni-age" style="width:120px;">奖金池：￥{{item.remainThemeToMoneyStr}}</view>
 				<view class="uni-vip v1 ml_5"  style="width:70px;">还剩{{item.endDay}}天</view>
 				</view>
 				<view class="fz_cnts" @tap="goDetail(item)"> {{item.themeDesc}}#{{item.themeKey}}#</view>

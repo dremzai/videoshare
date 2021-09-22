@@ -11,7 +11,7 @@
 			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
 			<view class="fzitem_content flex1"  @longtap="copyVal(dataItem.themeDesc+'#'+dataItem.themeKey+'#')">
 				<text class="fz_user">{{dataItem.themeTitle}}</text><view class="mt_5">
-				<view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoney}}</view>
+				<view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoneyStr}}</view>
 				<view class="uni-vip v1 ml_5"  style="width:60px;">还剩{{dataItem.endDay}}天</view>
 				</view>
 				<view class="fz_cnts"> {{dataItem.themeDesc}}#{{dataItem.themeKey}}#</view> 
