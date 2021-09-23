@@ -39,7 +39,7 @@
 					<utheme ref="utheme" :height="scrollH" @stopRefresh="stopRefresh" />
 				</view>
 				<view v-if="currentNavIndex == 1" class="uni__nearPeoples">
-					<uthememy ref="uthememy" @stopRefresh="stopRefresh" />
+					<uthememy ref="uthememy" :height="scrollH" @stopRefresh="stopRefresh" />
 				</view>
 				<view v-if="currentNavIndex == 2" class="uni__nearPeoples">
 					<guide ref="guide" />
@@ -48,7 +48,7 @@
 			</block>
 			<block v-else-if="currentTabIndex == 1">
 
-				<uvideo ref="uvideo" @stopRefresh="stopRefresh" />
+				<uvideo ref="uvideo" :height="scrollH" @stopRefresh="stopRefresh" />
 			</block>
 
 			<block v-else-if="currentTabIndex == 2">
@@ -111,7 +111,9 @@
 			})
 		},
 		onShow(){
-			this.$refs["ucenter"].init()
+			if (this.currentTabIndex == 3) {
+				this.$refs["ucenter"].init()
+			}
 		},
 		data() {
 			return {

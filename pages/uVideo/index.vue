@@ -4,6 +4,7 @@
 
 <template>
 	<view class="uni__videoWrapper">
+		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback">
 		<view class="uni_videoLs">
 			<block v-for="(item,index) in dataList" :key="index">
 				<view class="item" @tap="GoVideoPlay(item)">
@@ -19,13 +20,19 @@
 				</view>
 			</block>
 		</view>
+		</mescroll-uni>
 	</view>
 </template>
 
 <script>
+	import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
 	import Api from '../../utils/requestApi.js'
 	const videoJson = require('./mock-video.js')
 	export default {
+		mixins: [MescrollMixin], // 使用mixin
+		props: {
+			height: Number
+		},
 		data() {
 			return {
 				videoList: videoJson,
@@ -39,27 +46,27 @@
 				userData:{},
 			}
 		},
-	    onReachBottom(){  //上拉触底函数
-		    if(!this.listQuery.isLoadMore){  //此处判断，上锁，防止重复请求 
-				this.listQuery.page+=1
-				this.getList()
-		    }
-		},
-		onPullDownRefresh(){  //下拉刷新
-		    console.log('refresh');
-			this.listQuery.page=1
-			this.dataList=[];
-			this.getList();
-			setTimeout(function () {
-				uni.stopPullDownRefresh();
-			}, 1000);
-		},
+	    
 		mounted() { 
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.userId = this.userData.id;
-			this.getList();
 		},
 		methods: {
+			// /*下拉刷新的回调, 有3种处理方式:*/
+			downCallback() {
+			
+				this.listQuery.page = 1
+				this.dataList = []
+				this.getList()
+			
+			},
+			// /*上拉加载的回调*/
+			upCallback() {
+			
+				this.listQuery.page += 1
+				this.getList()
+			
+			},
 			getList(refresh){ 
 				uni.showLoading();
 				Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET', this.listQuery).then(
@@ -69,15 +76,15 @@
 						if(this.listQuery.page<res.pages){
 							this.listQuery.isLoadMore=false;
 						} 
-						if(refresh){
-								this.$emit("stopRefresh")
-						}
+						this.mescroll.endSuccess()
+						
+						this.mescroll.endByPage(this.dataList, res.total);
 					},
 					error => {
 						console.log(error);
-						if(refresh){
-								this.$emit("stopRefresh")
-						}
+						this.mescroll.endSuccess()
+						
+						this.mescroll.endByPage();
 					}
 				)
 			},

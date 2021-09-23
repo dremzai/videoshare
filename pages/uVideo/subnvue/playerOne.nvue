@@ -18,7 +18,8 @@
 						<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video" :src="item.videoUrl"
 							:autoplay="index == videoIndex" :controls="false" :loop="true" :show-center-play-btn="false"
 							objectFit="fill" :style="{height: winHeight, width: winWidth}"></video>
-						<view class="nvd-cover" @click="handleClicked(index)">
+						<!-- <view class="nvd-cover" @click="handleClicked(index)"> -->
+							<view class="nvd-cover" >
 							<text v-if="!isPlay"
 								class="btnplay_ico iconfont icon-bofang">&#xe63e;</text></view>
 						<view class="nvd-footToolbar">
@@ -29,7 +30,7 @@
 										<text class="kw-text">次浏览</text>
 									</view>
 								</view>
-								<text class="nvd_item nvd_subtext">{{item.videoTitle}}</text>
+								<text class="nvd_item nvd_subtext" @click="copyVal(item.videoTitle)">{{item.videoTitle}}</text>
 								<view class="nvd_item nvd_uinfo">
 									<image class="nvd-avator" :src="item.userHeadpic" mode="aspectFill" /><text
 										class="nvd-name">{{item.sponsorNickName}}</text> 
@@ -118,7 +119,17 @@
 			this.init()
 		},
 		methods: {
-			
+			copyVal(val) {
+				uni.setClipboardData({
+					data: val, //要被复制的内容
+					success: () => { //复制成功的回调函数
+						uni.showToast({ //提示
+							title: '复制成功',
+							icon: "none"
+						})
+					}
+				});
+			},
 			downloadFile(url) {
 				uni.showLoading();
 				uni.downloadFile({
