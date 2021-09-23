@@ -110,6 +110,9 @@
 				}
 			})
 		},
+		onShow(){
+			this.$refs["ucenter"].init()
+		},
 		data() {
 			return {
 				currentNavIndex: 0,
@@ -179,7 +182,7 @@
 				uni.stopPullDownRefresh()
 			}
 
-		},
+		}, 
 
 		onReachBottom() {
 			console.log("xxxx")

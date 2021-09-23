@@ -118,9 +118,7 @@
 			this.init()
 		},
 		methods: {
-			openWx(){
-				plus.runtime.openURL("weixin://")
-			},
+			
 			downloadFile(url) {
 				uni.showLoading();
 				uni.downloadFile({

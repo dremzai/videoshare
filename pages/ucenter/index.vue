@@ -69,6 +69,7 @@
 		</view>
 		</view>
 		<uni-pop ref="uniPop"></uni-pop>
+		
 	</view>
 </template>
 
@@ -83,10 +84,23 @@
 		mounted(){ 
 			this.userData=uni.getStorageSync('user') 
 		},
-		onshow(){
+		onShow(){
 			this.userData=uni.getStorageSync('user')
+			
 		},
 		methods: { 
+			init(){
+				Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
+					resUser => {  
+						  uni.hideLoading();    
+												  this.userData=resUser;
+						  this.$store.commit('SET_USER', resUser) 
+					},
+					error => {
+						console.log(error);
+					}
+				)
+			},
 			GoBindAccount(){
 				if(this.userData.wxVideoStatus != 2){
 					uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
@@ -163,9 +177,11 @@
 	display: inline-block;
 	color: #FFF;
 	border-radius: 99rpx;
-	padding: 0 10rpx;
-	font-size: 16rpx;
+	padding: 0 16rpx;
+	font-size: 24rpx;
 	margin-left: 15rpx;
+	position: relative;
+	top:-3rpx;
 }
 .color_gray{
 	background-color: #868e96;
