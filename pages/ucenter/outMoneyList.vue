@@ -1,8 +1,10 @@
 <template>
 <view class="uni__container flexbox flex_col">
-		<header-bar :isBack="true" title="返回" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
+		<header-bar id="header_bar" :isBack="true" title="返回" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
+		
+		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback">
 		<view class="uni__listview mt_15"> 
 		
 			<view class="item uni__list uni__material" v-for="(item, index) in dataList" :key="index">
@@ -14,12 +16,15 @@
 				
 		 
 		</view>
+		</mescroll-uni>
 	</view>
 </template>
 
 <script>
+	import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
 	import Api from '../../utils/requestApi.js'
 	export default {
+		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
 				dataList:[], 
@@ -31,12 +36,31 @@
 					doType:2,
 				},
 				userData:{},
+				height:"100"
 			}
+		},
+		onReady() {
+			let that = this;
+			uni.getSystemInfo({ //调用uni-app接口获取屏幕高度
+				success(res) { //成功回调函数
+			
+					that._data.height = res.windowHeight //windoHeight为窗口高度，主要使用的是这个
+					let tab_bar = uni.createSelectorQuery().select("#header_bar"); //想要获取高度的元素名（class/id）
+			
+			
+					let heightA = 0
+					tab_bar.boundingClientRect(data => {
+						that._data.height = that._data.height - data.bottom
+					}).exec()
+			
+			
+				}
+			})
 		},
 		onLoad(options) {  
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.userId = this.userData.id;
-			this.getList();
+			
 		},
 	    onReachBottom(){  //上拉触底函数
 			  if(!this.listQuery.isLoadMore){  //此处判断，上锁，防止重复请求 
@@ -54,6 +78,21 @@
 			}, 1000);
 		},
 		methods: {   
+			// /*下拉刷新的回调, 有3种处理方式:*/
+			downCallback() {
+			
+				this.listQuery.page = 1
+				this.dataList = []
+				this.getList()
+			
+			},
+			// /*上拉加载的回调*/
+			upCallback() {
+			
+				this.listQuery.page += 1
+				this.getList()
+			
+			},
 			getList(){ 
 				uni.showLoading();
 				Api.httpResponse("/user/showMoney/list", 'GET',this.listQuery).then(
@@ -63,9 +102,14 @@
 						   if(this.listQuery.page<res.pages){
 								this.listQuery.isLoadMore=false;
 						   } 
+						   this.mescroll.endSuccess()
+						   
+						   this.mescroll.endByPage(this.dataList, res.total);
 					},
 					error => {
 						console.log(error);
+						this.mescroll.endSuccess()
+						this.mescroll.endByPage();
 					}
 				)
 			}

@@ -52,7 +52,7 @@
 			</block>
 
 			<block v-else-if="currentTabIndex == 2">
-				<udata ref="udata" @stopRefresh="stopRefresh" />
+				<udata ref="udata" :height="scrollH" @stopRefresh="stopRefresh" />
 			</block>
 
 			<!-- 我的 -->

@@ -4,7 +4,7 @@
 <template>
 	<view class="uni_tabbar" :class="[fixed ? 'fixed' : '']">
 		<view class="tablist flexbox flex_alignc uni_borT"
-			:style="[backgroundColor ? {'background-color': backgroundColor} : '']">
+			:style="[backgroundColor ? {'background-color': backgroundColor} : '',isIphoneX == 2 ?{'padding': '30px 0','padding-bottom':'50px'} : '']">
 			<block v-for="(item,index) in tabList" :key="index">
 				<view class="navigator" :class="currentTabIndex == index ? 'on' : ''" @tap="switchTab(index)">
 					<view class="icon"><text class="iconfont" :class="item.icon"
@@ -13,7 +13,8 @@
 							class="uni_badge uni_badge_dot"></text>
 					</view>
 					<view class="text" :style="[currentTabIndex == index ? {'color': tintColor} : {'color': color}]">
-						{{item.text}}</view>
+						{{item.text}}
+					</view>
 				</view>
 			</block>
 		</view>
@@ -43,7 +44,8 @@
 						// ,badgeDot: true,
 					}
 				],
-				currentTabIndex: this.current
+				currentTabIndex: this.current,
+				isIphoneX:1,
 			}
 		},
 		props: {
@@ -67,6 +69,16 @@
 				type: [Boolean, String],
 				default: false
 			},
+		},
+		created() {
+			wx.getSystemInfo({
+				success: res => {
+					if (res.safeArea.top > 20) { //x及以上的异形屏top为44，非异形屏为20
+						console.log(res.safeArea.top)
+						this.isIphoneX = 2
+					}
+				}
+			})
 		},
 		methods: {
 			switchTab(index) {

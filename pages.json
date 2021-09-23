@@ -1,117 +1,263 @@
 {
-	"pages": [
-		{
-			"path": "pages/auth/login","style": {"navigationBarTitleText": "登录"}
+	"pages": [{
+			"path": "pages/auth/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
 		},
 		{
-			"path": "pages/auth/loginTelphone","style": {"navigationBarTitleText": "登录"}
+			"path": "pages/auth/loginTelphone",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
 		},
 		{
-			"path": "pages/auth/register","style": {"navigationBarTitleText": "注册"}
+			"path": "pages/auth/register",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
 		},
 		{
-			"path": "pages/index/index","style": {
+			"path": "pages/index/index",
+			"style": {
 				"navigationBarTitleText": "面向视频",
-				"enablePullDownRefresh":true,  //下拉刷新
-				"onReachBottonDistance":200    //距离底部多少距离的时候触发
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/ucenter/index","style": {"navigationBarTitleText": "我的"
+			"path": "pages/ucenter/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/ucenter/bindWxVideoAccount","style": {"navigationBarTitleText": "绑定视频号"
+			"path": "pages/ucenter/bindWxVideoAccount",
+			"style": {
+				"navigationBarTitleText": "绑定视频号",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/ucenter/setUserInfo","style": {"navigationBarTitleText": "编辑个人信息"
+			"path": "pages/ucenter/setUserInfo",
+			"style": {
+				"navigationBarTitleText": "编辑个人信息",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/ucenter/setPassword","style": {"navigationBarTitleText": "设置密码"
+			"path": "pages/ucenter/setPassword",
+			"style": {
+				"navigationBarTitleText": "设置密码",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/theme/detail","style": {"navigationBarTitleText": "活动详情"
+			"path": "pages/theme/detail",
+			"style": {
+				"navigationBarTitleText": "活动详情",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/ucenter/outMoneyList","style": {
+			"path": "pages/ucenter/outMoneyList",
+			"style": {
 				"navigationBarTitleText": "提现记录",
-				"enablePullDownRefresh":true,  //下拉刷新
-				"onReachBottonDistance":200    //距离底部多少距离的时候触发
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/ucenter/uhome","style": {"navigationBarTitleText": "个人主页"
+			"path": "pages/ucenter/uhome",
+			"style": {
+				"navigationBarTitleText": "个人主页",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/uZone/index","style": {"navigationBarTitleText": "动态","enablePullDownRefresh": true
+			"path": "pages/uZone/index",
+			"style": {
+				"navigationBarTitleText": "动态",
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/uZone/publish","style": {"navigationBarTitleText": "发布"
+			"path": "pages/uZone/publish",
+			"style": {
+				"navigationBarTitleText": "发布",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/contact/index","style": {"navigationBarTitleText": "好友"
+			"path": "pages/contact/index",
+			"style": {
+				"navigationBarTitleText": "好友",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/contact/add-friends","style": {"navigationBarTitleText": "添加好友"
+			"path": "pages/contact/add-friends",
+			"style": {
+				"navigationBarTitleText": "添加好友",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/uVideo/index","style": {
+			"path": "pages/uVideo/index",
+			"style": {
 				"navigationBarTitleText": "短视频列表",
-				"enablePullDownRefresh":true,  //下拉刷新
-				"onReachBottonDistance":200    //距离底部多少距离的时候触发
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+
 			}
 		},
 		{
-			"path": "pages/uVideo/play","style": {"navigationBarTitleText": "短视频"
+			"path": "pages/uVideo/play",
+			"style": {
+				"navigationBarTitleText": "短视频",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/uVideo/playOne","style": {"navigationBarTitleText": "短视频"
+			"path": "pages/uVideo/playOne",
+			"style": {
+				"navigationBarTitleText": "短视频",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		// #ifdef APP-PLUS
 		{
-			"path": "pages/uVideo/subnvue/player","style": {"navigationBarTitleText": "短视频"
+			"path": "pages/uVideo/subnvue/player",
+			"style": {
+				"navigationBarTitleText": "短视频",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/uVideo/subnvue/playerOne","style": {"navigationBarTitleText": "短视频"
+			"path": "pages/uVideo/subnvue/playerOne",
+			"style": {
+				"navigationBarTitleText": "短视频",
+				"app-plus": {
+					"titleNView": false
+				}
 			}
 		},
 		// #endif
-		{"path": "pages/uLive/index",
-			"style": {"navigationBarTitleText": "直播"
-			}
-		},
-		{"path": "pages/uLive/subnvue/live","style": {"navigationBarTitleText": "直播"
-			}
-		},
-		{"path": "pages/chat/privateChat/chat","style": {"navigationBarTitleText": "聊天"
+		{
+			"path": "pages/uLive/index",
+			"style": {
+				"navigationBarTitleText": "直播",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/chat/chat-setting","style": {"navigationBarTitleText": "聊天设置"
+			"path": "pages/uLive/subnvue/live",
+			"style": {
+				"navigationBarTitleText": "直播",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
 		},
 		{
-			"path": "pages/chat/redPacket/index","style": {"navigationBarTitleText": "红包"
+			"path": "pages/chat/privateChat/chat",
+			"style": {
+				"navigationBarTitleText": "聊天",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
 			}
-		} 
-    ],
+		},
+		{
+			"path": "pages/chat/chat-setting",
+			"style": {
+				"navigationBarTitleText": "聊天设置",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/chat/redPacket/index",
+			"style": {
+				"navigationBarTitleText": "红包",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-		"navigationStyle": "custom"
+		"backgroundColor": "#F8F8F8"
+
 	}
 }

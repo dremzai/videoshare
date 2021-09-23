@@ -23,10 +23,15 @@
 	</view> -->
 	<view class="uni__listview mt_15">
 		<view class="item uni__list uni__material" @tap="GoBindAccount">
-			<view class="txt flex1">视频号</view> 
+			<view class="txt flex1">视频号
+				<view class="tab_one" :class="userData.wxVideoStatus == 0 ? 'color_gray' :userData.wxVideoStatus == 1 ? 'color_yellow' : userData.wxVideoStatus == 2 ? 'color_green' : ''">
+					{{userData.wxVideoStatus == 0 ? '未绑定' :userData.wxVideoStatus == 1 ? '待确认' : userData.wxVideoStatus == 2 ? '已绑定' : ''}}
+				</view>
+			</view> 
 			<text class="c_999 fs_12">{{userData.wxVideoAccount}}</text>
-			<text class="iconfont icon-arrR c_999 fs_12"></text>
+			<text class="iconfont icon-arrR c_999 fs_12" v-show="userData.wxVideoStatus != 2"></text>
 		</view>
+		
 		<view class="item uni__list uni__material" @tap="GoOutMoneyList">
 			<view class="txt flex1">提现记录</view> 
 			<text class="c_999 fs_12 c_feb719" v-show="userData.withdrawalIngMoney>0">￥{{userData.withdrawalIngMoneyStr}}元</text>
@@ -83,7 +88,9 @@
 		},
 		methods: { 
 			GoBindAccount(){
-				uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
+				if(this.userData.wxVideoStatus != 2){
+					uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
+				}
 			},
 			GoSetUserInfo(){
 				uni.navigateTo({url: '/pages/ucenter/setUserInfo'})
@@ -152,5 +159,21 @@
 </script>
 
 <style scoped>
-
+.tab_one{
+	display: inline-block;
+	color: #FFF;
+	border-radius: 99rpx;
+	padding: 0 10rpx;
+	font-size: 16rpx;
+	margin-left: 15rpx;
+}
+.color_gray{
+	background-color: #868e96;
+}
+.color_yellow{
+	background-color: #fab005;
+}
+.color_green{
+	background-color: #20c997;
+}
 </style>
