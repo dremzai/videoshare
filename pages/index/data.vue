@@ -5,7 +5,7 @@
 <template>
 
 	<view class="uni__attentions">
-		<mescroll-uni ref="mescrollRef" :height="height + 'px'" :toTop="{zIndex: 9990,bottom: 400, }"
+		<mescroll-uni ref="mescrollRef" :height="height + 'px'"
 			textNoMore="没有更多数据" @down="downCallback" @up="upCallback">
 			<view class="uni__listview">
 				<view class="item uni__list uni__material" v-for="(item, index) in dataList" :key="index">
@@ -56,9 +56,7 @@
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.videoUserId = this.userData.id;
 
-			this.mescroll.optUp.toTop = {
-				bottom: 0
-			}
+			
 		},
 		methods: {
 			// /*下拉刷新的回调, 有3种处理方式:*/

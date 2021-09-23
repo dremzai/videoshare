@@ -3,7 +3,7 @@
 */
 
 <template>
-	<view class="fz_container">
+	<view class="fz_container" style="margin: 0;padding: 0;">
 		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback">
 		<view class="fz_item flexbox uni__material" v-for="(item, index) in dataList" :key="index">
 			<image class="fzitem_avator" :src="item.sponsorUserHeadpic" mode="aspectFill" />

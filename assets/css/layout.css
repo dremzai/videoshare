@@ -57,7 +57,7 @@
 .uni-vip.v3 {background: #7f30c0;}
 .uni-vip.v4 {background: #c02ece;}
 .uni-vip.v5 {background: #cc1571;}
-.uni__nearPeoples {padding-bottom: 30upx;}
+.uni__nearPeoples {}
 .uni__nearPeoples .item .avator {margin-right: 30upx; height: 50px; width: 50px; position: relative;}
 .uni__nearPeoples .item .avator image {border-radius: 50%; height: 50px; width: 50px;}
 .uni__nearPeoples .item .uni_badge_dot {background: #1dd36e; border: 1px solid #fff; height: 27upx; width: 27upx; position: absolute; bottom: 3px; right: 0;}
@@ -65,7 +65,7 @@
 .uni__nearPeoples .item .name {color: #353535; font-size: 32upx; flex: 1}
 .uni__nearPeoples .item .subinfo {color: #bbb; font-size: 12px; margin-top: 10upx;}
 .uni__nearPeoples .item .subtxt {color: #999; font-size: 28upx; margin-top: 10upx;}
-.uni__nearPeoples .item .time {color: #bbb; font-size: 24upx; margin-top: 10upx;}.uni__attentions {padding-bottom: 30upx;}
+.uni__nearPeoples .item .time {color: #bbb; font-size: 24upx; margin-top: 10upx;}.uni__attentions {}
 .uni__attentions .item .avator {margin-right: 30upx; height: 40px; width: 40px; position: relative;}
 .uni__attentions .item .avator image {border-radius: 50%; height: 40px; width: 40px;}.uni__attentions .item .uinfo {overflow: hidden;}
 .uni__attentions .item .name {color: #353535; font-size: 32upx; flex: 1}

@@ -71,14 +71,16 @@
 			},
 		},
 		created() {
-			wx.getSystemInfo({
+			
+			uni.getSystemInfo({
 				success: res => {
-					if (res.safeArea.top > 20) { //x及以上的异形屏top为44，非异形屏为20
-						console.log(res.safeArea.top)
+					if(res.platform == 'ios'){
 						this.isIphoneX = 2
 					}
+					
 				}
 			})
+			
 		},
 		methods: {
 			switchTab(index) {
