@@ -31,6 +31,10 @@
 			</view>
 		</view>
 		</mescroll-uni>
+		
+		<view class="sync_video" @click="refresh">
+			同步视频号
+		</view>
 
 	</view>
 </template>
@@ -79,9 +83,19 @@
 				this.getList()
 			
 			},
+			refresh(){
+				this.getList(1)
+			},
 			getList(refresh){ 
 				uni.showLoading();
-				Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET', this.listQuery).then(
+				if(refresh){
+					this.listQuery.isRefresh = 1
+				}else{
+					let listQuery =  JSON.parse(JSON.stringify(this.listQuery))
+					delete listQuery.isRefresh
+					this.listQuery = listQuery
+				}
+				Api.httpResponse("/stm/api/video/showVideo/myJoinViewList", 'GET', this.listQuery).then(
 					res => {
 						uni.hideLoading();
 						this.dataList=this.dataList.concat(res.records);
@@ -120,4 +134,15 @@
 </script>
 
 <style>
+	.sync_video{
+	position: fixed;
+	right: 20rpx;
+	top: 12vh;
+	font-size: 24rpx;
+	color: #ffffff;
+	background-color: #20C997;
+	border-radius: 4rpx;
+	padding: 10rpx 20rpx;
+	z-index: 99;
+	}
 </style>

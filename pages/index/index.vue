@@ -150,6 +150,11 @@
 			},
 			handleTabbar(index) {
 				this.currentTabIndex = index
+				setTimeout(()=>{
+					if (this.currentTabIndex == 3) {
+						this.$refs["ucenter"].init()
+					}
+				},500)
 			},
 
 			stopRefresh() {
