@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/auth/login",
+    "pages/auth/loginTelphone",
+    "pages/auth/register",
+    "pages/index/index",
+    "pages/ucenter/index",
+    "pages/ucenter/bindWxVideoAccount",
+    "pages/ucenter/setUserInfo",
+    "pages/ucenter/setPassword",
+    "pages/theme/detail",
+    "pages/ucenter/outMoneyList",
+    "pages/ucenter/uhome",
+    "pages/uZone/index",
+    "pages/uZone/publish",
+    "pages/contact/index",
+    "pages/contact/add-friends",
+    "pages/uVideo/index",
+    "pages/uVideo/play",
+    "pages/uVideo/playOne",
+    "pages/uLive/index",
+    "pages/uLive/subnvue/live",
+    "pages/chat/privateChat/chat",
+    "pages/chat/chat-setting",
+    "pages/chat/redPacket/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+	"navigationStyle":"custom",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {
+    "header-bar": "/components/header/header",
+    "tab-bar": "/components/tabbar/tabbar",
+    "popup-window": "/components/popupWindow",
+    "uni-pop": "/components/uniPop/uniPop"
+  },
+  "sitemapLocation": "sitemap.json"
+}

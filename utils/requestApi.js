@@ -1,5 +1,5 @@
  
-let baseUrl = 'http://47.114.91.22:1888';  // fj安器具测试api 
+let baseUrl = 'https://test.videoapp.mianxiangkeji.com'; 
 
 const httpResponse = (url, method, data,method1) => {
 	// 判断method的请求类型,修改header参数
