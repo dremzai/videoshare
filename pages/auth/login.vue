@@ -21,7 +21,7 @@
 									form-type="submit">登录</button>
 							</view>
 							<view class="lgreg-lk">
-								<navigator class="navigator" url="/pages/auth/loginTelphone">忘记密码</navigator>
+								<navigator class="navigator" url="/pages/auth/loginTelphone">验证码登录</navigator>
 								<navigator class="navigator" url="/pages/auth/register">注册账号</navigator>
 							</view>
 						</form>

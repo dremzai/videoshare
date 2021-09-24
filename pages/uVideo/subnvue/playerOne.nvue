@@ -17,7 +17,7 @@
 					<view class="nvd-playerbox">
 						<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video" :src="item.videoUrl"
 							:autoplay="index == videoIndex" :controls="false" :loop="true" :show-center-play-btn="false"
-							objectFit="fill" :style="{height: winHeight, width: winWidth}"></video>
+							objectFit="fill" :style="{height: winHeight, width: winWidth}" @error="videoErrorCallback"></video>
 						<!-- <view class="nvd-cover" @click="handleClicked(index)"> -->
 							<view class="nvd-cover" >
 							<text v-if="!isPlay"
@@ -119,6 +119,12 @@
 			this.init()
 		},
 		methods: {
+			videoErrorCallback: function(e) {
+			            uni.showModal({
+			                content: e.target.errMsg,
+			                showCancel: false
+			            })
+			        },
 			copyVal(val) {
 				uni.setClipboardData({
 					data: val, //要被复制的内容

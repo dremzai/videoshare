@@ -45,7 +45,10 @@
 	export default {
 		data() {
 			return { 
-				formObj: {},
+				formObj: {
+					telephone:"",
+					code:""
+				},
 				vcodeText: '获取验证码',
 				vcode:'',
 				disabled: false,
@@ -64,27 +67,19 @@
 		},
 		methods: {
 			handleSubmit(e) {
+				debugger
 				let that = this
 				let uniPop = this.$refs.uniPop
-				if (this.vcode==='') {
+				if (this.formObj.code  == '') {
 					uniPop.show({
-						content: '请先获取验证码',
+						content: '验证码不能为空',
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
 					return;
-				}  
-				else if (this.vcode!=this.formObj.code) {
-					uniPop.show({
-						content: '验证码不对',
-						style: 'background:#353535;color:#fff;',
-						time: 2
-					})
-					return;
-				}  
-				else {
+				}  else {
 					uni.showLoading();
-					Api.httpResponse("/stm/api/login/codeLoginOrRegister", 'POST', this.formObj,"JSON").then(
+					Api.httpResponse("/stm/api/login/codeLoginOrRegister", 'POST', this.formObj,"json").then(
 						res => {
 							uni.setStorage({
 								key: 'userId',

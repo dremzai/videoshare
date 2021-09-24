@@ -15,8 +15,12 @@
 				</view>
 				<view class="fz_cnts">{{item.videoTitle}}</view>
 				<view class="fz_photos">
-					<image class="fz_img_auto" style="width: 250px;" @tap="GoVideoPlay(item)" :src="item.videoPic"
-						mode="aspectFill" />
+					
+						<view class="fz_photos_item"  @tap="GoVideoPlay(item)">
+							<image class="fz_img_auto" style="width: 250px;" :src="item.videoPic"
+								mode="aspectFill" />
+							<text class="iconfont icon-bofang"></text>
+						</view>
 				</view>
 				<view class="fz_foot flexbox flex_alignc">
 					<view class="flex1">
@@ -144,5 +148,22 @@
 	border-radius: 4rpx;
 	padding: 10rpx 20rpx;
 	z-index: 99;
+	}
+	.fz_photos_item {
+		display: inline-block;
+		position: relative;
+	}
+	
+	.icon-bofang {
+		position: absolute;
+		background-color: rgba(255, 255, 255, 0.4);
+		left: calc(50% - 31rpx);
+		top: calc(50% - 31rpx);
+		border-radius: 80rpx;
+		font-size: 20rpx;
+		padding: 20rpx 20rpx 20rpx 23rpx;
+	}
+	.container_block{
+		padding-top: 10rpx;
 	}
 </style>

@@ -89,6 +89,20 @@
 			
 		},
 		methods: { 
+
+			refreshBing(){
+				uni.showLoading();
+
+				Api.httpResponse("/stm/api/user/showUser/refreshBing", 'POST',{id:this.userData.id}).then(
+					resUser => {  
+						  uni.hideLoading();    
+						uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
+					},
+					error => {
+						console.log(error);
+					}
+				)
+			},
 			init(){
 				Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
 					resUser => {  
@@ -102,8 +116,13 @@
 				)
 			},
 			GoBindAccount(){
+				console.log(this.userData.wxVideoStatus)
 				if(this.userData.wxVideoStatus != 2){
-					uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
+					if(this.userData.wxVideoStatus == 1){
+						this.refreshBing()
+					}else{
+						uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
+					}
 				}
 			},
 			GoSetUserInfo(){
@@ -121,24 +140,43 @@
 				});
 			},
 			getMoney(){
-				uni.showLoading();
-				Api.httpResponse("/user/showMoney/withdrawal", 'POST',{userId:this.userData.id,doMoney:this.userData.balance},'json').then(
-					res => {  
-						  Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
-						  	resUser => {  
-						  		  uni.hideLoading();    
-								  this.userData=resUser;
-						  		  this.$store.commit('SET_USER', resUser) 
-						  	},
-						  	error => {
-						  		console.log(error);
-						  	}
-						  )
-					},
-					error => {
-						console.log(error);
-					}
-				)
+				
+					uni.showModal({
+						title: '提示',
+						content: '是否全部提现？',
+						success:  (res)=> {
+							if (res.confirm) {
+								uni.showLoading();
+								Api.httpResponse("/user/showMoney/withdrawal", 'POST',{userId:this.userData.id,doMoney:this.userData.balance},'json').then(
+									res => {  
+										  Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
+										  	resUser => {  
+										  		  uni.hideLoading();    
+												  this.userData=resUser;
+										  		  this.$store.commit('SET_USER', resUser) 
+												  uni.showToast({
+												  	title: '申请提现成功',
+												  	duration: 2000
+												  });
+										  	},
+										  	error => {
+										  		console.log(error);
+												uni.showLoading();
+										  	}
+										  )
+									},
+									error => {
+										console.log(error);
+										uni.showLoading();
+									}
+								)
+							} else if (res.cancel) {
+							}
+						}
+					});
+				
+				
+				
 			},
 			copyVal(val){
 			 	uni.setClipboardData({

@@ -16,11 +16,11 @@
 					</view>
 					<view class="fz_cnts" @tap="goDetail(item)"> {{item.themeDesc}}#{{item.themeKey}}#</view>
 					<view class="fz_photos">
-
-						<view class="fz_photos_item" @tap="GoVideoPlay(atx)" v-for="atx in item.videoList"
+						<!-- <view class="fz_photos_item" @tap="GoVideoPlay(atx)" v-for="atx in item.videoList" -->
+						<view class="fz_photos_item" @tap="goDetail(item)" v-for="atx in item.videoList"
 							:key="atx.id">
 							<image class="fz_img_auto" :src="atx.videoPic" mode="aspectFill" />
-							<text class="iconfont icon-bofang"></text>
+							<!-- <text class="iconfont icon-bofang"></text> -->
 						</view>
 					</view>
 					<view class="fz_foot flexbox flex_alignc">
