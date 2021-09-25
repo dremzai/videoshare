@@ -1,8 +1,27 @@
 {
-	"pages": [{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "面向视频",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},{
 			"path": "pages/auth/login",
 			"style": {
 				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},{
+			"path": "pages/auth/loginwx",
+			"style": {
+				"navigationBarTitleText": "微信登录",
 				"app-plus": {
 					"bounce": "none",
 					"titleNView": false
@@ -23,16 +42,6 @@
 			"path": "pages/auth/register",
 			"style": {
 				"navigationBarTitleText": "注册",
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": false
-				}
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "面向视频",
 				"app-plus": {
 					"bounce": "none",
 					"titleNView": false

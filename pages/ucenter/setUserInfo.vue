@@ -42,11 +42,9 @@
 			this.userData=uni.getStorageSync('user') 
 		},
 		methods: { 
-			submitForm(){
-				uni.showLoading();  
+			submitForm(){  
 				Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST',this.userData,'json').then(
-					res => {  
-						  uni.hideLoading();    
+					res => {     
 						  this.$store.commit('SET_USER', this.userData)
 						  uni.navigateBack();
 					},
@@ -78,8 +76,7 @@
 				
 							let reader = new plus.io.FileReader();
 							// 文件读取操作完成时的回调函数
-							reader.onloadend = (e) =>{
-								uni.hideLoading();
+							reader.onloadend = (e) =>{ 
 								console.log('文件读取完成！');
 								let speech = e.target.result; //base64图片   
 								that.userData.userHeadpic=speech;

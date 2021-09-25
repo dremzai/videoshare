@@ -5,7 +5,7 @@
 		</header-bar>
 		<form style="margin-top: 15px;" @submit.prevent="submitForm">
 			<view class="uni-form-item uni-column">
-				<view v-if="inviteUrl == ''">
+				<view v-if="inviteUrl == ''&&userData.wxVideoStatus!=2">
 					<view class="title">微信视频号名称</view>
 					<view>
 						<input class="uni-input" v-model="formData.wxVideoAccount" name="input"
@@ -32,7 +32,7 @@
 
 			<tkiQrcode ref="qrcode" :val="inviteUrl" :size="400" :show="false" icon="/static/wx.png" :onval="true"
 				:loadMake="true" @result="qrCode"></tkiQrcode>
-			<view class="uni-btn-v" >
+			<view class="uni-btn-v" v-show="userData.wxVideoStatus!=2">
 				<!-- v-if="inviteUrl == ''" -->
 				<button class="uni__btn-primary bg_linear2" v-if="!info" type="primary"
 					@click="getUserByVideoAccount">查询</button>
@@ -63,17 +63,26 @@
 				baseUrl: ""
 			}
 		},
+		onShow(){ 
+			if (this.userData.wxVideoStatus == 1) { //待确认 
+				Api.httpResponse("/stm/api/user/showUser/refreshBing", 'POST',{id:this.userData.id}).then(
+					resUser => {  
+						this.userData=resUser;
+						this.$store.commit('SET_USER', resUser)    
+						uni.navigateBack()
+					},
+					error => {
+						console.log(error);
+					}
+				) 
+			}
+		},
 		onLoad(options) {
-			this.userData = uni.getStorageSync('user')
-			
-			
-			
+			this.userData = uni.getStorageSync('user') 
 			if (this.userData.wxVideoStatus == 1) { //待确认
 				this.formData.wxVideoAccount = this.userData.wxVideoAccount
-				this.getInviteUrl()
-
-			}
-
+				this.getInviteUrl() 
+			} 
 		},
 		methods: {
 			openWx() {
@@ -111,8 +120,7 @@
 					id: this.userData.id,
 					wxVideoAccount: this.formData.wxVideoAccount
 				}, 'json').then(
-					result => {
-						uni.hideLoading();
+					result => { 
 						this.inviteUrl = result
 
 					},
@@ -123,14 +131,12 @@
 			},
 
 
-			bingWxVideoAccount() {
-				uni.showLoading();
+			bingWxVideoAccount() { 
 				Api.httpResponse("/stm/api/user/showUser/bingWxVideoAccount", 'POST', {
 					id: this.userData.id,
 					wxVideoAccount: this.formData.wxVideoAccount
 				}, 'json').then(
-					result => {
-						uni.hideLoading();
+					result => { 
 						this.inviteUrl = result.inviteUrl
 					},
 					error => {
@@ -144,14 +150,12 @@
 				}
 			},
 			//获取视频号用户信息
-			getUserByVideoAccount() {
-				uni.showLoading();
+			getUserByVideoAccount() { 
 				Api.httpResponse("/stm/api/user/showUser/getUserByVideoAccount", 'POST', {
 					id: this.userData.id,
 					wxVideoAccount: this.formData.wxVideoAccount
 				}, 'json').then(
-					result => {
-						uni.hideLoading();
+					result => { 
 						console.log(result)
 						this.info = result
 					},
@@ -161,11 +165,9 @@
 				)
 			},
 
-			submitForm() {
-				uni.showLoading();
+			submitForm() { 
 				Api.httpResponse("/stm/api/user/showUser/bingWxVideoAccount", 'POST', this.userData, 'json').then(
-					result => {
-						uni.hideLoading();
+					result => { 
 						this.$store.commit('SET_USER', this.userData)
 						uni.navigateBack();
 					},

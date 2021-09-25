@@ -90,12 +90,15 @@
 		},
 		methods: { 
 
-			refreshBing(){
-				uni.showLoading();
-
+			refreshBing(){  
 				Api.httpResponse("/stm/api/user/showUser/refreshBing", 'POST',{id:this.userData.id}).then(
 					resUser => {  
-						  uni.hideLoading();    
+						this.userData=resUser;
+						this.$store.commit('SET_USER', resUser)  
+						if(this.userData.wxVideoStatus==2)
+						{
+							return;
+						}
 						uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
 					},
 					error => {
@@ -105,10 +108,9 @@
 			},
 			init(){
 				Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
-					resUser => {  
-						  uni.hideLoading();    
-												  this.userData=resUser;
-						  this.$store.commit('SET_USER', resUser) 
+					resUser => {     
+						this.userData=resUser;
+						this.$store.commit('SET_USER', resUser) 
 					},
 					error => {
 						console.log(error);
@@ -123,7 +125,7 @@
 					}else{
 						uni.navigateTo({url: '/pages/ucenter/bindWxVideoAccount'})
 					}
-				}
+				}  
 			},
 			GoSetUserInfo(){
 				uni.navigateTo({url: '/pages/ucenter/setUserInfo'})
@@ -145,13 +147,11 @@
 						title: '提示',
 						content: '是否全部提现？',
 						success:  (res)=> {
-							if (res.confirm) {
-								uni.showLoading();
+							if (res.confirm) { 
 								Api.httpResponse("/user/showMoney/withdrawal", 'POST',{userId:this.userData.id,doMoney:this.userData.balance},'json').then(
 									res => {  
 										  Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
-										  	resUser => {  
-										  		  uni.hideLoading();    
+										  	resUser => {     
 												  this.userData=resUser;
 										  		  this.$store.commit('SET_USER', resUser) 
 												  uni.showToast({
@@ -160,14 +160,12 @@
 												  });
 										  	},
 										  	error => {
-										  		console.log(error);
-												uni.showLoading();
+										  		console.log(error); 
 										  	}
 										  )
 									},
 									error => {
-										console.log(error);
-										uni.showLoading();
+										console.log(error); 
 									}
 								)
 							} else if (res.cancel) {

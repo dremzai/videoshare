@@ -58,8 +58,7 @@
 			}
 		},
 		methods: {
-			handleSubmit(e) {
-				uni.showLoading();
+			handleSubmit(e) { 
 				let that = this
 				let uniPop = this.$refs.uniPop
 				if (!this.formObj.telephone) {
@@ -86,8 +85,7 @@
 							uni.setStorage({
 								key: 'userId',
 								data: res.id
-							});
-							uni.hideLoading();
+							}); 
 							// this.$store.commit('SET_TOKEN', util.setToken())
 							this.$store.commit('SET_USER', res)
 

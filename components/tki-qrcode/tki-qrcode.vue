@@ -108,6 +108,7 @@ export default {
 						that._result(res)
 					},
 				});
+				uni.hideLoading()
 			} else {
 				uni.showToast({
 					title: '二维码内容不能为空',

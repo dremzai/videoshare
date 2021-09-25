@@ -41,7 +41,7 @@
 					isLoadMore:true,
 					userId:'', 
 					page:1,
-					pageSize:5,
+					pageSize:10,
 				},
 				userData:{},
 			}
@@ -67,11 +67,9 @@
 				this.getList()
 			
 			},
-			getList(refresh){ 
-				uni.showLoading();
+			getList(refresh){  
 				Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET', this.listQuery).then(
-					res => {
-						uni.hideLoading();
+					res => { 
 						this.dataList=this.dataList.concat(res.records);
 						if(this.listQuery.page<res.pages){
 							this.listQuery.isLoadMore=false;

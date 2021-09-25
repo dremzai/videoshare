@@ -77,15 +77,13 @@
 						time: 2
 					})
 					return;
-				}  else {
-					uni.showLoading();
+				}  else { 
 					Api.httpResponse("/stm/api/login/codeLoginOrRegister", 'POST', this.formObj,"json").then(
 						res => {
 							uni.setStorage({
 								key: 'userId',
 								data: res.id
-							});
-							uni.hideLoading();
+							}); 
 							// this.$store.commit('SET_TOKEN', util.setToken())
 							this.$store.commit('SET_USER', res)
 

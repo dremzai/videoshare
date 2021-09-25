@@ -74,11 +74,9 @@
 				this.getList()
 
 			},
-			getList(refresh) {
-				uni.showLoading();
+			getList(refresh) { 
 				Api.httpResponse("/stm/api/video/showDate/viewList", 'GET', this.listQuery).then(
-					res => {
-						uni.hideLoading();
+					res => { 
 						this.dataList = this.dataList.concat(res.records);
 						if (this.listQuery.page < res.pages) {
 							this.listQuery.isLoadMore = false;

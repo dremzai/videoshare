@@ -18,7 +18,7 @@
 									placeholder-style="color:#aaa" maxlength="11" />
 							</view>
 							<view class="item flexbox flex_alignc"><text class="iconfont icon-pass"></text><input
-									class="iptxt flex1" type="text" password="true" v-model="formObj.pwd"
+									class="iptxt flex1" type="text" password="true" v-model="formObj.password"
 									placeholder="请输入密码" placeholder-style="color:#aaa" />
 							</view>
 							<view class="item flexbox flex_alignc"><text class="iconfont icon-vcode"></text><input
@@ -47,6 +47,7 @@
 		mapMutations
 	} from 'vuex'
 	import util from '../../utils/util.js'
+	import Api from '../../utils/requestApi.js'
 	export default {
 		data() {
 			return {
@@ -89,7 +90,7 @@
 						style: 'background:#353535;color:#fff;',
 						time: 2
 					})
-				} else if (!this.formObj.pwd) {
+				} else if (!this.formObj.password) {
 					uniPop.show({
 						content: '密码不能为空',
 						style: 'background:#353535;color:#fff;',
@@ -118,8 +119,7 @@
 							uni.setStorage({
 								key: 'userId',
 								data: res.id
-							});
-							uni.hideLoading();
+							}); 
 							// this.$store.commit('SET_TOKEN', util.setToken())
 							this.$store.commit('SET_USER', res)
 					

@@ -31,38 +31,40 @@ const httpResponse = (url, method, data,method1) => {
 		header: headers,
 		dataType: 'json'
 	};
-	return new Promise((resolve, reject) => {  
+	return new Promise((resolve, reject) => {   
+		uni.showLoading();
 		uni.request(httpDefault).then((res) => {
 			console.log("成功",res)
+			uni.hideLoading();
 			if(res[1].statusCode == 500){
 				uni.showToast({
 					title:"服务器内部错误",
-					icon:"none"
+					icon:"none",
+					duration:2000
 				})   
 			} 
 			else if(res[1].statusCode !== 200){
 				uni.showToast({
 					title:res[1].data.message,
-					icon:"none"
+					icon:"none",
+					duration:2000
 				})  
 			} else {
 				if(res[1].data.success==false){
 					uni.showToast({
 						title:res[1].data.message,
-						icon:"none"
+						icon:"none",
+						duration:2000
 					}) 
 				}
 				else{ 
 					resolve(res[1].data.result)
 				}
-			}
-			uni.hideLoading()
+			} 
 		}).catch((response) => { 
 			uni.hideLoading()
 			reject(response);
-		})
-		uni.hideLoading();
-		
+		})  
 	})
 }
 

@@ -1159,8 +1159,7 @@ let QRCode = {};
                                 }
                             },
                             complete: function () {
-                                if (options.showLoading){
-                                    uni.hideLoading();
+                                if (options.showLoading){ 
                                 }
                             },
                         }, options.context);

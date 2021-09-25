@@ -86,15 +86,13 @@
 						if (res.statusCode === 200) {
 							uni.saveImageToPhotosAlbum({
 								filePath: res.tempFilePath,
-								success: function() {
-									uni.hideLoading()
+								success: function() { 
 									uni.showToast({
 										title: "保存成功",
 										icon: "none"
 									});
 								},
-								fail: function() {
-									uni.hideLoading()
+								fail: function() { 
 									uni.showToast({
 										title: "保存失败，请稍后重试",
 										icon: "none"

@@ -90,8 +90,7 @@
 			refresh(){
 				this.getList(1)
 			},
-			getList(refresh){ 
-				uni.showLoading();
+			getList(refresh){  
 				if(refresh){
 					this.listQuery.isRefresh = 1
 				}else{
@@ -100,8 +99,7 @@
 					this.listQuery = listQuery
 				}
 				Api.httpResponse("/stm/api/video/showVideo/myJoinViewList", 'GET', this.listQuery).then(
-					res => {
-						uni.hideLoading();
+					res => { 
 						this.dataList=this.dataList.concat(res.records);
 						if(this.listQuery.page<res.pages){
 							this.listQuery.isLoadMore=false;
