@@ -10,10 +10,10 @@
 					:class="[currentNavIndex == 0 ? 'fs_20 bold' : '']">最新活动</text></view>
 			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(1)"><text class="fs_14"
 					:class="[currentNavIndex == 1 ? 'fs_20 bold' : '']">我参与的</text></view>
-			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(2)"><text class="fs_14"
+			<!-- <view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(2)"><text class="fs_14"
 					:class="[currentNavIndex == 2 ? 'fs_20 bold' : '']">指南</text>
 				<text class="uni_badge uni_badge_dot"></text>
-			</view>
+			</view> -->
 
 		</header-bar>
 		<header-bar v-else-if="currentTabIndex == 1" :isBack="false" title=" " titleTintColor="#353535"

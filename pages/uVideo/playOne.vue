@@ -7,21 +7,18 @@
 			<swiper :indicator-dots="false" :duration="200" :vertical="true" :current="videoIndex"
 				@change="handleSlider" style="height: 100%;">
 				<block v-for="(item,index) in vlist" :key="index">
-					<swiper-item>
+					<swiper-item vertical="true">
 						<view class="uni_vdplayer">
 							<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video"
 								:src="item.videoUrl" :controls="false" :loop="true" :show-center-play-btn="false"
-								objectFit="fill" z-index="0"></video>
-							<view z-index="999" class="vd-cover flexbox" @click="handleClicked(index)"><text
-									v-if="!isPlay" class="iconfont icon-bofang"></text></view>
+								objectFit="fill" z-index="0"></video> 
 							<view z-index="999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
-										<view class="kw">
-											{{item.numShow}}次浏览
-										</view>
+										<view class="kw"> {{item.numShow}}次浏览 </view>
+										<view class="kw"> {{item.themeTitle}} </view>
 									</view>
-									<view class="item subtext">{{item.videoTitle}}</view>
+									<view class="item subtext">{{item.themeDesc}}</view>
 									<view class="item uinfo flexbox flex_alignc">
 										<image class="avator" :src="item.userHeadpic" mode="aspectFill" /><text
 											class="name">{{item.sponsorNickName}}</text>
@@ -33,10 +30,10 @@
 											class="num">{{ item.numLike }}</text></view>
 									<view class="ls"><text class="iconfont icon-liuyan"></text><text
 											class="num">{{item.numComment}}</text></view>
-									<view class="ls"><text class="iconfont icon-share"></text><text
+									<view class="ls" @tap="toShare(item)"><text class="iconfont icon-share"></text><text
 											class="num">{{item.numRelay}}</text></view>
 									<view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
-											class="num">{{item.numRelay}}</text></view>
+											class="num">下载</text></view>
 								</view>
 							</view>
 						</view>
@@ -49,21 +46,26 @@
 	</view>
 </template>
 
-<script>
-	const videoJson = require('./mock-video.js')
+<script> 
+	import Api from '../../utils/requestApi.js'
 	import videoCart from '@/components/cp-video/cart.vue'
 	import videoComment from '@/components/cp-video/comment'
 	let timer = null
 	export default {
 		data() {
 			return {
-				videoIndex: 0,
-				// vlist: videoJson,
+				videoIndex: 0, 
 				vlist: [],
 				isPlay: true, //当前视频是否播放中
 				clickNum: 0, //记录点击次数
 				isLike: false,
 				dataItem: {},
+				listQuery:{
+					isLoadMore:true,
+					userId:'', 
+					page:1,
+					pageSize:20,
+				},
 			}
 		},
 		components: {
@@ -73,7 +75,9 @@
 		onLoad(option) {
 			this.videoIndex = parseInt(option.index)
 			this.dataItem = JSON.parse(decodeURIComponent(option.dataItem));
+			this.listQuery.themeId=this.dataItem.themeId;
 			this.vlist.push(this.dataItem)
+			this.getList();
 		},
 		onReady() {
 			this.init()
@@ -102,12 +106,10 @@
 						}
 					}
 				});
-			},
-
+			}, 
 			init() {
 				this.videoContextList = []
-				for (var i = 0; i < this.vlist.length; i++) {
-					// this.videoContextList.push(this.$refs['myVideo' + i][0])
+				for (var i = 0; i < this.vlist.length; i++) { 
 					this.videoContextList.push(uni.createVideoContext('myVideo' + i, this));
 				}
 				setTimeout(() => {
@@ -115,12 +117,9 @@
 				}, 200)
 			},
 			handleSlider(e) {
-				let curIndex = e.detail.current
-				if (this.videoIndex >= 0) {
-					this.videoContextList[this.videoIndex].pause()
-					this.videoContextList[this.videoIndex].seek(0)
-					this.isPlay = false
-				}
+				let curIndex = e.detail.current 
+				console.log(curIndex,this.videoIndex)
+				this.videoContextList[this.videoIndex].pause()
 				if (curIndex === this.videoIndex + 1) {
 					this.videoContextList[this.videoIndex + 1].play()
 					this.isPlay = true
@@ -133,27 +132,7 @@
 			play(index) {
 				this.videoContextList[index].play()
 				this.isPlay = true
-			},
-			pause(index) {
-				this.videoContextList[index].pause()
-				this.isPlay = false
-			},
-			handleClicked(index) {
-				if (timer) {
-					clearTimeout(timer)
-				}
-				this.clickNum++
-				timer = setTimeout(() => {
-					if (this.clickNum >= 2) {} else {
-						if (this.isPlay) {
-							this.pause(index)
-						} else {
-							this.play(index)
-						}
-					}
-					this.clickNum = 0
-				}, 300)
-			},
+			}, 
 			handleAttention(index) {
 				let vlist = this.vlist
 				vlist[index].attention = !vlist[index].attention
@@ -171,6 +150,31 @@
 			handleVideoCart(index) {
 				this.$refs.videoCart.show(index)
 			},
+			getList(){  
+				 Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET',this.listQuery).then(
+					res => {      
+						    var len=this.vlist.length;
+							for (var i = 0; i < res.records.length; i++) { 
+								this.vlist.push(res.records[i])
+								this.videoContextList.push(uni.createVideoContext('myVideo' + (len+i), this));
+							} 
+					},
+					error => {
+						console.log(error);
+					}
+				 ) 
+			},
+			toShare(item){
+				wx.getShareInfo({
+					shareTicket:item.themeDesc,
+					success (res) {
+						console.log(111,res)
+					},
+					fail(res){ 
+						console.log(22)
+					}
+				})
+			}
 		}
 	}
 </script>

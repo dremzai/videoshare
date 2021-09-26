@@ -99,6 +99,16 @@
 			}
 		},
 		{
+			"path": "pages/theme/create",
+			"style": {
+				"navigationBarTitleText": "上传视频参于活动",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
 			"path": "pages/ucenter/outMoneyList",
 			"style": {
 				"navigationBarTitleText": "提现记录",

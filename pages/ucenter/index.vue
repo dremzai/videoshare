@@ -2,11 +2,14 @@
 <template>
 <view class="uni__ucenterWrapper">
 <view class="uc-header"><view class="uni__listview">
-		<view class="uni__list uni__material" @tap="GoSetUserInfo">
+		<view class="uni__list uni__material">
 	<image class="avator mr_15" :src="userData.userHeadpic" mode="widthFix" style="border-radius:50%;height: 55px;width:55px;" />
-	<view class="txt flex1 fs_18">{{userData.nickName}}
+	<view class="txt flex1 fs_18">
+	 <span v-if="userData.nickName===''"  @tap="GoSetUserInfo">点击获取</span>
+	 <span v-else >{{userData.nickName}}</span>
 	 <!-- <text class="iconfont icon-nan c_589bee ml_5"></text> -->
-	 <text class="db c_999 fs_12 mt_5"> {{userData.telephone}}</text></view><text class="iconfont icon-arrR c_999 fs_12"></text>
+	 <text class="db c_999 fs_12 mt_5"> {{userData.telephone}}</text></view>
+	 <!-- <text class="iconfont icon-arrR c_999 fs_12"></text> -->
 		</view>
 	<view class="uni__list flex_alignc flex_col">
 		<text class="fs_12 bold db">余额</text><view style="font-size: 70upx; font-weight: 700; padding: 30upx 0;">
@@ -82,14 +85,12 @@
 			}
 		},
 		mounted(){ 
-			this.userData=uni.getStorageSync('user') 
+			this.userData=uni.getStorageSync('user')  
 		},
 		onShow(){
-			this.userData=uni.getStorageSync('user')
-			
+			this.userData=uni.getStorageSync('user') 
 		},
-		methods: { 
-
+		methods: {  
 			refreshBing(){  
 				Api.httpResponse("/stm/api/user/showUser/refreshBing", 'POST',{id:this.userData.id}).then(
 					resUser => {  
@@ -128,7 +129,26 @@
 				}  
 			},
 			GoSetUserInfo(){
-				uni.navigateTo({url: '/pages/ucenter/setUserInfo'})
+				uni.showLoading({title:"获取中...",mask:true})
+				wx.getUserProfile({
+				      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+				      success: (res) => {  
+						uni.hideLoading()
+				        this.userData.nickName=res.userInfo.nickName;
+				        this.userData.userHeadpic=res.userInfo.avatarUrl;
+				        this.userData.prov=res.userInfo.province;
+				        this.userData.city=res.userInfo.city;
+				        this.$store.commit('SET_USER', this.userData) 
+						Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST',this.userData).then(
+							resUser => {   
+								 
+							},
+							error => {
+								console.log(error);
+							}
+						)
+				      }
+				    })
 			},
 			GoOutMoneyList(){
 				uni.navigateTo({url: '/pages/ucenter/outMoneyList'})
@@ -141,8 +161,7 @@
 				    phoneNumber: '0571-88350565' //仅为示例
 				});
 			},
-			getMoney(){
-				
+			getMoney(){ 
 					uni.showModal({
 						title: '提示',
 						content: '是否全部提现？',

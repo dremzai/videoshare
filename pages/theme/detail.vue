@@ -6,6 +6,7 @@
 	<view class="fz_container">
 		<header-bar :isBack="true" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
+			<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;" @tap="toActivity"></text>
 		</header-bar>
 		<view class="fz_item flexbox uni__material" >
 			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
@@ -40,9 +41,7 @@
 					</view>
 				</view>
 			</block>
-		</view>
-		<button class="uni__btn-primary bg_linear2" @tap="toActivity" type="primary" style="float: botoom;"
-				form-type="submit">立即参于</button>
+		</view> 
 	</view>
 </template>
 
@@ -60,12 +59,33 @@
 					page:1,
 					pageSize:10,
 				},
+				userData:{id:''}
 			}
 		},  
-		onLoad(option) { 
+		onLoad(option) {  
+			this.userData=uni.getStorageSync('user') 
 			this.dataItem=JSON.parse(decodeURIComponent(option.dataItem));
 			this.listQuery.themeId=this.dataItem.id;
 			this.getList();
+			if(this.userData.id==''){ 
+					wx.login({
+					  success (res) {
+					    if (res.code) {
+					      Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
+					      	res => {   
+								this.userData=res;
+					      		this.$store.commit('SET_USER', res)	 
+					      	},
+					      	error => {
+					      		console.log(error);
+					      	}
+					      ) 
+					    } else {
+					      console.log('登录失败！' + res.errMsg)
+					    }
+					  }
+					})
+			}
 		}, 
 	    onReachBottom(){  //上拉触底函数
 		    if(!this.listQuery.isLoadMore){  //此处判断，上锁，防止重复请求 
@@ -83,24 +103,35 @@
 			}, 1000);
 		},
 		methods: { 
-			toActivity(){
-				wx.login({
-				  success (res) {
-				    if (res.code) {
-				      //发起网络请求 
-					 uni.setClipboardData({
-					 	data:res.code,//要被复制的内容
-					 	success:()=>{//复制成功的回调函数
-					 	  uni.showToast({//提示
-					 		title:'复制成功',icon:"none"
-					 	  })
-					 	}
-					   }); 
-				    } else {
-				      console.log('登录失败！' + res.errMsg)
-				    }
-				  }
-				})
+			toActivity(){ 
+				if(this.userData.nickName!=''){
+					uni.navigateTo({
+						url: '/pages/theme/create?dataItem=' + encodeURIComponent(JSON.stringify(this.dataItem))
+					})
+					return;
+				} 
+				uni.showLoading({title:"获取中...",mask:true})
+				wx.getUserProfile({
+				      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+				      success: (res) => {  
+						uni.hideLoading()
+				        this.userData.nickName=res.userInfo.nickName;
+				        this.userData.userHeadpic=res.userInfo.avatarUrl;
+				        this.userData.prov=res.userInfo.province;
+				        this.userData.city=res.userInfo.city;
+				        this.$store.commit('SET_USER', this.userData) 
+						Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST',this.userData).then(
+							resUser => {    
+								 uni.navigateTo({
+								 	url: '/pages/theme/create'
+								 })
+							},
+							error => {
+								console.log(error);
+							}
+						)
+				      }
+				    })
 			},
 			getList(){  
 				 Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET',this.listQuery).then(
