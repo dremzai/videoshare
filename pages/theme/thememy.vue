@@ -10,7 +10,7 @@
 			<view class="fzitem_content flex1">
 				<text class="fz_user">{{item.sponsorNickName}}</text>
 				<view class="mt_5">
-					<view class="uni-age" style="width: 80px;">赚￥{{item.toUserMoneyStr}}</view>
+					<view class="uni-age" style="width: 100px;">奖励￥{{item.toUserMoneyStr}}</view>
 					<!-- <view class="uni-vip v1 ml_5">22</view> -->
 				</view>
 				<view class="fz_cnts">{{item.videoTitle}}</view>
@@ -36,9 +36,9 @@
 		</view>
 		</mescroll-uni>
 		
-		<view class="sync_video" @click="refresh">
+		<!-- <view class="sync_video" @click="refresh">
 			同步视频号
-		</view>
+		</view> -->
 
 	</view>
 </template>
