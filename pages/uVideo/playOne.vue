@@ -26,7 +26,8 @@
 								</view>
 								<view class="vd-sidebar">
 
-									<view class="ls"><text class="iconfont icon-like"></text><text
+									<view class="ls" @click="handleIsLike(index,item)"><text class="iconfont icon-like" v-if="item.islike"></text>
+									<text class="iconfont icon-like" style="color: red;" v-else></text><text
 											class="num">{{ item.numLike }}</text></view>
 									<view class="ls"><text class="iconfont icon-liuyan"></text><text
 											class="num">{{item.numComment}}</text></view>
@@ -147,10 +148,9 @@
 				this.vlist = vlist
 			},
 			// 喜欢
-			handleIsLike(index) {
-				let vlist = this.vlist
-				vlist[index].islike = !vlist[index].islike
-				this.vlist = vlist
+			handleIsLike(index,item) {
+				this.$set(this.vlist[index],'islike',!this.vlist[index].islike)
+				
 			},
 			handleVideoComment() {
 				this.$refs.videoComment.show()
@@ -208,6 +208,8 @@
 
 			}
 		},
+		
+		//分享配置
 			 onShareAppMessage: (res)=> {
 			    return {
 			      title: '分享视频',

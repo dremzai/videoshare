@@ -11,9 +11,9 @@
 				</view>
 			</view> 
 			 <view class="uni-form-item uni-column">
-			 	<view class="title">视频</view>
+			 	<view class="title">图片</view>
 			 	<view>  
-					<img :src="userData.userHeadpic" style="height:100px;">
+					<img :src="ossImage" mode="aspectFit"  v-if="ossImage" >
 					<button  type="default" @click="uploadPhoto" style="width:100%">拍摄/上传</button> 
 			 	</view>
 			 </view> 
@@ -26,11 +26,13 @@
 
 <script>
 	import Api from '../../utils/requestApi.js'
+	import {upLoadFiles} from '../../utils/oss.js'
 	export default {
 		data() {
 			return { 
 				userData:{},
 				dataItem:{},
+				ossImage:null
 			}
 		},
 		onLoad(option) { 
@@ -55,8 +57,18 @@
 				 	count: 1,
 				 	sizeType: ['compressed'],
 				 	sourceType: ['camera'],
-				 	success: function(res) {
+				 	success: (res)=> {
+						
+						/* #ifdef MP-WEIXIN */
+						upLoadFiles(res.tempFilePaths).then((res)=>{
+							console.log(res)
+							this.ossImage = res[0].fileInfo.realyPath
+						})
+						/* #endif */
+						
+						/* #ifdef APP-PLUS */
 						let path = res.tempFilePaths[0];
+						
 						plus.zip.compressImage({
 							src: path,
 							dst: path,
@@ -85,6 +97,7 @@
 							console.log("Compress error!", error);
 							return; 
 						});
+						/* #endif */
 						 
 					},
 				})
