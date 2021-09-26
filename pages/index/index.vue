@@ -82,6 +82,26 @@
 	import guide from '@/pages/index/guide.vue'
 	export default {
 		onReady() {
+			this.userData=uni.getStorageSync('user') 
+			if(this.userData.id==''){
+					wx.login({
+					  success (res) {
+					    if (res.code) {
+					      Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
+					      	res => {   
+								this.userData=res;
+					      		this.$store.commit('SET_USER', res)	 
+					      	},
+					      	error => {
+					      		console.log(error);
+					      	}
+					      ) 
+					    } else {
+					      console.log('登录失败！' + res.errMsg)
+					    }
+					  }
+					})
+			}
 			let that = this;
 			uni.getSystemInfo({ //调用uni-app接口获取屏幕高度
 				success(res) { //成功回调函数
@@ -120,6 +140,7 @@
 				currentNavIndex: 0,
 				currentTabIndex: 0,
 				scrollH: 0,
+				userData:{id:''}
 			}
 		},
 		components: {
