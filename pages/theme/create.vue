@@ -14,8 +14,14 @@
 			 	<view class="title">图片</view>
 			 	<view>  
 					<img :src="ossImage" mode="aspectFit"  v-if="ossImage" >
-					<button  type="default" @click="uploadPhoto" style="width:100%">拍摄/上传</button> 
+					<button  type="default" @click="uploadPhoto" style="width:100%">拍摄/上传照片</button> 
 			 	</view>
+				
+				<view class="title">视频</view>
+				<view>  
+					<video :src="ossVideo" controls v-if="ossVideo"></video>
+					<button  type="default" @click="uploadVideo" style="width:100%">拍摄/上传视频</button> 
+				</view>
 			 </view> 
 			 <view class="uni-btn-v"> 
 				<button class="uni__btn-primary bg_linear2" type="primary" form-type="submit" >提交</button>
@@ -32,7 +38,8 @@
 			return { 
 				userData:{},
 				dataItem:{},
-				ossImage:null
+				ossImage:null,
+				ossVideo:null
 			}
 		},
 		onLoad(option) { 
@@ -51,6 +58,22 @@
 					}
 				)
 			},
+			uploadVideo(){
+				/* #ifdef MP-WEIXIN */
+				wx.chooseVideo({
+					sourceType:"camera",//	Array.<string>	['album', 'camera']	否	视频选择的来源	
+					compressed:true,//	boolean	true	否	是否压缩所选择的视频文件	1.6.0
+					maxDuration:60,//	number	60	否	拍摄视频最长拍摄时间，单位秒	
+					camera:"back",//	string	'back'	否	默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效	
+					success:(res)=>{
+						upLoadFiles([res.tempFilePath]).then((res)=>{
+							this.ossVideo = res[0].fileInfo.realyPath
+						})
+					},//	function		否	接口调用成功的回调函数	
+					fail:()=>{},//	function		否	接口调用失败的回调函数	
+				})
+				/* #endif */
+			},
 			uploadPhoto(e) { 
 				let that=this;
 				uni.chooseImage({
@@ -61,7 +84,6 @@
 						
 						/* #ifdef MP-WEIXIN */
 						upLoadFiles(res.tempFilePaths).then((res)=>{
-							console.log(res)
 							this.ossImage = res[0].fileInfo.realyPath
 						})
 						/* #endif */
