@@ -156,11 +156,15 @@
 			...mapState(['user', 'token'])
 		},
 		mounted() {
+			
+			/* #ifdef APP-PLUS */
 			if (!this.user) {
 				uni.redirectTo({
 					url: '/pages/auth/login'
 				})
 			}
+			/* #endif */
+			
 		},
 		methods: {
 			handleDropMenu() {
