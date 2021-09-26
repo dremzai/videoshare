@@ -30,10 +30,14 @@
 											class="num">{{ item.numLike }}</text></view>
 									<view class="ls"><text class="iconfont icon-liuyan"></text><text
 											class="num">{{item.numComment}}</text></view>
-									<view class="ls" @tap="toShare(item)"><text class="iconfont icon-share"></text><text
-											class="num">{{item.numRelay}}</text></view>
-									<view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
-											class="num">下载</text></view>
+									
+											<button type="default" open-type="share" plain="true">
+												
+												<view class="ls"><text class="iconfont icon-share"></text><text
+														class="num">{{item.numRelay}}</text></view>
+											</button>
+									<!-- <view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
+											class="num">下载</text></view> -->
 								</view>
 							</view>
 						</view>
@@ -80,6 +84,10 @@
 			this.getList();
 		},
 		onReady() {
+			wx.showShareMenu({
+			  withShareTicket: true,
+			  menus: ['shareAppMessage', 'shareTimeline']
+			})
 			this.init()
 		},
 		methods: {
@@ -165,17 +173,51 @@
 				 ) 
 			},
 			toShare(item){
-				wx.getShareInfo({
-					shareTicket:item.themeDesc,
-					success (res) {
-						console.log(111,res)
-					},
-					fail(res){ 
-						console.log(22)
-					}
-				})
+				// wx.getShareInfo({
+				// 	shareTicket:item.themeDesc,
+				// 	success (res) {
+				// 		console.log(111,res)
+				// 	},
+				// 	fail(res){ 
+				// 		console.log(22)
+				// 	}
+				// })
+				
+				// callback 写法
+				  // wx.downloadFile({
+				  //   url: item.videoUrl, // 下载url
+				  //   success (res) {
+				  //     // 下载完成后转发
+				  //     wx.shareVideoMessage({
+				  //       videoPath: res.tempFilePath,
+				  //       success() {},
+				  //       fail: console.error,
+				  //     })
+				  //   },
+				  //   fail: console.error,
+				  // })
+				
+				  // // async await 写法
+				  // const { tempFilePath } = await wx.downloadFile({
+				  //   url: URL, // 下载url
+				  // })
+				  // // 下载完成后转发
+				  // await wx.shareVideoMessage({
+				  //   videoPath: res.tempFilePath,
+				  // })
+
 			}
-		}
+		},
+			 onShareAppMessage: (res)=> {
+			    return {
+			      title: '分享视频',
+			      path: '/pages/uVideo/playOne',
+			      // imageUrl: '**.png',
+			      success: function (shareTickets) {}, //该函数无用，没有执行
+			      fail: function (res) {}, //该函数无用，没有执行
+			      complete:function(res){} //该函数无用，没有执行
+			    }
+			  }
 	}
 </script>
 
@@ -183,5 +225,13 @@
 	.vd-sidebar .iconfontnew {
 		font-size: 60rpx;
 		color: #FFFFFF;
+	}
+	button{
+		    border: none !important;
+		    line-height: initial !important;
+		    padding-left: 0 !important;
+		    margin: 0 !important;
+		    text-align: left !important;
+		    padding-right: 0 !important;
 	}
 </style>
