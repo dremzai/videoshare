@@ -4,7 +4,7 @@
 
 <template>
 	<view class="fz_container">
-		<header-bar :isBack="true" title="返回" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
+		<header-bar :isBack="true" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
 		<view class="fz_item flexbox uni__material" >
@@ -41,6 +41,8 @@
 				</view>
 			</block>
 		</view>
+		<button class="uni__btn-primary bg_linear2" @tap="toActivity" type="primary" style="float: botoom;"
+				form-type="submit">立即参于</button>
 	</view>
 </template>
 
@@ -81,6 +83,25 @@
 			}, 1000);
 		},
 		methods: { 
+			toActivity(){
+				wx.login({
+				  success (res) {
+				    if (res.code) {
+				      //发起网络请求 
+					 uni.setClipboardData({
+					 	data:res.code,//要被复制的内容
+					 	success:()=>{//复制成功的回调函数
+					 	  uni.showToast({//提示
+					 		title:'复制成功',icon:"none"
+					 	  })
+					 	}
+					   }); 
+				    } else {
+				      console.log('登录失败！' + res.errMsg)
+				    }
+				  }
+				})
+			},
 			getList(){  
 				 Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET',this.listQuery).then(
 					res => {      
