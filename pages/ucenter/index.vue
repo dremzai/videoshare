@@ -81,7 +81,10 @@
 	export default {
 		data() {
 			return {
-				userData:{},
+				userData:{
+					telephone:'',
+					balanceStr:'',
+				},
 			}
 		},
 		onShow(){ 
