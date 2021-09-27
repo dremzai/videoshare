@@ -14,7 +14,7 @@
 						<view class="wrap_cmtList flex1">
 							<block v-for="(item,index) in commentList" :key="index">
 								<view class="item uni__material flexbox" @longpress="handleLongPressMenu">
-									<image class="avator" :src="item.commentPic" mode="aspectFill" />
+									<image class="avator" :src="item.commentUserHeadpic" mode="aspectFill" />
 									<view class="cmtinfo flex1">
 										<view class="name">{{item.commentContent}}</view><text
 											class="cnt">{{item.msg}}</text>
@@ -101,6 +101,7 @@
 					isLoadMore: true,
 					page: 1,
 					pageSize: 10,
+					videoId:null
 				},
 				userData:null
 			}
@@ -111,6 +112,7 @@
 				if (val) {
 					this.listQuery.page = 1
 					this.commentList = []
+					this.listQuery.videoId = this.videoItem.id
 					this.getList()
 				}
 
