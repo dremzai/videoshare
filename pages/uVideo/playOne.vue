@@ -15,13 +15,11 @@
 							<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video"
 								:src="item.videoUrl" :controls="false" :loop="true" :show-center-play-btn="false"
 								objectFit="contain" z-index="0"></video>
-							<view z-index="999" class="vd-footToolbar flexbox flex_alignb">
+							<view z-index="9999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
 										<view class="kw" style="vertical-align: top;"> {{item.numShow}}次浏览 </view>
-										<view class="kw" style="width: 400rpx;overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;"> {{item.themeTitle}} </view>
+										<view class="kw" style="width: 400rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"> {{item.themeTitle}} </view>
 									</view>
 									<view class="item subtext">{{item.themeDesc}}</view>
 									<view class="item uinfo flexbox flex_alignc">
@@ -170,7 +168,10 @@
 					this.videoContextList[this.videoIndex - 1].play()
 					this.isPlay = true
 				}
-				this.videoIndex = curIndex
+				this.$nextTick(() => {
+				    this.videoIndex = curIndex
+				});
+				
 				shareData = this.vlist[curIndex]
 				this.getAddShowNum();
 			},
