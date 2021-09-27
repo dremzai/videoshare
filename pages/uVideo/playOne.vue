@@ -19,14 +19,13 @@
 								<view class="vd-info flex1">
 									<view class="item at">
 										<view class="kw" style="vertical-align: top;"> {{item.numShow}}次浏览 </view>
-										<view class="kw" style="width: 400rpx;overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;"> {{item.themeTitle}} </view>
+										<view class="kw" style="overflow: hidden;white-space: nowrap;
+										text-overflow: ellipsis;">#{{item.sponsorNickName}} </view>
 									</view>
 									<view class="item subtext">{{item.themeDesc}}</view>
 									<view class="item uinfo flexbox flex_alignc">
-										<image class="avator" :src="item.sponsorUserHeadpic" mode="aspectFill" /><text
-											class="name">{{item.sponsorNickName}}</text>
+										<image class="avator" :src="shareUserData.userHeadpic" mode="aspectFill" /><text
+											class="name">{{shareUserData.nickName}}</text>
 									</view>
 								</view>
 								<view class="vd-sidebar">
@@ -84,7 +83,8 @@
 				isCommentShow:false,
 				videoCommentItem:null,
 				homeHeader:false,
-				shareUserId:null
+				shareUserId:null,
+				shareUserData:{},
 			}
 		},
 		components: {
@@ -112,6 +112,7 @@
 					this.init()
 				} 
 			) 
+			this.getShareUserData();
 		},
 		onReady() {
 			wx.showShareMenu({
@@ -231,6 +232,17 @@
 					shareUserId:shareUserId,
 					}).then(res => {
 						 
+					},
+					error => {
+						console.log(error);
+					}
+				)
+			},
+			getShareUserData(){
+				Api.httpResponse("/stm/api/user/showUser/getById", 'GET', {
+					id:shareUserId, 
+					}).then(res => {
+						 this.shareUserData=res;
 					},
 					error => {
 						console.log(error);
