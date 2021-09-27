@@ -27,7 +27,7 @@
 								<view class="vd-sidebar">
 
 									<view class="ls" @click="handleIsLike(index,item)"><text class="iconfont icon-like"
-											v-if="!item.islike"></text>
+											v-if="item.isLike == -1"></text>
 										<text class="iconfont icon-like" style="color: red;" v-else></text><text
 											class="num">{{ item.numLike }}</text>
 									</view>
@@ -154,14 +154,14 @@
 			},
 			// 喜欢
 			handleIsLike(index, item) {
-				
+				console.log(this.vlist)
 				Api.httpResponse("/video/showVideoLike/likeOrNot", 'POST', {
-						"isLike": item.islike ? 1:0,
+						"isLike": item.isLike == -1 ? 1 : -1,
 						"showVideoId": item.id
 				}).then(
 					res => {
 						
-						this.$set(this.vlist[index], 'islike', !this.vlist[index].islike)
+						this.$set(this.vlist[index], 'isLike', item.isLike == -1 ? 1 : -1)
 					},
 					error => {
 						uni.showToast({
