@@ -53,7 +53,7 @@
  						<radio value="1" color="#feb719" style="transform: scale(.8);" /><text
  							class="fs_12 c_999">评论并转发</text>
  					</label></view> -->
-				<!-- <view class="wrap_emotion uni_borT" :style="[{'display': showEmotionView ? 'block' : 'none'}]">
+				<view class="wrap_emotion uni_borT" :style="[{'display': showEmotionView ? 'block' : 'none'}]">
 					<view class="emotion__cells">
 						<swiper :indicator-dots="true" :duration="200" indicator-color="#dbdbdb"
 							indicator-active-color="#999" style="height:100%;width:100%;position:absolute;">
@@ -71,7 +71,7 @@
 							</block>
 						</swiper>
 					</view>
-				</view> -->
+				</view>
 			</view>
 		</view>
 		<uni-pop ref="uniPop" />

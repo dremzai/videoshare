@@ -95,8 +95,8 @@
 			if(option.shareUserId){
 				this.homeHeader = true
 				shareUserId=option.shareUserId;
-				this.shareUserId = shareUserId
-			} 
+			}
+			this.shareUserId = shareUserId
 			this.videoIndex = 0
 			Api.httpResponse("/stm/api/video/showVideo/getViewById", 'GET', {
 				videoId: option.id
