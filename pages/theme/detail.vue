@@ -79,16 +79,23 @@
 			this.dataItem = JSON.parse(decodeURIComponent(option.dataItem));
 			this.listQuery.themeId = this.dataItem.id;
 			this.getList();
-			if (this.userData.id == '') {
+			if (this.userData==''||this.userData.id == '') {
+				var that=this;
 				wx.login({
 					success(res) {
 						if (res.code) {
 							Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST', {
 								code: res.code
 							}).then(
-								res => {
-									this.userData = res;
-									this.$store.commit('SET_USER', res)
+								resuser => {
+									// 转换null为""
+									for (let attr in resuser) {
+									  if (resuser[attr] == null) {
+										resuser[attr] = "";
+									  }
+									}
+									that.userData = resuser;
+									that.$store.commit('SET_USER', resuser)
 								},
 								error => {
 									console.log(error);
@@ -119,7 +126,7 @@
 		methods: {
 			
 			toActivity() {
-				if (this.userData.nickName != '') {
+				if (this.userData!=''&&this.userData.id != '') {
 					uni.navigateTo({
 						url: '/pages/theme/create?dataItem=' + encodeURIComponent(JSON.stringify(this.dataItem))
 					})

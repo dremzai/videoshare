@@ -73,6 +73,7 @@
 		mapState,
 		mapMutations
 	} from 'vuex'
+	import Api from '../../utils/requestApi.js'
 	import ucenter from '@/pages/ucenter'
 	import uvideo from '@/pages/uVideo'
 	import ulive from '@/pages/uLive'
@@ -82,26 +83,6 @@
 	import guide from '@/pages/index/guide.vue'
 	export default {
 		onReady() {
-			this.userData=uni.getStorageSync('user') 
-			if(this.userData.id==''){
-					wx.login({
-					  success (res) {
-					    if (res.code) {
-					      Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
-					      	res => {   
-								this.userData=res;
-					      		this.$store.commit('SET_USER', res)	 
-					      	},
-					      	error => {
-					      		console.log(error);
-					      	}
-					      ) 
-					    } else {
-					      console.log('登录失败！' + res.errMsg)
-					    }
-					  }
-					})
-			}
 			let that = this;
 			uni.getSystemInfo({ //调用uni-app接口获取屏幕高度
 				success(res) { //成功回调函数
@@ -129,6 +110,35 @@
 
 				}
 			})
+		},
+		onLoad(){ 
+				this.userData=uni.getStorageSync('user') 
+				if(this.userData==''||this.userData.id==''){
+					var that=this;
+						wx.login({
+						  success (res) {
+						    if (res.code) {
+						      Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
+						      	resuser => {   
+									// 转换null为""
+									for (let attr in resuser) {
+									  if (resuser[attr] == null) {
+										resuser[attr] = "";
+									  }
+									}
+									that.userData=resuser;
+						      		that.$store.commit('SET_USER', resuser)	 
+						      	},
+						      	error => {
+						      		console.log(error);
+						      	}
+						      ) 
+						    } else {
+						      console.log('登录失败！' + res.errMsg)
+						    }
+						  }
+						})
+				}
 		},
 		onShow(){
 			if (this.currentTabIndex == 3) {

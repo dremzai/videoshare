@@ -88,7 +88,7 @@
 			this.userData=uni.getStorageSync('user')  
 		},
 		onShow(){
-			this.userData=uni.getStorageSync('user') 
+			this.userData=uni.getStorageSync('user')  
 		},
 		methods: {  
 			refreshBing(){  
@@ -110,6 +110,12 @@
 			init(){
 				Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
 					resUser => {     
+						// 转换null为""
+						for (let attr in resUser) {
+						  if (resUser[attr] == null) {
+							resUser[attr] = "";
+						  }
+						}
 						this.userData=resUser;
 						this.$store.commit('SET_USER', resUser) 
 					},
@@ -204,25 +210,24 @@
 			 		  })
 			 		}
 			 	  }); 
-			 },
-			 
-		logoutSys(){
-			let that = this
-				let uniPop = this.$refs.uniPop
-				uniPop.show({skin: 'android',content: `<p>确定要退出登录吗？`,
-				btns: [{text: '取消',
-					onTap() {
-					uniPop.close();}
-						},{text: '退出',style: 'color: #feb719',
-					onTap() {
-					that.$store.commit('LOGOUT')
-					uniPop.close()
-					uni.redirectTo({url: '/pages/auth/login'})
+			 }, 
+			logoutSys(){
+				let that = this
+					let uniPop = this.$refs.uniPop
+					uniPop.show({skin: 'android',content: `<p>确定要退出登录吗？`,
+					btns: [{text: '取消',
+						onTap() {
+						uniPop.close();}
+							},{text: '退出',style: 'color: #feb719',
+						onTap() {
+						that.$store.commit('LOGOUT')
+						uniPop.close()
+						uni.redirectTo({url: '/pages/auth/login'})
+						}
 					}
-				}
-					]
-				})
-			},
+						]
+					})
+				},
 		}
 	}
 </script>
