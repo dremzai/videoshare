@@ -63,6 +63,8 @@
 	import videoComment from '@/components/cp-video/comment'
 	let timer = null
 	var shareData;
+	var shareUserId=0;
+	var currentUserId=0;
 	export default {
 		data() {
 			return {
@@ -89,9 +91,12 @@
 		},
 		onLoad(option) {
 			console.log(option)
-			if(option.share){
+			currentUserId=uni.getStorageSync('user').id
+			shareUserId=currentUserId
+			if(option.shareUserId){
 				this.homeHeader = true
-			}
+				shareUserId=option.shareUserId;
+			} 
 			this.videoIndex = 0
 			Api.httpResponse("/stm/api/video/showVideo/getViewById", 'GET', {
 				videoId: option.id
@@ -221,10 +226,19 @@
 		onShareAppMessage: (res) => {
 			return {
 				title: shareData.themeDesc,
-				path: '/pages/uVideo/playOne?id='+shareData.id+'&share=' + 1,
+				path: '/pages/uVideo/playOne?id='+shareData.id+'&shareUserId=' + shareUserId,
 				imageUrl: shareData.videoPic,
 				success: function(shareTickets) {
-					
+					Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
+						videoId:shareData.id,
+						shareUserId:shareUserId,
+						}).then(res => {
+							 
+						},
+						error => {
+							console.log(error);
+						}
+					)
 				}, //该函数无用，没有执行
 				fail: function(res) {}, //该函数无用，没有执行
 				complete: function(res) {} //该函数无用，没有执行
