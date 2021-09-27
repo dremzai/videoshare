@@ -59,6 +59,7 @@
 	import videoCart from '@/components/cp-video/cart.vue'
 	import videoComment from '@/components/cp-video/comment'
 	let timer = null
+	var that;
 	export default {
 		data() {
 			return {
@@ -83,6 +84,7 @@
 			videoComment
 		},
 		onLoad(option) {
+			that=this;
 			this.videoIndex = parseInt(option.index)
 			Api.httpResponse("/stm/api/video/showVideo/getViewById", 'GET', {
 				videoId: option.id
@@ -199,47 +201,10 @@
 						console.log(error);
 					}
 				)
-			},
-			toShare(item) {
-				// wx.getShareInfo({
-				// 	shareTicket:item.themeDesc,
-				// 	success (res) {
-				// 		console.log(111,res)
-				// 	},
-				// 	fail(res){ 
-				// 		console.log(22)
-				// 	}
-				// })
-
-				// callback 写法
-				// wx.downloadFile({
-				//   url: item.videoUrl, // 下载url
-				//   success (res) {
-				//     // 下载完成后转发
-				//     wx.shareVideoMessage({
-				//       videoPath: res.tempFilePath,
-				//       success() {},
-				//       fail: console.error,
-				//     })
-				//   },
-				//   fail: console.error,
-				// })
-
-				// // async await 写法
-				// const { tempFilePath } = await wx.downloadFile({
-				//   url: URL, // 下载url
-				// })
-				// // 下载完成后转发
-				// await wx.shareVideoMessage({
-				//   videoPath: res.tempFilePath,
-				// })
-
-			}
-		},
-
+			}, 
+		}, 
 		//分享配置
 		onShareAppMessage: (res) => {
-			var that=this;
 			return {
 				title: that.itemId.themeDesc,
 				path: '/pages/uVideo/playOne?id='+that.dataItem.id,
