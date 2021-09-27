@@ -74,6 +74,10 @@
 
 			},
 			getList(refresh) { 
+				if(!this.listQuery.isLoadMore)
+				{
+					return;
+				}
 				Api.httpResponse("/stm/api/video/showDate/viewList", 'GET', this.listQuery).then(
 					res => { 
 						this.dataList = this.dataList.concat(res.records);

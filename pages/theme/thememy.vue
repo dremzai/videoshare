@@ -91,6 +91,10 @@
 				this.getList(1)
 			},
 			getList(refresh){  
+				if(!this.listQuery.isLoadMore)
+				{
+					return;
+				}
 				if(refresh){
 					this.listQuery.isRefresh = 1
 				}else{

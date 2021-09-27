@@ -95,6 +95,10 @@
 			
 			},
 			getList(){  
+				if(!this.listQuery.isLoadMore)
+				{
+					return;
+				}
 				Api.httpResponse("/user/showMoney/list", 'GET',this.listQuery).then(
 					res => {   
 						  this.dataList=this.dataList.concat(res.records);

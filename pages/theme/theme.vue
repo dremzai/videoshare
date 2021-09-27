@@ -92,6 +92,10 @@
 			},
 
 			getList() { 
+				if(!this.listQuery.isLoadMore)
+				{
+					return;
+				}
 				Api.httpResponse("/stm/api/video/showTheme/viewList", 'GET', this.listQuery).then(
 					res => { 
 						this.dataList = this.dataList.concat(res.records);
