@@ -117,6 +117,7 @@
 			}, 1000);
 		},
 		onShow() {
+			this.dataList = [];
 			this.listQuery.themeId = this.dataItem.id;
 			this.getList();
 		},

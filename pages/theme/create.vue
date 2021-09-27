@@ -87,27 +87,19 @@
 						console.log('res',res)
 						
 						
-						upLoadFiles([res.thumbTempFilePath,res.tempFilePath]).then((res)=>{
-							this.ossVideoTemp = res[0].fileInfo.realyPath
-							this.ossVideo = res[1].fileInfo.realyPath
+						upLoadFiles([res.tempFilePath]).then((res)=>{
+							this.ossVideoTemp = res[0].fileInfo.realyPath + '?x-oss-process=video/snapshot,t_1,m_fast'
+							this.ossVideo = res[0].fileInfo.realyPath
 							uni.showToast({
 								title: "上传成功！",
 								icon: "none"
 							});
-							uni.hideLoading()
 							
-						}).catch(()=>{
-							uni.showToast({
-								title: "上传失败请重新尝试！",
-								icon: "none"
-							});
-							uni.hideLoading()
 						})
 						
 						
 					},//	function		否	接口调用成功的回调函数	
 					fail:(error)=>{
-						uni.hideLoading()
 						console.log(error)
 					},//	function		否	接口调用失败的回调函数	
 				})

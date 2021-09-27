@@ -42,8 +42,8 @@ export const ossUpFile = (tempFile, index, BASIC_INFO) => {
 			(e.loaded / e.total * 100)
 		}
 
-		let fileName = Date.now() + '.' + (tempFile.split('/')[tempFile.split('/').length - 1].split('.'))[
-			tempFile.split('/')[tempFile.split('/').length - 1].split('.').length - 1];
+		let fileName = Date.now() + '.' + tempFile.split('.')[tempFile.split('.').length - 1];
+			
 		let fileKey =
 			`${new Date().getFullYear()}年${new Date().getMonth()+ 1}月${new Date().getDate()}日/${fileName}` //d.dir + fileName;
 		let realyPath = `${BASIC_INFO.host}/${fileKey}`;
