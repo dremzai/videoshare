@@ -84,12 +84,9 @@
 				userData:{},
 			}
 		},
-		mounted(){ 
+		onShow(){ 
 			this.userData=uni.getStorageSync('user')  
-		},
-		onShow(){
-			this.userData=uni.getStorageSync('user')  
-		},
+		}, 
 		methods: {  
 			refreshBing(){  
 				Api.httpResponse("/stm/api/user/showUser/refreshBing", 'POST',{id:this.userData.id}).then(
@@ -108,13 +105,17 @@
 				)
 			},
 			init(){
+				this.userData=uni.getStorageSync('user')  
 				Api.httpResponse("/stm/api/user/showUser/getById", 'get',{id:this.userData.id}).then(
-					resUser => {     
-						// 转换null为""
-						for (let attr in resUser) {
-						  if (resUser[attr] == null) {
-							resUser[attr] = "";
-						  }
+					resUser => {      
+						if(resUser.nickName==null){
+							resUser.nickName='';
+						}
+						if(resUser.telephone==null){
+							resUser.telephone='';
+						}
+						if(resUser.wxVideoAccount==null){
+							resUser.wxVideoAccount='';
 						}
 						this.userData=resUser;
 						this.$store.commit('SET_USER', resUser) 

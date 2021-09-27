@@ -4,7 +4,7 @@
 
 <template>
 	<view class="fz_container" style="margin: 0;padding: 0;">
-		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback">
+		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 		<view class="fz_item flexbox uni__material" v-for="(item, index) in dataList" :key="index">
 			<image class="fzitem_avator" :src="item.sponsorUserHeadpic" mode="aspectFill" />
 			<view class="fzitem_content flex1">
@@ -70,6 +70,7 @@
 		mounted() {
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.videoUserId = this.userData.id;
+			this.getList();
 		},
 		methods: {
 			// /*下拉刷新的回调, 有3种处理方式:*/

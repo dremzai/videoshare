@@ -4,7 +4,7 @@
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
 		
-		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback">
+		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 		<view class="uni__listview mt_15"> 
 		
 			<view class="item uni__list uni__material" v-for="(item, index) in dataList" :key="index">
@@ -61,6 +61,7 @@
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.userId = this.userData.id;
 			
+			this.getList();
 		},
 	    onReachBottom(){  //上拉触底函数
 			  if(!this.listQuery.isLoadMore){  //此处判断，上锁，防止重复请求 

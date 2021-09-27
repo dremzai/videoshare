@@ -87,13 +87,7 @@
 							Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST', {
 								code: res.code
 							}).then(
-								resuser => {
-									// 转换null为""
-									for (let attr in resuser) {
-									  if (resuser[attr] == null) {
-										resuser[attr] = "";
-									  }
-									}
+								resuser => { 
 									that.userData = resuser;
 									that.$store.commit('SET_USER', resuser)
 								},

@@ -4,7 +4,7 @@
 
 <template>
 	<view class="uni__videoWrapper">
-		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback">
+		<mescroll-uni ref="mescrollRef" :height="height + 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 		<view class="uni_videoLs">
 			<block v-for="(item,index) in dataList" :key="index">
 				<view class="item" @tap="GoVideoPlay(item)">
@@ -50,6 +50,7 @@
 		mounted() { 
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.userId = this.userData.id;
+			this.getList();
 		},
 		methods: {
 			// /*下拉刷新的回调, 有3种处理方式:*/

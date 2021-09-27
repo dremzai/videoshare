@@ -113,20 +113,16 @@
 		},
 		onLoad(){ 
 				this.userData=uni.getStorageSync('user') 
+				console.log(111,this.userData)
 				if(this.userData==''||this.userData.id==''){
 					var that=this;
 						wx.login({
 						  success (res) {
 						    if (res.code) {
 						      Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
-						      	resuser => {   
-									// 转换null为""
-									for (let attr in resuser) {
-									  if (resuser[attr] == null) {
-										resuser[attr] = "";
-									  }
-									}
+						      	resuser => {    
 									that.userData=resuser;
+									console.log(222,that.userData)
 						      		that.$store.commit('SET_USER', resuser)	 
 						      	},
 						      	error => {

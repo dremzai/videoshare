@@ -6,7 +6,7 @@
 
 	<view class="uni__attentions">
 		<mescroll-uni ref="mescrollRef" :height="height + 'px'"
-			textNoMore="没有更多数据" @down="downCallback" @up="upCallback">
+			textNoMore="没有更多数据" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 			<view class="uni__listview">
 				<view class="item uni__list uni__material" v-for="(item, index) in dataList" :key="index">
 					<view class="avator">
@@ -52,11 +52,9 @@
 				userData: {},
 			}
 		},
-		mounted() {
+		onload() {
 			this.userData = uni.getStorageSync('user')
-			this.listQuery.videoUserId = this.userData.id;
-
-			
+			this.listQuery.videoUserId = this.userData.id; 
 		},
 		methods: {
 			// /*下拉刷新的回调, 有3种处理方式:*/
