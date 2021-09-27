@@ -152,6 +152,7 @@
 				}
 				setTimeout(() => {
 					this.play(this.videoIndex)
+					this.getAddShowNum();
 				}, 200)
 			},
 			handleSlider(e) {
@@ -167,6 +168,7 @@
 				}
 				this.videoIndex = curIndex
 				shareData = this.vlist[curIndex]
+				this.getAddShowNum();
 			},
 			play(index) {
 				this.videoContextList[index].play()
