@@ -6,16 +6,20 @@
 	<view class="fz_container">
 		<header-bar :isBack="true" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text>
-		<!-- 	<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;"
+			<!-- 	<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;"
 				@tap="toActivity"></text> -->
 		</header-bar>
 		<view class="fz_item flexbox uni__material">
 			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
 			<view class="fzitem_content flex1" @longtap="copyVal(dataItem.themeDesc+'#'+dataItem.themeKey+'#')">
-				<text class="fz_user">{{dataItem.themeTitle}}</text>
+				<text class="fz_user">{{dataItem.sponsorNickName}}</text>
 				<view class="mt_5">
-					<view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoneyStr}}</view>
-					<view class="uni-vip v1 ml_5" style="width:60px;">还剩{{dataItem.endDay}}天</view>
+					<!-- <view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoneyStr}}</view>
+					<view class="uni-vip v1 ml_5" style="width:60px;">还剩{{dataItem.endDay}}天</view> -->
+					<view class="mark">
+						<text class="iconfont icon-zan"></text>
+						<text style="line-height: 44rpx; color: #d9480f;">{{dataItem.themeTitle}}</text>
+					</view>
 				</view>
 				<view class="fz_cnts"> {{dataItem.themeDesc}}#{{dataItem.themeKey}}#</view>
 				<view class="fz_foot flexbox flex_alignc">
@@ -37,7 +41,8 @@
 					<view class="v-ftinfo">
 						<!-- <view class="title flexbox flex_alignb">{{item.videoTitle}}</view> -->
 						<view class="flexbox flex_alignc">
-							<view class="play flex1"><text class="iconfont icon-bofang" style="display: inline-block;margin-right: 10rpx;"></text> {{item.numShow}}次播放
+							<view class="play flex1"><text class="iconfont icon-bofang"
+									style="display: inline-block;margin-right: 10rpx;"></text> {{item.numShow}}次播放
 							</view>
 							<text class="like" style="margin-left: 15px;">{{item.numLike}}个赞</text>
 						</view>
@@ -79,24 +84,24 @@
 			Api.httpResponse("/stm/api/video/showTheme/getViewById", 'GET', {
 				themeId: option.id
 			}).then(
-				res => { 
-					this.dataItem=res
+				res => {
+					this.dataItem = res
 					this.dataList = [];
 					this.listQuery.page = 1
 					this.listQuery.themeId = this.dataItem.id;
 					this.getList();
-				} 
-			) 
-			
-			if (this.userData==''||this.userData.id == '') {
-				var that=this;
+				}
+			)
+
+			if (this.userData == '' || this.userData.id == '') {
+				var that = this;
 				wx.login({
 					success(res) {
 						if (res.code) {
 							Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST', {
 								code: res.code
 							}).then(
-								resuser => { 
+								resuser => {
 									that.userData = resuser;
 									that.$store.commit('SET_USER', resuser)
 								},
@@ -125,11 +130,11 @@
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
-		}, 
+		},
 		methods: {
-			
+
 			toActivity() {
-				if (this.userData!=''&&this.userData.id != '') {
+				if (this.userData != '' && this.userData.id != '') {
 					uni.navigateTo({
 						url: '/pages/theme/create?dataItem=' + encodeURIComponent(JSON.stringify(this.dataItem))
 					})
@@ -216,17 +221,75 @@
 		border-radius: 99rpx;
 		padding: 0 30rpx;
 		box-shadow: 0rpx 0rpx 20rpx 4rpx rgba($color: #fff, $alpha: 0.5);
-		animation:bounce 1.5s .3s ease infinite;
-		.icon-send{
+		animation: bounce 1.5s .3s ease infinite;
+
+		.icon-send {
 			display: inline-block;
 			margin-left: 10rpx;
 		}
 	}
-	
 
-	@keyframes bounce{
-	0%,20%,50%,80%,100%{-webkit-transform:translateY(0)}
-	40%{-webkit-transform:translateY(-30rpx)}
-	60%{-webkit-transform:translateY(-15rpx)}
+
+	@keyframes bounce {
+
+		0%,
+		20%,
+		50%,
+		80%,
+		100% {
+			-webkit-transform: translateY(0)
+		}
+
+		40% {
+			-webkit-transform: translateY(-30rpx)
+		}
+
+		60% {
+			-webkit-transform: translateY(-15rpx)
+		}
+	}
+
+	.mark {
+		background: #fff4e6;
+		padding: 20rpx 40rpx;
+		border-radius: 14rpx;
+		margin: 20rpx 0;
+
+		.icon-zan {
+			animation: wobble 1s .2s ease infinite;
+			font-size: 40rpx;
+			color: #ffa94d;
+			margin-right: 20rpx;
+		}
+	}
+
+	@keyframes wobble {
+		0% {
+			-webkit-transform: translateX(0%)
+		}
+
+		15% {
+			-webkit-transform: translateX(-25%) rotate(-5deg)
+		}
+
+		30% {
+			-webkit-transform: translateX(20%) rotate(3deg)
+		}
+
+		45% {
+			-webkit-transform: translateX(-15%) rotate(-3deg)
+		}
+
+		60% {
+			-webkit-transform: translateX(10%) rotate(2deg)
+		}
+
+		75% {
+			-webkit-transform: translateX(-5%) rotate(-1deg)
+		}
+
+		100% {
+			-webkit-transform: translateX(0%)
+		}
 	}
 </style>
