@@ -3,20 +3,20 @@
 		<header-bar :isBack="true" title="返回" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
-		<form style="margin-top: 15px;"  @submit.prevent="submitForm"> 
-			<view class="uni-form-item uni-column">
-				<view class="title">主题</view>
-				<view> 
-					<input class="uni-input" v-model="userData.nickName" name="input"  />
+		<view class="fz_item flexbox uni__material" style="margin-top: 15px;">
+			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
+			<view class="fzitem_content flex1" @longtap="copyVal(dataItem.themeDesc+'#'+dataItem.themeKey+'#')">
+				<text class="fz_user">{{dataItem.themeTitle}}</text>
+				<view class="mt_5">
+					<view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoneyStr}}</view>
+					<view class="uni-vip v1 ml_5" style="width:60px;">还剩{{dataItem.endDay}}天</view>
 				</view>
-			</view> 
-			 <view class="uni-form-item uni-column">
-			 	<!-- <view class="title">图片</view>
-			 	<view>  
-					<img :src="ossImage" mode="aspectFit"  v-if="ossImage" >
-					<button  type="default" @click="uploadPhoto" style="width:100%">拍摄/上传照片</button> 
-			 	</view> -->
-				
+				<view class="fz_cnts"> {{dataItem.themeDesc}}#{{dataItem.themeKey}}#</view>
+			 
+			</view>
+		</view>
+		<form style="margin-top: 15px;"  @submit.prevent="submitForm">  
+			 <view class="uni-form-item uni-column">  
 				<view class="title" v-if="ossVideo">视频</view>
 				<view>   
 					<video :src="ossVideo" controls v-if="ossVideo"></video>
@@ -45,6 +45,7 @@
 		onLoad(option) { 
 			this.userData=uni.getStorageSync('user') 
 			this.dataItem=JSON.parse(decodeURIComponent(option.dataItem));
+			console.log(this.dataItem)
 		},
 		methods: { 
 			submitForm(){  
