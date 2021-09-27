@@ -20,7 +20,7 @@
 									</view>
 									<view class="item subtext">{{item.themeDesc}}</view>
 									<view class="item uinfo flexbox flex_alignc">
-										<image class="avator" :src="item.userHeadpic" mode="aspectFill" /><text
+										<image class="avator" :src="item.sponsorUserHeadpic" mode="aspectFill" /><text
 											class="name">{{item.sponsorNickName}}</text>
 									</view>
 								</view>
