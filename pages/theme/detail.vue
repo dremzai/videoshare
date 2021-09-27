@@ -6,7 +6,7 @@
 	<view class="fz_container">
 		<header-bar :isBack="true" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text>
-		<!-- 	<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;"
+			<!-- 	<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;"
 				@tap="toActivity"></text> -->
 		</header-bar>
 		<view class="fz_item flexbox uni__material">
@@ -79,8 +79,8 @@
 			this.dataItem = JSON.parse(decodeURIComponent(option.dataItem));
 			this.listQuery.themeId = this.dataItem.id;
 			this.getList();
-			if (this.userData==''||this.userData.id == '') {
-				var that=this;
+			if (this.userData == '' || this.userData.id == '') {
+				var that = this;
 				wx.login({
 					success(res) {
 						if (res.code) {
@@ -90,9 +90,9 @@
 								resuser => {
 									// 转换null为""
 									for (let attr in resuser) {
-									  if (resuser[attr] == null) {
-										resuser[attr] = "";
-									  }
+										if (resuser[attr] == null) {
+											resuser[attr] = "";
+										}
 									}
 									that.userData = resuser;
 									that.$store.commit('SET_USER', resuser)
@@ -124,9 +124,9 @@
 			}, 1000);
 		},
 		methods: {
-			
+
 			toActivity() {
-				if (this.userData!=''&&this.userData.id != '') {
+				if (this.userData != '' && this.userData.id != '') {
 					uni.navigateTo({
 						url: '/pages/theme/create?dataItem=' + encodeURIComponent(JSON.stringify(this.dataItem))
 					})
@@ -210,14 +210,35 @@
 		line-height: 70rpx;
 		font-size: 30rpx;
 		color: #FFF;
-		background-color: #20C997;
+		background-color: #f03e3e;
 		font-weight: bold;
 		border-radius: 99rpx;
 		padding: 0 30rpx;
 		box-shadow: 0rpx 0rpx 20rpx 4rpx rgba($color: #fff, $alpha: 0.5);
-		.icon-send{
+		animation: bounce 1.5s .3s ease infinite;
+
+		.icon-send {
 			display: inline-block;
 			margin-left: 10rpx;
+		}
+	}
+
+	@keyframes bounce {
+
+		0%,
+		20%,
+		50%,
+		80%,
+		100% {
+			-webkit-transform: translateY(0)
+		}
+
+		40% {
+			-webkit-transform: translateY(-30rpx)
+		}
+
+		60% {
+			-webkit-transform: translateY(-15rpx)
 		}
 	}
 </style>
