@@ -182,9 +182,10 @@
 			// 喜欢
 			handleIsLike(index, item) {
 				console.log(this.vlist)
-				Api.httpResponse("/video/showVideoLike/likeOrNot", 'POST', {
-						"isLike": item.isLike == -1 ? 1 : -1,
-						"showVideoId": item.id
+				Api.httpResponse("/video/showDate/likeOrNot", 'POST', {
+						isLike: item.isLike == -1 ? 1 : -1,
+						videoId:item.id,
+						shareUserId:shareUserId,
 				}).then(
 					res => {
 						
@@ -221,6 +222,18 @@
 					}
 				)
 			}, 
+			getAddShowNum(){//添加视频浏览量
+				Api.httpResponse("/stm/api/video/showDate/showVideo", 'POST', {
+					videoId:shareData.id,
+					shareUserId:shareUserId,
+					}).then(res => {
+						 
+					},
+					error => {
+						console.log(error);
+					}
+				)
+			}
 		}, 
 		//分享配置
 		onShareAppMessage: (res) => {

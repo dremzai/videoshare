@@ -13,16 +13,16 @@
 					</view>
 					<!-- <text class="iconfont icon-arrR c_999 fs_12"></text> -->
 				</view>
-				<view class="uni__list flex_alignc flex_col">
+			<!-- 	<view class="uni__list flex_alignc flex_col">
 					<text class="fs_12 bold db">余额</text>
 					<view style="font-size: 70upx; font-weight: 700; padding: 30upx 0;">
 						<text class="iconfont icon-jingbi"></text> {{userData.balanceStr}}
 					</view>
 					<view class="flexbox align_c" style="width: 100%;">
 						<text class="flex1 lh_45 c_feb719" @tap="getMoney">提现</text>
-						<!-- <text class="flex1 lh_45 c_399fff">充值</text> -->
+						<text class="flex1 lh_45 c_399fff">充值</text>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<!-- <view class="uni__listview mt_15">
@@ -31,7 +31,7 @@
 	</view>
 	</view> -->
 		<view class="uni__listview mt_15">
-			<view class="item uni__list uni__material" @tap="GoBindAccount">
+			<!-- <view class="item uni__list uni__material" @tap="GoBindAccount">
 				<view class="txt flex1">视频号
 					<view class="tab_one"
 						:class="userData.wxVideoStatus == 0 ? 'color_gray' :userData.wxVideoStatus == 1 ? 'color_yellow' : userData.wxVideoStatus == 2 ? 'color_green' : ''">
@@ -40,9 +40,9 @@
 				</view>
 				<text class="c_999 fs_12">{{userData.wxVideoAccount}}</text>
 				<text class="iconfont icon-arrR c_999 fs_12" v-show="userData.wxVideoStatus != 2"></text>
-			</view>
+			</view> -->
 
-			<view class="item uni__list uni__material" @tap="GoOutMoneyList">
+			<!-- <view class="item uni__list uni__material" @tap="GoOutMoneyList">
 				<view class="txt flex1">提现记录</view>
 				<text class="c_999 fs_12 c_feb719"
 					v-show="userData.withdrawalIngMoney>0">￥{{userData.withdrawalIngMoneyStr}}元</text>
@@ -51,7 +51,7 @@
 			<view class="item uni__list uni__material" @tap="ToSetPassword">
 				<view class="txt flex1">设置密码</view>
 				<text class="iconfont icon-arrR c_999 fs_12"></text>
-			</view>
+			</view> -->
 
 		</view>
 		<view class="uni__listview mt_15">
@@ -59,10 +59,10 @@
 	<view class="txt flex1">充值记录</view><text class="iconfont icon-arrR c_999 fs_12"></text>
 	</view> -->
 
-			<view class="item uni__list uni__material" @longtap="copyVal(userData.id)">
+		<!-- 	<view class="item uni__list uni__material" @longtap="copyVal(userData.id)">
 				<view class="txt flex1">我的邀请码</view>
 				<text class="c_999 fs_12 c_399fff">{{userData.id}}</text>
-			</view>
+			</view> -->
 			<view class="item uni__list uni__material">
 				<view class="txt flex1">客服电话</view>
 				<text class="c_999 fs_12" @tap="callKefu">0571-88350565</text>
