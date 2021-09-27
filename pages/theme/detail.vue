@@ -263,33 +263,5 @@
 		}
 	}
 
-	@keyframes wobble {
-		0% {
-			-webkit-transform: translateX(0%)
-		}
 
-		15% {
-			-webkit-transform: translateX(-25%) rotate(-5deg)
-		}
-
-		30% {
-			-webkit-transform: translateX(20%) rotate(3deg)
-		}
-
-		45% {
-			-webkit-transform: translateX(-15%) rotate(-3deg)
-		}
-
-		60% {
-			-webkit-transform: translateX(10%) rotate(2deg)
-		}
-
-		75% {
-			-webkit-transform: translateX(-5%) rotate(-1deg)
-		}
-
-		100% {
-			-webkit-transform: translateX(0%)
-		}
-	}
 </style>

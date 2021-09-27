@@ -18,8 +18,10 @@
 							<view z-index="999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
-										<view class="kw"> {{item.numShow}}次浏览 </view>
-										<view class="kw"> {{item.themeTitle}} </view>
+										<view class="kw" style="vertical-align: top;"> {{item.numShow}}次浏览 </view>
+										<view class="kw" style="width: 400rpx;overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;"> {{item.themeTitle}} </view>
 									</view>
 									<view class="item subtext">{{item.themeDesc}}</view>
 									<view class="item uinfo flexbox flex_alignc">
