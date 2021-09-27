@@ -4,7 +4,7 @@
 			<text slot="back" class="uni_btnIco iconfont icon-close"></text>
 		</header-bar>
 		<header-bar :isBack="false" v-if="homeHeader" title=" " :bgColor="{background: 'transparent'}" center transparent>
-			<text slot="back" class="uni_btnIco iconfont icon-close" @tap="onHome"></text>
+			<text slot="headerL" class="uni_btnIco iconfont icon-close" @tap="onHome"></text>
 		</header-bar>
 		<view class="uni__scrollview flex1">
 			<swiper :indicator-dots="false" :duration="200" :vertical="true" :current="videoIndex"
@@ -229,6 +229,7 @@
 				path: '/pages/uVideo/playOne?id='+shareData.id+'&shareUserId=' + shareUserId,
 				imageUrl: shareData.videoPic,
 				success: function(shareTickets) {
+					console.log(11,shareData.id,shareUserId,)
 					Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
 						videoId:shareData.id,
 						shareUserId:shareUserId,
@@ -240,7 +241,9 @@
 						}
 					)
 				}, //该函数无用，没有执行
-				fail: function(res) {}, //该函数无用，没有执行
+				fail: function(res) {
+					console.log(22,res)
+				}, //该函数无用，没有执行
 				complete: function(res) {} //该函数无用，没有执行
 			}
 		}

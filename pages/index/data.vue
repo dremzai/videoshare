@@ -54,7 +54,7 @@
 		},
 		onload() {
 			this.userData = uni.getStorageSync('user')
-			this.listQuery.videoUserId = this.userData.id; 
+			this.listQuery.shareUserId = this.userData.id; 
 		},
 		methods: {
 			// /*下拉刷新的回调, 有3种处理方式:*/
