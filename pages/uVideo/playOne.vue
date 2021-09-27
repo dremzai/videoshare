@@ -11,7 +11,7 @@
 						<view class="uni_vdplayer">
 							<video :id="'myVideo' + index" :ref="'myVideo' + index" class="player-video"
 								:src="item.videoUrl" :controls="false" :loop="true" :show-center-play-btn="false"
-								objectFit="fill" z-index="0"></video>
+								objectFit="contain" z-index="0"></video>
 							<view z-index="999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
