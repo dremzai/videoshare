@@ -224,27 +224,20 @@
 		}, 
 		//分享配置
 		onShareAppMessage: (res) => {
+			Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
+				videoId:shareData.id,
+				shareUserId:shareUserId,
+				}).then(res => {
+					 
+				},
+				error => {
+					console.log(error);
+				}
+			)
 			return {
 				title: shareData.themeDesc,
 				path: '/pages/uVideo/playOne?id='+shareData.id+'&shareUserId=' + shareUserId,
-				imageUrl: shareData.videoPic,
-				success: function(shareTickets) {
-					console.log(11,shareData.id,shareUserId,)
-					Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
-						videoId:shareData.id,
-						shareUserId:shareUserId,
-						}).then(res => {
-							 
-						},
-						error => {
-							console.log(error);
-						}
-					)
-				}, //该函数无用，没有执行
-				fail: function(res) {
-					console.log(22,res)
-				}, //该函数无用，没有执行
-				complete: function(res) {} //该函数无用，没有执行
+				imageUrl: shareData.videoPic
 			}
 		}
 	}
