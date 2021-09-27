@@ -132,14 +132,16 @@
 			}, 1000);
 		},
 		methods: {
-
 			toActivity() {
-				if (this.userData != '' && this.userData.id != '') {
+				if (this.userData != '' && this.userData.id != ''&& this.userData.nickName != null) {
 					uni.navigateTo({
 						url: '/pages/theme/create?dataItem=' + encodeURIComponent(JSON.stringify(this.dataItem))
 					})
 					return;
 				}
+				this.getWxUserInfo()
+			},
+			getWxUserInfo(){ 
 				uni.showLoading({
 					title: "获取中...",
 					mask: true
@@ -191,18 +193,21 @@
 				});
 			},
 			GoVideoPlay(item) {
-				console.log(item)
-				// #ifndef APP-PLUS
-				uni.navigateTo({
-					url: '/pages/uVideo/playOne?index=' + 0 + '&id=' + item.id
-				})
-				// #endif
-				// #ifdef APP-PLUS
-				console.log(123123)
-				uni.navigateTo({
-					url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&id=' + item.id
-				})
-				// #endif
+				if (this.userData != '' && this.userData.id != ''&& this.userData.nickName != null) { 
+					// #ifndef APP-PLUS
+					uni.navigateTo({
+						url: '/pages/uVideo/playOne?index=' + 0 + '&id=' + item.id
+					})
+					// #endif
+					// #ifdef APP-PLUS
+					console.log(123123)
+					uni.navigateTo({
+						url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&id=' + item.id
+					})
+					// #endif
+					return;
+				}
+				this.getWxUserInfo()
 			}
 		}
 	}
