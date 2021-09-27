@@ -35,9 +35,9 @@
 				<view class="item" @tap="GoVideoPlay(item)">
 					<image class="v-thumb" :src="item.videoPic" mode="aspectFill" />
 					<view class="v-ftinfo">
-						<view class="title flexbox flex_alignb">{{item.videoTitle}}</view>
+						<!-- <view class="title flexbox flex_alignb">{{item.videoTitle}}</view> -->
 						<view class="flexbox flex_alignc">
-							<view class="play flex1"><text class="iconfont icon-bofang"></text> {{item.numShow}}次播放
+							<view class="play flex1"><text class="iconfont icon-bofang" style="display: inline-block;margin-right: 10rpx;"></text> {{item.numShow}}次播放
 							</view>
 							<text class="like" style="margin-left: 15px;">{{item.numLike}}个赞</text>
 						</view>
@@ -207,14 +207,22 @@
 		line-height: 70rpx;
 		font-size: 30rpx;
 		color: #FFF;
-		background-color: #20C997;
+		background-color: #f03e3e;
 		font-weight: bold;
 		border-radius: 99rpx;
 		padding: 0 30rpx;
 		box-shadow: 0rpx 0rpx 20rpx 4rpx rgba($color: #fff, $alpha: 0.5);
+		animation:bounce 1.5s .3s ease infinite;
 		.icon-send{
 			display: inline-block;
 			margin-left: 10rpx;
 		}
+	}
+	
+
+	@keyframes bounce{
+	0%,20%,50%,80%,100%{-webkit-transform:translateY(0)}
+	40%{-webkit-transform:translateY(-30rpx)}
+	60%{-webkit-transform:translateY(-15rpx)}
 	}
 </style>
