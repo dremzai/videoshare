@@ -17,7 +17,9 @@ const ossInfo = (isGetKey) => {
 				ossTimestamp = Date.now()
 				OSS_BASE = res
 				isGetKey = 0
+				
 				resolve(res)
+				
 			}).catch((error) => {
 				reject(error)
 
@@ -95,7 +97,10 @@ export async function upLoadFiles(list) {
 	}
 	let pList = []
 	await ossInfo(isGetKey).then((BASIC_INFO) => {
-
+		uni.showLoading({
+			title: "上传中",
+			mask: true
+		})
 		for (let index = 0; index < list.length; index++) {
 			pList.push(ossUpFile(list[index], index, BASIC_INFO))
 		}

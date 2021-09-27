@@ -39,7 +39,8 @@
 				userData:{},
 				dataItem:{},
 				ossImage:null,
-				ossVideo:null
+				ossVideo:null,
+				ossVideoTemp:null
 			}
 		},
 		onLoad(option) { 
@@ -49,7 +50,22 @@
 		},
 		methods: { 
 			submitForm(){  
-				Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST',this.userData,'json').then(
+				if(!this.ossVideo){
+					uni.showToast({ //提示
+						title: '请上传视频',
+						icon: "none"
+					})
+					return false
+				}
+				
+				Api.httpResponse("/stm/api/video/showVideo/save", 'POST',{
+						"themeId": this.dataItem.id,
+						"videoDesc": this.dataItem.themeDesc,
+						"videoNumCount": 1,
+						"videoPic": this.ossVideoTemp,
+						"videoUrl": this.ossVideo,
+						"videoUserId": this.userData.id
+				}).then(
 					res => {     
 						  this.$store.commit('SET_USER', this.userData)
 						  uni.navigateBack();
@@ -60,6 +76,7 @@
 				)
 			},
 			uploadVideo(){
+				
 				/* #ifdef MP-WEIXIN */
 				wx.chooseVideo({
 					sourceType:['camera', 'album'],//	Array.<string>	['album', 'camera']	否	视频选择的来源	
@@ -67,11 +84,30 @@
 					maxDuration:60,//	number	60	否	拍摄视频最长拍摄时间，单位秒	
 					camera:"back",//	string	'back'	否	默认拉起的是前置或者后置摄像头。部分 Android 手机下由于系统 ROM 不支持无法生效	
 					success:(res)=>{
-						upLoadFiles([res.tempFilePath]).then((res)=>{
-							this.ossVideo = res[0].fileInfo.realyPath
+						console.log('res',res)
+						
+						
+						upLoadFiles([res.thumbTempFilePath,res.tempFilePath]).then((res)=>{
+							this.ossVideoTemp = res[0].fileInfo.realyPath
+							this.ossVideo = res[1].fileInfo.realyPath
+							uni.showToast({
+								title: "上传成功！",
+								icon: "none"
+							});
+							uni.hideLoading()
+							
+						}).catch(()=>{
+							uni.showToast({
+								title: "上传失败请重新尝试！",
+								icon: "none"
+							});
+							uni.hideLoading()
 						})
+						
+						
 					},//	function		否	接口调用成功的回调函数	
 					fail:(error)=>{
+						uni.hideLoading()
 						console.log(error)
 					},//	function		否	接口调用失败的回调函数	
 				})
@@ -87,6 +123,7 @@
 						
 						/* #ifdef MP-WEIXIN */
 						upLoadFiles(res.tempFilePaths).then((res)=>{
+							console.log()
 							this.ossImage = res[0].fileInfo.realyPath
 						})
 						/* #endif */

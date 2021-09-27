@@ -77,8 +77,7 @@
 		onLoad(option) {
 			this.userData = uni.getStorageSync('user')
 			this.dataItem = JSON.parse(decodeURIComponent(option.dataItem));
-			this.listQuery.themeId = this.dataItem.id;
-			this.getList();
+			
 			if (this.userData==''||this.userData.id == '') {
 				var that=this;
 				wx.login({
@@ -116,6 +115,10 @@
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
+		},
+		onShow() {
+			this.listQuery.themeId = this.dataItem.id;
+			this.getList();
 		},
 		methods: {
 			
