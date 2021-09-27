@@ -53,7 +53,7 @@
 			</swiper>
 		</view>
 		<video-cart ref="videoCart":vlist="vlist" />
-		<video-comment ref="videoComment"  :videoItem="videoCommentItem"/>
+		<video-comment ref="videoComment"  :videoItem="videoCommentItem" :shareUserId="shareUserId"/>
 	</view>
 </template>
 
@@ -81,7 +81,8 @@
 				},
 				isCommentShow:false,
 				videoCommentItem:null,
-				homeHeader:false
+				homeHeader:false,
+				shareUserId:null
 			}
 		},
 		components: {
@@ -94,6 +95,7 @@
 			if(option.shareUserId){
 				this.homeHeader = true
 				shareUserId=option.shareUserId;
+				this.shareUserId = shareUserId
 			} 
 			this.videoIndex = 0
 			Api.httpResponse("/stm/api/video/showVideo/getViewById", 'GET', {

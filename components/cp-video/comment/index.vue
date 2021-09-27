@@ -53,7 +53,7 @@
  						<radio value="1" color="#feb719" style="transform: scale(.8);" /><text
  							class="fs_12 c_999">评论并转发</text>
  					</label></view> -->
-				<view class="wrap_emotion uni_borT" :style="[{'display': showEmotionView ? 'block' : 'none'}]">
+				<!-- <view class="wrap_emotion uni_borT" :style="[{'display': showEmotionView ? 'block' : 'none'}]">
 					<view class="emotion__cells">
 						<swiper :indicator-dots="true" :duration="200" indicator-color="#dbdbdb"
 							indicator-active-color="#999" style="height:100%;width:100%;position:absolute;">
@@ -71,7 +71,7 @@
 							</block>
 						</swiper>
 					</view>
-				</view>
+				</view> -->
 			</view>
 		</view>
 		<uni-pop ref="uniPop" />
@@ -84,7 +84,8 @@
 	const commentJson = require('./mock-comment.js')
 	export default {
 		props:{
-			videoItem:Object
+			videoItem:Object,
+			shareUserId:Number
 		},
 		data() {
 			return {
@@ -173,27 +174,15 @@
 				if (this.isEmpty(this.editorText)) return
 				Api.httpResponse("/video/showVideoComment/saveOrUpdate", 'POST', {
 					"commentContent": this.editorText,
-					"commentUserId": this.userData.id,
-					"createTime": new Date().toLocaleString(),
-					"showVideoId": this.videoItem.id,
-					"videoUserId": this.videoItem.videoUserId
+					"videoId": this.videoItem.id,
+					"shareUserId":this.shareUserId
 				}).then(
 					res => {
-							
-							let cmtlist = this.commentList
-							let len = cmtlist.length
-							let data = {
-								id: `msg${++len}`,
-								avator: '/static/uimg/u__chat_img18.jpg',
-								author: '流浪少年',
-								msg: this.editorText,
-								time: new Date().toLocaleString(),
-								like: ''
-							}
-							cmtlist.unshift(data) //插入到数组第一个
-							this.commentList = cmtlist
 							this.editorText = ''
 							this.showFloatInputView = false
+							this.listQuery.page = 1
+							this.commentList = []
+							this.getList()
 					},
 					error => {
 						console.log(error);
