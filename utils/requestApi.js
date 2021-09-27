@@ -16,7 +16,7 @@ const httpResponse = (url, method, data,method1) => {
 		}
 	}
 	//当前登入用户信息 
-	let userId=uni.getStorageSync('userId');
+	let userId=uni.getStorageSync('user').id
 	if(userId!=null&&userId!=undefined&&userId!='')
 	{
 		headers={

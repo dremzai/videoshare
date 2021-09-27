@@ -59,10 +59,10 @@
 	<view class="txt flex1">充值记录</view><text class="iconfont icon-arrR c_999 fs_12"></text>
 	</view> -->
 
-		<!-- 	<view class="item uni__list uni__material" @longtap="copyVal(userData.id)">
+			<view class="item uni__list uni__material" @longtap="copyVal(userData.id)">
 				<view class="txt flex1">我的邀请码</view>
 				<text class="c_999 fs_12 c_399fff">{{userData.id}}</text>
-			</view> -->
+			</view>
 			<view class="item uni__list uni__material">
 				<view class="txt flex1">客服电话</view>
 				<text class="c_999 fs_12" @tap="callKefu">0571-88350565</text>
