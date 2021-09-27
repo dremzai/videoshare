@@ -19,7 +19,7 @@
 								<view class="vd-info flex1">
 									<view class="item at">
 										<view class="kw" style="vertical-align: top;"> {{item.numShow}}次浏览 </view>
-										<view class="kw" style="width: 400rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;"> {{item.sponsorNickName}} </view>
+										<view class="kw" style="width: 400rpx;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">#{{item.sponsorNickName}} </view>
 
 									</view>
 									<view class="item subtext">{{item.themeDesc}}</view>
