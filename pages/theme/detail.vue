@@ -76,7 +76,17 @@
 		},
 		onLoad(option) {
 			this.userData = uni.getStorageSync('user')
-			this.dataItem = JSON.parse(decodeURIComponent(option.dataItem));
+			Api.httpResponse("/stm/api/video/showTheme/getViewById", 'GET', {
+				themeId: option.id
+			}).then(
+				res => { 
+					this.dataItem=res
+					this.dataList = [];
+					this.listQuery.page = 1
+					this.listQuery.themeId = this.dataItem.id;
+					this.getList();
+				} 
+			) 
 			
 			if (this.userData==''||this.userData.id == '') {
 				var that=this;
@@ -115,13 +125,7 @@
 			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
-		},
-		onShow() {
-			this.dataList = [];
-			this.listQuery.page = 1
-			this.listQuery.themeId = this.dataItem.id;
-			this.getList();
-		},
+		}, 
 		methods: {
 			
 			toActivity() {
@@ -185,15 +189,13 @@
 				console.log(item)
 				// #ifndef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/uVideo/playOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON.stringify(
-						item))
+					url: '/pages/uVideo/playOne?index=' + 0 + '&id=' + item.id
 				})
 				// #endif
 				// #ifdef APP-PLUS
 				console.log(123123)
 				uni.navigateTo({
-					url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON
-						.stringify(item))
+					url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&id=' + item.id
 				})
 				// #endif
 			}

@@ -84,17 +84,23 @@
 		},
 		onLoad(option) {
 			this.videoIndex = parseInt(option.index)
-			this.dataItem = JSON.parse(decodeURIComponent(option.dataItem));
-			this.listQuery.themeId = this.dataItem.themeId;
-			this.vlist.push(this.dataItem)
-			this.getList();
+			Api.httpResponse("/stm/api/video/showVideo/getViewById", 'GET', {
+				videoId: option.id
+			}).then(
+				res => { 
+					this.dataItem=res
+					this.listQuery.themeId = this.dataItem.themeId;
+					this.vlist.push(this.dataItem)
+					this.getList();
+					this.init()
+				} 
+			) 
 		},
 		onReady() {
 			wx.showShareMenu({
 				withShareTicket: true,
 				menus: ['shareAppMessage', 'shareTimeline']
 			})
-			this.init()
 		},
 		methods: {
 			downloadFile(url) {
@@ -233,11 +239,14 @@
 
 		//分享配置
 		onShareAppMessage: (res) => {
+			var that=this;
 			return {
-				title: '分享视频',
-				path: '/pages/uVideo/playOne',
-				// imageUrl: '**.png',
-				success: function(shareTickets) {}, //该函数无用，没有执行
+				title: that.itemId.themeDesc,
+				path: '/pages/uVideo/playOne?id='+that.dataItem.id,
+				imageUrl: that.dataItem.videoPic,
+				success: function(shareTickets) {
+					
+				}, //该函数无用，没有执行
 				fail: function(res) {}, //该函数无用，没有执行
 				complete: function(res) {} //该函数无用，没有执行
 			}

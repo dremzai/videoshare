@@ -123,22 +123,20 @@
 			},
 			goDetail(item) {
 				uni.navigateTo({
-					url: '/pages/theme/detail?dataItem=' + encodeURIComponent(JSON.stringify(item))
+					url: '/pages/theme/detail?id=' + item.id
 				})
 			},
 			GoVideoPlay(item) {
 				console.log(item)
 				// #ifndef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/uVideo/playOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON.stringify(
-						item))
+					url: '/pages/uVideo/playOne?index=' + 0 + '&id=' + item.id
 				})
 				// #endif
 				// #ifdef APP-PLUS
 				console.log(123123)
 				uni.navigateTo({
-					url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON
-						.stringify(item))
+					url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&id=' + item.id
 				})
 				// #endif
 			}
