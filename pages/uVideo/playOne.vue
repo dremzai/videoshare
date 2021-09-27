@@ -63,8 +63,7 @@
 	import videoComment from '@/components/cp-video/comment'
 	let timer = null
 	var shareData;
-	var shareUserId=0;
-	var currentUserId=0;
+	var shareUserId=0; 
 	export default {
 		data() {
 			return {
@@ -90,9 +89,8 @@
 			videoComment
 		},
 		onLoad(option) {
-			console.log(option)
-			currentUserId=uni.getStorageSync('user').id
-			shareUserId=currentUserId
+			console.log(option) 
+			shareUserId=uni.getStorageSync('user').id
 			if(option.shareUserId){
 				this.homeHeader = true
 				shareUserId=option.shareUserId;
