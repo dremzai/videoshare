@@ -1,32 +1,35 @@
 /**
- * @tpl 首页模板
- */
+* @tpl 首页模板
+*/
 
 <template>
 	<view class="fz_container">
 		<header-bar :isBack="true" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
-			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
-			<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;" @tap="toActivity"></text>
+			<text slot="back" class="uni_btnIco iconfont icon-back"></text>
+		<!-- 	<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;"
+				@tap="toActivity"></text> -->
 		</header-bar>
-		<view class="fz_item flexbox uni__material" >
+		<view class="fz_item flexbox uni__material">
 			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
-			<view class="fzitem_content flex1"  @longtap="copyVal(dataItem.themeDesc+'#'+dataItem.themeKey+'#')">
-				<text class="fz_user">{{dataItem.themeTitle}}</text><view class="mt_5">
-				<view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoneyStr}}</view>
-				<view class="uni-vip v1 ml_5"  style="width:60px;">还剩{{dataItem.endDay}}天</view>
+			<view class="fzitem_content flex1" @longtap="copyVal(dataItem.themeDesc+'#'+dataItem.themeKey+'#')">
+				<text class="fz_user">{{dataItem.themeTitle}}</text>
+				<view class="mt_5">
+					<view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoneyStr}}</view>
+					<view class="uni-vip v1 ml_5" style="width:60px;">还剩{{dataItem.endDay}}天</view>
 				</view>
-				<view class="fz_cnts"> {{dataItem.themeDesc}}#{{dataItem.themeKey}}#</view> 
+				<view class="fz_cnts"> {{dataItem.themeDesc}}#{{dataItem.themeKey}}#</view>
 				<view class="fz_foot flexbox flex_alignc">
 					<view class="flex1"><text class="fz_time">{{dataItem.totalNumVideo}}次推广</text>
-					<view class="uni-distance ml_10">
-					<text class="iconfont "></text>{{dataItem.totalNumRelay}}个转发</view>
-					<text class="c_bbb fs_12 ml_10">{{dataItem.totalNumLike}}个赞</text>
-					<text class="c_bbb fs_12 ml_10">{{dataItem.totalNumComment}}个评论</text>
-					</view> 
+						<view class="uni-distance ml_10">
+							<text class="iconfont "></text>{{dataItem.totalNumRelay}}个转发
+						</view>
+						<text class="c_bbb fs_12 ml_10">{{dataItem.totalNumLike}}个赞</text>
+						<text class="c_bbb fs_12 ml_10">{{dataItem.totalNumComment}}个评论</text>
+					</view>
 				</view>
 			</view>
 		</view>
-	 
+
 		<view class="uni_videoLs">
 			<block v-for="(item,index) in dataList" :key="index">
 				<view class="item" @tap="GoVideoPlay(item)">
@@ -41,132 +44,150 @@
 					</view>
 				</view>
 			</block>
-		</view> 
+		</view>
+
+		<view class="join" @tap="toActivity">
+			参加话题<text class="iconfont icon-send"></text>
+		</view>
 	</view>
 </template>
 
 <script>
-	import { mapState, mapMutations } from 'vuex' 
+	import {
+		mapState,
+		mapMutations
+	} from 'vuex'
 	import Api from '../../utils/requestApi.js'
 	export default {
 		data() {
-			return { 
-				dataItem:{},
-				dataList:[],
-				listQuery:{
-					isLoadMore:true,
-					userId:'', 
-					page:1,
-					pageSize:10,
+			return {
+				dataItem: {},
+				dataList: [],
+				listQuery: {
+					isLoadMore: true,
+					userId: '',
+					page: 1,
+					pageSize: 10,
 				},
-				userData:{id:''}
+				userData: {
+					id: ''
+				}
 			}
-		},  
-		onLoad(option) {  
-			this.userData=uni.getStorageSync('user') 
-			this.dataItem=JSON.parse(decodeURIComponent(option.dataItem));
-			this.listQuery.themeId=this.dataItem.id;
-			this.getList();
-			if(this.userData.id==''){ 
-					wx.login({
-					  success (res) {
-					    if (res.code) {
-					      Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
-					      	res => {   
-								this.userData=res;
-					      		this.$store.commit('SET_USER', res)	 
-					      	},
-					      	error => {
-					      		console.log(error);
-					      	}
-					      ) 
-					    } else {
-					      console.log('登录失败！' + res.errMsg)
-					    }
-					  }
-					})
-			}
-		}, 
-	    onReachBottom(){  //上拉触底函数
-		    if(!this.listQuery.isLoadMore){  //此处判断，上锁，防止重复请求 
-				this.listQuery.page+=1
-				this.getList()
-		    }
 		},
-		onPullDownRefresh(){  //下拉刷新
-		    console.log('refresh');
-			this.listQuery.page=1
-			this.dataList=[];
+		onLoad(option) {
+			this.userData = uni.getStorageSync('user')
+			this.dataItem = JSON.parse(decodeURIComponent(option.dataItem));
+			this.listQuery.themeId = this.dataItem.id;
 			this.getList();
-			setTimeout(function () {
+			if (this.userData.id == '') {
+				wx.login({
+					success(res) {
+						if (res.code) {
+							Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST', {
+								code: res.code
+							}).then(
+								res => {
+									this.userData = res;
+									this.$store.commit('SET_USER', res)
+								},
+								error => {
+									console.log(error);
+								}
+							)
+						} else {
+							console.log('登录失败！' + res.errMsg)
+						}
+					}
+				})
+			}
+		},
+		onReachBottom() { //上拉触底函数
+			if (!this.listQuery.isLoadMore) { //此处判断，上锁，防止重复请求 
+				this.listQuery.page += 1
+				this.getList()
+			}
+		},
+		onPullDownRefresh() { //下拉刷新
+			console.log('refresh');
+			this.listQuery.page = 1
+			this.dataList = [];
+			this.getList();
+			setTimeout(function() {
 				uni.stopPullDownRefresh();
 			}, 1000);
 		},
-		methods: { 
-			toActivity(){ 
-				if(this.userData.nickName!=''){
+		methods: {
+			
+			toActivity() {
+				if (this.userData.nickName != '') {
 					uni.navigateTo({
 						url: '/pages/theme/create?dataItem=' + encodeURIComponent(JSON.stringify(this.dataItem))
 					})
 					return;
-				} 
-				uni.showLoading({title:"获取中...",mask:true})
+				}
+				uni.showLoading({
+					title: "获取中...",
+					mask: true
+				})
 				wx.getUserProfile({
-				      desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
-				      success: (res) => {  
+					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					success: (res) => {
 						uni.hideLoading()
-				        this.userData.nickName=res.userInfo.nickName;
-				        this.userData.userHeadpic=res.userInfo.avatarUrl;
-				        this.userData.prov=res.userInfo.province;
-				        this.userData.city=res.userInfo.city;
-				        this.$store.commit('SET_USER', this.userData) 
-						Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST',this.userData).then(
-							resUser => {    
-								 uni.navigateTo({
-								 	url: '/pages/theme/create'
-								 })
+						this.userData.nickName = res.userInfo.nickName;
+						this.userData.userHeadpic = res.userInfo.avatarUrl;
+						this.userData.prov = res.userInfo.province;
+						this.userData.city = res.userInfo.city;
+						this.$store.commit('SET_USER', this.userData)
+						Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST', this.userData).then(
+							resUser => {
+								uni.navigateTo({
+									url: '/pages/theme/create'
+								})
 							},
 							error => {
 								console.log(error);
 							}
 						)
-				      }
-				    })
+					}
+				})
 			},
-			getList(){  
-				 Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET',this.listQuery).then(
-					res => {      
-							this.dataList=this.dataList.concat(res.records);
-							if(this.listQuery.page<res.pages){
-								this.listQuery.isLoadMore=false;
-							} 
+			getList() {
+				Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET', this.listQuery).then(
+					res => {
+						this.dataList = this.dataList.concat(res.records);
+						if (this.listQuery.page < res.pages) {
+							this.listQuery.isLoadMore = false;
+						}
 					},
 					error => {
 						console.log(error);
 					}
-				 ) 
+				)
 			},
-			copyVal(val){
-			 	uni.setClipboardData({
-			 		data:val,//要被复制的内容
-			 		success:()=>{//复制成功的回调函数
-			 		  uni.showToast({//提示
-			 			title:'复制成功',icon:"none"
-			 		  })
-			 		}
-			 	  }); 
+			copyVal(val) {
+				uni.setClipboardData({
+					data: val, //要被复制的内容
+					success: () => { //复制成功的回调函数
+						uni.showToast({ //提示
+							title: '复制成功',
+							icon: "none"
+						})
+					}
+				});
 			},
 			GoVideoPlay(item) {
 				console.log(item)
 				// #ifndef APP-PLUS
 				uni.navigateTo({
-					url: '/pages/uVideo/playOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON.stringify(item))
+					url: '/pages/uVideo/playOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON.stringify(
+						item))
 				})
 				// #endif
 				// #ifdef APP-PLUS
 				console.log(123123)
 				uni.navigateTo({
-					url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON.stringify(item))
+					url: '/pages/uVideo/subnvue/playerOne?index=' + 0 + '&dataItem=' + encodeURIComponent(JSON
+						.stringify(item))
 				})
 				// #endif
 			}
@@ -174,5 +195,22 @@
 	}
 </script>
 
-<style>
+<style scoped lang="scss">
+	.join {
+		position: fixed;
+		bottom: 50rpx;
+		right: 20rpx;
+		line-height: 70rpx;
+		font-size: 30rpx;
+		color: #FFF;
+		background-color: #20C997;
+		font-weight: bold;
+		border-radius: 99rpx;
+		padding: 0 30rpx;
+		box-shadow: 0rpx 0rpx 20rpx 4rpx rgba($color: #fff, $alpha: 0.5);
+		.icon-send{
+			display: inline-block;
+			margin-left: 10rpx;
+		}
+	}
 </style>

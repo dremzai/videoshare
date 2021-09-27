@@ -21,7 +21,7 @@
 	<view class="item uinfo flexbox flex_alignc"><image class="avator" :src="item.avator" mode="aspectFill" /><text class="name">{{item.author}}</text> 
 	<!-- <text class="btn-attention bg_linear1" :class="item.attention ? 'on' : ''" @tap="handleAttention(index)">{{item.attention ? '已关注' : '关注'}}</text> -->
 	</view>
-		<!-- <view class="item reply" @tap="handleVideoComment"><text class="iconfont icon-pinglun mr_5"></text> 写评论...</view> -->
+		<view class="item reply" @tap="handleVideoComment"><text class="iconfont icon-pinglun mr_5"></text> 写评论...</view>
 			</view>
 			<view class="vd-sidebar">
 		<view v-if="item.cart" class="ls cart flexbox bg_linear3" @tap="handleVideoCart(index)"><text class="iconfont icon-cart"></text></view><view class="ls" @tap="handleIsLike(index)"><text class="iconfont icon-like" :class="item.islike ? 'like' : ''"></text><text class="num">{{ item.likeNum+(item.islike ? 1: 0) }}</text></view><view class="ls" @tap="handleVideoComment"><text class="iconfont icon-liuyan"></text><text class="num">{{item.replyNum}}</text></view>

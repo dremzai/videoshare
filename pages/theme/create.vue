@@ -11,14 +11,14 @@
 				</view>
 			</view> 
 			 <view class="uni-form-item uni-column">
-			 	<view class="title">图片</view>
+			 	<!-- <view class="title">图片</view>
 			 	<view>  
 					<img :src="ossImage" mode="aspectFit"  v-if="ossImage" >
 					<button  type="default" @click="uploadPhoto" style="width:100%">拍摄/上传照片</button> 
-			 	</view>
+			 	</view> -->
 				
-				<view class="title">视频</view>
-				<view>  
+				<view class="title" v-if="ossVideo">视频</view>
+				<view>   
 					<video :src="ossVideo" controls v-if="ossVideo"></video>
 					<button  type="default" @click="uploadVideo" style="width:100%">拍摄/上传视频</button> 
 				</view>
@@ -182,7 +182,7 @@
 }
 .uni-input {
 	height: 80upx;
-	padding: 15upx 25upx;
+	padding: 0upx 25upx;
 	line-height:50upx;
 	font-size:28upx;
 	background:#FFF;
