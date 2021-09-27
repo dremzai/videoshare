@@ -14,7 +14,9 @@ Vue.component('header-bar', headerBar)
 Vue.component('tab-bar', tabBar)
 Vue.component('popup-window', popupWindow)
 import uniPop from './components/uniPop/uniPop.vue'
+/* #ifdef MP-WEIXIN */
 import './utils/ald-stat/ald-stat'
+/* #endif */
 Vue.component('uni-pop', uniPop)
 
 Vue.config.productionTip = false
