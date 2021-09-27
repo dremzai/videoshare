@@ -184,13 +184,12 @@
 			// 喜欢
 			handleIsLike(index, item) {
 				console.log(this.vlist)
-				Api.httpResponse("/video/showDate/likeOrNot", 'POST', {
+				Api.httpResponse("/stm/api/video/showDate/likeOrNot", 'POST', {
 						isLike: item.isLike == -1 ? 1 : -1,
 						videoId:item.id,
 						shareUserId:shareUserId,
 				}).then(
-					res => {
-						
+					res => { 
 						this.$set(this.vlist[index], 'isLike', item.isLike == -1 ? 1 : -1)
 					},
 					error => {
