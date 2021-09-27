@@ -13,7 +13,7 @@
 						<image :src="item.videoPic" />
 					</view>
 					<view class="uinfo flex1">
-						<view style="float: right;color: #FEB719;font-size: medium;">￥{{item.toUserMoneyStr}}</view>
+						<!-- <view style="float: right;color: #FEB719;font-size: medium;">￥{{item.toUserMoneyStr}}</view> -->
 						<view class="name ellipsis " style="margin-left: 10px;">{{item.theDate}}</view>
 						<view class="subinfo ellipsis mt_5">
 							<text class="c_bbb fs_12 ml_10">{{item.numShow}}次播放</text>
@@ -52,9 +52,10 @@
 				userData: {},
 			}
 		},
-		onload() {
+		mounted() {
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.shareUserId = this.userData.id; 
+			this.getList()
 		},
 		methods: {
 			// /*下拉刷新的回调, 有3种处理方式:*/

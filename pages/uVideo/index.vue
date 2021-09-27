@@ -10,7 +10,7 @@
 				<view class="item" @tap="GoVideoPlay(item)">
 					<image class="v-thumb" :src="item.videoPic" mode="aspectFill" />
 					<view class="v-ftinfo">
-						<view class="title flexbox flex_alignb">{{item.videoTitle}}</view>
+						<!-- <view class="title flexbox flex_alignb">{{item.videoTitle}}</view> -->
 						<view class="flexbox flex_alignc">
 							<view class="play flex1"><text class="iconfont icon-bofang"></text> {{item.numShow}}次播放
 							</view>

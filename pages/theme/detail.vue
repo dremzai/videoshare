@@ -47,7 +47,7 @@
 		</view>
 
 		<view class="join" @tap="toActivity">
-			参加话题<text class="iconfont icon-send"></text>
+			参加活动<text class="iconfont icon-send"></text>
 		</view>
 	</view>
 </template>

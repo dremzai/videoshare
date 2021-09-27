@@ -9,11 +9,10 @@
 			<image class="fzitem_avator" :src="item.sponsorUserHeadpic" mode="aspectFill" />
 			<view class="fzitem_content flex1">
 				<text class="fz_user">{{item.sponsorNickName}}</text>
-				<view class="mt_5">
-					<view class="uni-age" style="width: 100px;">奖励￥{{item.toUserMoneyStr}}</view>
-					<!-- <view class="uni-vip v1 ml_5">22</view> -->
-				</view>
-				<view class="fz_cnts">{{item.videoTitle}}</view>
+				<!-- <view class="mt_5">
+					<view class="uni-age" style="width: 100px;">奖励￥{{item.toUserMoneyStr}}</view> 
+				</view> -->
+				<view class="fz_cnts">{{item.themeDesc}}</view>
 				<view class="fz_photos">
 					
 						<view class="fz_photos_item"  @tap="GoVideoPlay(item)">
