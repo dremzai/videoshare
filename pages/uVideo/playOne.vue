@@ -1,7 +1,10 @@
 <template>
 	<view class="uni__container uni__videopage flexbox flex_col">
-		<header-bar :isBack="true" title=" " :bgColor="{background: 'transparent'}" center transparent>
+		<header-bar :isBack="true" v-if="!homeHeader" title=" " :bgColor="{background: 'transparent'}" center transparent>
 			<text slot="back" class="uni_btnIco iconfont icon-close"></text>
+		</header-bar>
+		<header-bar :isBack="false" v-if="homeHeader" title=" " :bgColor="{background: 'transparent'}" center transparent>
+			<text slot="back" class="uni_btnIco iconfont icon-close" @tap="onHome"></text>
 		</header-bar>
 		<view class="uni__scrollview flex1">
 			<swiper :indicator-dots="false" :duration="200" :vertical="true" :current="videoIndex"
@@ -59,7 +62,7 @@
 	import videoCart from '@/components/cp-video/cart.vue'
 	import videoComment from '@/components/cp-video/comment'
 	let timer = null
-	var that;
+	var shareData;
 	export default {
 		data() {
 			return {
@@ -76,7 +79,8 @@
 					pageSize: 20,
 				},
 				isCommentShow:false,
-				videoCommentItem:null
+				videoCommentItem:null,
+				homeHeader:false
 			}
 		},
 		components: {
@@ -84,8 +88,11 @@
 			videoComment
 		},
 		onLoad(option) {
-			that=this;
-			this.videoIndex = parseInt(option.index)
+			console.log(option)
+			if(option.share){
+				this.homeHeader = true
+			}
+			this.videoIndex = 0
 			Api.httpResponse("/stm/api/video/showVideo/getViewById", 'GET', {
 				videoId: option.id
 			}).then(
@@ -94,6 +101,7 @@
 					this.listQuery.themeId = this.dataItem.themeId;
 					this.vlist.push(this.dataItem)
 					this.getList();
+					shareData = this.vlist[0]
 					this.init()
 				} 
 			) 
@@ -105,6 +113,11 @@
 			})
 		},
 		methods: {
+			onHome(){
+				uni.redirectTo({
+					url:'/pages/index/index'
+				})
+			},
 			downloadFile(url) {
 				uni.downloadFile({
 					url: url,
@@ -150,6 +163,7 @@
 					this.isPlay = true
 				}
 				this.videoIndex = curIndex
+				shareData = this.vlist[curIndex]
 			},
 			play(index) {
 				this.videoContextList[index].play()
@@ -206,9 +220,9 @@
 		//分享配置
 		onShareAppMessage: (res) => {
 			return {
-				title: that.itemId.themeDesc,
-				path: '/pages/uVideo/playOne?id='+that.dataItem.id,
-				imageUrl: that.dataItem.videoPic,
+				title: shareData.themeDesc,
+				path: '/pages/uVideo/playOne?id='+shareData.id+'&share=' + 1,
+				imageUrl: shareData.videoPic,
 				success: function(shareTickets) {
 					
 				}, //该函数无用，没有执行
