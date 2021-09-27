@@ -118,6 +118,7 @@
 		},
 		onShow() {
 			this.dataList = [];
+			this.listQuery.page = 1
 			this.listQuery.themeId = this.dataItem.id;
 			this.getList();
 		},
