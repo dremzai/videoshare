@@ -4,10 +4,11 @@
 
 <template>
 	<view class="fz_container">
-		<header-bar :isBack="true" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
-			<text slot="back" class="uni_btnIco iconfont icon-back"></text>
-			<!-- 	<text slot="iconfont" class="uni_btnIco iconfont icon-dots mr_5" style="font-size: 25px;"
-				@tap="toActivity"></text> -->
+		<header-bar :isBack="true" v-if="!homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
+			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
+		</header-bar>
+		<header-bar :isBack="false" v-if="homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
+			<text slot="headerL" class="uni_btnIco iconfont icon-back"  @tap="onHome"></text> 
 		</header-bar>
 		<view class="fz_item flexbox uni__material">
 			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
@@ -76,10 +77,14 @@
 				},
 				userData: {
 					id: ''
-				}
+				},
+				homeHeader:false,
 			}
 		},
 		onLoad(option) {
+			if(option.shareUserId){
+				this.homeHeader = true 
+			}
 			this.userData = uni.getStorageSync('user')
 			Api.httpResponse("/stm/api/video/showTheme/getViewById", 'GET', {
 				themeId: option.id
@@ -91,8 +96,7 @@
 					this.listQuery.themeId = this.dataItem.id;
 					this.getList();
 				}
-			)
-
+			) 
 			if (this.userData == '' || this.userData.id == '') {
 				var that = this;
 				wx.login({
@@ -132,6 +136,11 @@
 			}, 1000);
 		},
 		methods: {
+			onHome(){
+				uni.redirectTo({
+					url:'/pages/index/index'
+				})
+			},
 			toActivity() {
 				if (this.userData != '' && this.userData.id != ''&& this.userData.nickName != null) {
 					uni.navigateTo({

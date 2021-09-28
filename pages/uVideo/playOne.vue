@@ -123,7 +123,7 @@
 		methods: {
 			onHome(){
 				uni.redirectTo({
-					url:'/pages/index/index'
+					url:'/pages/theme/detail?id='+this.dataItem.themeId+'&shareUserId='+shareUserId
 				})
 			},
 			downloadFile(url) {
@@ -253,8 +253,7 @@
 				)
 			}
 		}, 
-		//分享配置
-		onShareAppMessage: (res) => {
+		onShareAppMessage: (res) => {   //分享到朋友群聊
 			Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
 				videoId:shareData.id,
 				shareUserId:shareUserId,
@@ -268,6 +267,23 @@
 			return {
 				title: shareData.themeDesc,
 				path: '/pages/uVideo/playOne?id='+shareData.id+'&shareUserId=' + shareUserId,
+				imageUrl: shareData.videoPic
+			}
+		}, 
+		onShareTimeline: (res) => {   //分享到朋友圈
+			Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
+				videoId:shareData.id,
+				shareUserId:shareUserId,
+				}).then(res => {
+					 
+				},
+				error => {
+					console.log(error);
+				}
+			)
+			return {
+				title: shareData.themeDesc,
+				query: 'id='+shareData.id+'&shareUserId=' + shareUserId,
 				imageUrl: shareData.videoPic
 			}
 		}
