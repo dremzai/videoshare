@@ -196,6 +196,12 @@
 						shareUserId:shareUserId,
 				}).then(
 					res => { 
+						if(item.isLike===1){
+							item.numLike=item.numLike-1;
+						}
+						else{
+							item.numLike=item.numLike+1;
+						}
 						this.$set(this.vlist[index], 'isLike', item.isLike == -1 ? 1 : -1)
 					},
 					error => {
@@ -258,7 +264,7 @@
 				videoId:shareData.id,
 				shareUserId:shareUserId,
 				}).then(res => {
-					 
+					 shareData.numRelay=shareData.numRelay+1;
 				},
 				error => {
 					console.log(error);
@@ -275,7 +281,7 @@
 				videoId:shareData.id,
 				shareUserId:shareUserId,
 				}).then(res => {
-					 
+					 shareData.numRelay=shareData.numRelay+1;
 				},
 				error => {
 					console.log(error);
