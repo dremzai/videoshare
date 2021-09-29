@@ -45,8 +45,7 @@
 				},
 				userData:{},
 			}
-		},
-	    
+		}, 
 		mounted() { 
 			this.userData = uni.getStorageSync('user')
 			this.listQuery.userId = this.userData.id;
