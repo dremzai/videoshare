@@ -23,7 +23,7 @@
 				</view>
 				<view class="fz_foot flexbox flex_alignc">
 					<view class="flex1">
-						<text class="fz_time">{{item.numShow}}人次播放</text>
+						<text class="fz_time">{{item.numShow}}人次观看</text>
 						<view class="uni-distance ml_10">
 							<text class="iconfont "></text>{{item.numRelay}}个转发
 						</view>
@@ -73,28 +73,21 @@
 		},
 		methods: {
 			// /*下拉刷新的回调, 有3种处理方式:*/
-			downCallback() {
-			
+			downCallback() { 
 				this.listQuery.page = 1
+				this.listQuery.isLoadMore=true;
 				this.dataList = []
-				this.getList()
-			
+				this.getList() 
 			},
 			// /*上拉加载的回调*/
-			upCallback() {
-			
-				this.listQuery.page += 1
-				this.getList()
-			
+			upCallback() {  
+					this.listQuery.page += 1
+					this.getList() 
 			},
 			refresh(){
 				this.getList(1)
 			},
-			getList(refresh){  
-				if(!this.listQuery.isLoadMore)
-				{
-					return;
-				}
+			getList(refresh){   
 				if(refresh){
 					this.listQuery.isRefresh = 1
 				}else{
@@ -105,18 +98,15 @@
 				Api.httpResponse("/stm/api/video/showVideo/myJoinViewList", 'GET', this.listQuery).then(
 					res => { 
 						this.dataList=this.dataList.concat(res.records);
-						if(this.listQuery.page<res.pages){
+						if(this.listQuery.page>=res.pages){
 							this.listQuery.isLoadMore=false;
-						} 
-						
-						this.mescroll.endSuccess()
-						
+						}  
+						this.mescroll.endSuccess() 
 						this.mescroll.endByPage(this.dataList, res.total);
 					},
 					error => {
 						console.log(error);
-						this.mescroll.endSuccess()
-						
+						this.mescroll.endSuccess() 
 						this.mescroll.endByPage();
 					}
 				)

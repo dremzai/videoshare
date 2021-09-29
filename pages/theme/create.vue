@@ -15,7 +15,7 @@
 						<text style="line-height: 44rpx; color: #d9480f;">{{dataItem.themeTitle}}</text>
 					</view>
 				</view>
-				<view class="fz_cnts"> {{dataItem.themeDesc}}#{{dataItem.themeKey}}#</view>
+				<view class="fz_cnts"> {{dataItem.themeDesc}} </view>
 			 
 			</view>
 		</view>

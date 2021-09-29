@@ -18,7 +18,7 @@
 							<view z-index="9999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
-										<view class="kw" style="vertical-align: top;"> {{item.numShow}}人次浏览 </view>
+										<view class="kw" style="vertical-align: top;"> {{item.numShow}}人次观看</view>
 										<view class="kw" style=" overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">#{{item.sponsorNickName}} </view>
 
 									</view>
@@ -44,8 +44,8 @@
 										<view class="ls"><text class="iconfont icon-share"></text><text
 												class="num">{{item.numRelay}}</text></view>
 									</button>
-									<view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
-											class="num">下载</text></view>
+									<!-- <view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
+											class="num">下载</text></view> -->
 								</view>
 							</view>
 						</view>

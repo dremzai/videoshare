@@ -12,7 +12,7 @@
 		</header-bar>
 		<view class="fz_item flexbox uni__material">
 			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
-			<view class="fzitem_content flex1" @longtap="copyVal(dataItem.themeDesc+'#'+dataItem.themeKey+'#')">
+			<view class="fzitem_content flex1" @longtap="copyVal(dataItem.themeDesc)">
 				<text class="fz_user">{{dataItem.sponsorNickName}}</text>
 				<view class="mt_5">
 					<!-- <view class="uni-age" style="width:120px;">奖金池：￥{{dataItem.remainThemeToMoneyStr}}</view>
@@ -22,9 +22,11 @@
 						<text style="line-height: 44rpx; color: #d9480f;">{{dataItem.themeTitle}}</text>
 					</view>
 				</view>
-				<view class="fz_cnts"> {{dataItem.themeDesc}}#{{dataItem.themeKey}}#</view>
+				<view class="fz_cnts"> {{dataItem.themeDesc}}
+				<span v-show="userData.id==dataItem.themeUserId">#{{dataItem.themeKey}}#</span>
+				</view>
 				<view class="fz_foot flexbox flex_alignc">
-					<view class="flex1"><text class="fz_time">{{dataItem.totalNumVideo}}次推广</text>
+					<view class="flex1"><text class="fz_time">{{dataItem.totalNumVideo}}个作品</text>
 						<view class="uni-distance ml_10">
 							<text class="iconfont "></text>{{dataItem.totalNumRelay}}个转发
 						</view>
@@ -34,7 +36,7 @@
 				</view>
 			</view>
 		</view>
-
+<mescroll-uni ref="mescrollRef" :height="500 + 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 		<view class="uni_videoLs">
 			<block v-for="(item,index) in dataList" :key="index">
 				<view class="item" @tap="GoVideoPlay(item)">
@@ -43,15 +45,15 @@
 						<!-- <view class="title flexbox flex_alignb">{{item.videoTitle}}</view> -->
 						<view class="flexbox flex_alignc">
 							<view class="play flex1"><text class="iconfont icon-bofang"
-									style="display: inline-block;margin-right: 10rpx;"></text> {{item.numShow}}次播放
+									style="display: inline-block;margin-right: 10rpx;"></text> {{item.numShow}}人次观看
 							</view>
 							<text class="like" style="margin-left: 15px;">{{item.numLike}}个赞</text>
 						</view>
 					</view>
 				</view>
 			</block>
-		</view>
-
+		</view> 
+</mescroll-uni>
 		<view class="join" @tap="toActivity">
 			参加活动<text class="iconfont icon-send"></text>
 		</view>
@@ -63,8 +65,10 @@
 		mapState,
 		mapMutations
 	} from 'vuex'
+	import MescrollMixin from "@/uni_modules/mescroll-uni/components/mescroll-uni/mescroll-mixins.js";
 	import Api from '../../utils/requestApi.js'
 	export default {
+		mixins: [MescrollMixin], // 使用mixin 
 		data() {
 			return {
 				dataItem: {},
@@ -122,23 +126,20 @@
 					}
 				})
 			}
-		},
-		onReachBottom() { //上拉触底函数
-			if (!this.listQuery.isLoadMore) { //此处判断，上锁，防止重复请求 
-				this.listQuery.page += 1
-				this.getList()
-			}
-		},
-		onPullDownRefresh() { //下拉刷新
-			console.log('refresh');
-			this.listQuery.page = 1
-			this.dataList = [];
-			this.getList();
-			setTimeout(function() {
-				uni.stopPullDownRefresh();
-			}, 1000);
-		},
+		}, 
 		methods: {
+			// /*下拉刷新的回调, 有3种处理方式:*/
+			downCallback() { 
+				this.listQuery.page = 1
+				this.listQuery.isLoadMore=true;
+				this.dataList = []
+				this.getList() 
+			},
+			// /*上拉加载的回调*/
+			upCallback() {  
+					this.listQuery.page += 1
+					this.getList() 
+			}, 
 			onHome(){
 				uni.redirectTo({
 					url:'/pages/index/index'
@@ -181,12 +182,16 @@
 				Api.httpResponse("/stm/api/video/showVideo/viewList", 'GET', this.listQuery).then(
 					res => {
 						this.dataList = this.dataList.concat(res.records);
-						if (this.listQuery.page < res.pages) {
+						if (this.listQuery.page >= res.pages) {
 							this.listQuery.isLoadMore = false;
 						}
+						this.mescroll.endSuccess() 
+						this.mescroll.endByPage(this.dataList, res.total);
 					},
 					error => {
 						console.log(error);
+						this.mescroll.endSuccess()
+						this.mescroll.endByPage();
 					}
 				)
 			},

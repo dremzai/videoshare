@@ -18,7 +18,9 @@
 							<text style="line-height: 44rpx; color: #d9480f;">{{item.themeTitle}}</text>
 						</view>
 					</view>
-					<view class="fz_cnts" @tap="goDetail(item)"> {{item.themeDesc}}#{{item.themeKey}}#</view>
+					<view class="fz_cnts" @tap="goDetail(item)"> {{item.themeDesc}}
+					<span v-show="userData.id==item.themeUserId">#{{item.themeKey}}#</span>
+					</view>
 					<view class="fz_photos">
 						<!-- <view class="fz_photos_item" @tap="GoVideoPlay(atx)" v-for="atx in item.videoList" -->
 						<view class="fz_photos_item" @tap="goDetail(item)" v-for="atx in item.videoList"
@@ -80,35 +82,26 @@
 
 		methods: { 
 			// /*下拉刷新的回调, 有3种处理方式:*/
-			downCallback() {
-
+			downCallback() { 
 				this.listQuery.page = 1
+				this.listQuery.isLoadMore=true;
 				this.dataList = []
-				this.getList()
-
+				this.getList() 
 			},
 			// /*上拉加载的回调*/
-			upCallback() {
-
-				this.listQuery.page += 1
-				this.getList()
-
-			},
-
-			getList() { 
-				if(!this.listQuery.isLoadMore)
-				{
-					return;
-				}
+			upCallback() {  
+					this.listQuery.page += 1
+					this.getList()  
+			}, 
+			getList() {  
 				Api.httpResponse("/stm/api/video/showTheme/viewList", 'GET', this.listQuery).then(
 					res => { 
 						this.dataList = this.dataList.concat(res.records);
-						if (this.listQuery.page < res.pages) {
+						if (this.listQuery.page >= res.pages) {
 							this.listQuery.isLoadMore = false;
 
 						}
-						this.mescroll.endSuccess()
-
+						this.mescroll.endSuccess() 
 						this.mescroll.endByPage(this.dataList, res.total);
 					},
 					error => {
