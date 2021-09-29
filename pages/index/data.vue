@@ -16,7 +16,7 @@
 						<!-- <view style="float: right;color: #FEB719;font-size: medium;">￥{{item.toUserMoneyStr}}</view> -->
 						<view class="name ellipsis " style="margin-left: 10px;">{{item.theDate}}</view>
 						<view class="subinfo ellipsis mt_5">
-							<text class="c_bbb fs_12 ml_10">{{item.numShow}}次播放</text>
+							<text class="c_bbb fs_12 ml_10">{{item.numShow}}人次观看</text>
 							<text class="c_bbb fs_12 ml_10">{{item.numLike}}个转发</text>
 							<text class="c_bbb fs_12 没有更多数据ml_10">{{item.numLike}}个赞</text>
 							<text class="c_bbb fs_12 ml_10">{{item.numComment}}个评论</text>
