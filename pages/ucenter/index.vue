@@ -3,10 +3,10 @@
 		<view class="uc-header">
 			<view class="uni__listview">
 				<view class="uni__list uni__material">
-					<image class="avator mr_15" :src="userData.userHeadpic" mode="widthFix"
+					<image class="avator mr_15" :src="userData.userHeadpic ? userData.userHeadpic  : '/static/header.png' " mode="widthFix"
 						style="border-radius:50%;height: 55px;width:55px;" />
 					<view class="txt flex1 fs_18">
-						<span v-if="userData.nickName===''" @tap="GoSetUserInfo">点击获取</span>
+						<span v-if="userData.nickName===''" @tap="GoSetUserInfo">点击登录</span>
 						<span v-else>{{userData.nickName}}</span>
 						<!-- <text class="iconfont icon-nan c_589bee ml_5"></text> -->
 						<text class="db c_999 fs_12 mt_5"> {{userData.telephone}}</text>
@@ -176,6 +176,9 @@
 								console.log(error);
 							}
 						)
+					},
+					fail() {
+						uni.hideLoading()
 					}
 				})
 			},
