@@ -7,7 +7,7 @@
 		<header-bar  id="header_bar" :isBack="true" v-if="!homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
-		<header-bar  :isBack="false" v-if="homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
+		<header-bar id="header_bar" :isBack="false" v-if="homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="headerL" class="uni_btnIco iconfont icon-back"  @tap="onHome"></text> 
 		</header-bar>
 		<mescroll-uni ref="mescrollRef" :height="scrollH+ 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
