@@ -11,8 +11,8 @@
 				<view class="fzitem_content flex1" @longtap="copyVal(item.themeDesc+'#'+item.themeKey+'#')">
 					<text class="fz_user" @tap="goDetail(item)">{{item.sponsorNickName}}</text>
 					<view class="mt_5" @tap="goDetail(item)">
-						<!-- <view class="uni-age" style="width:120px;">奖金池：￥{{item.remainThemeToMoneyStr}}</view>
-						<view class="uni-vip v1 ml_5" style="width:70px;">还剩{{item.endDay}}天</view> -->
+						<view class="uni-vip v1 ml_5" style="width:50px;" v-show="item.themeCheck!=1">审核中</view>
+						<!-- <view class="uni-vip v1 ml_5" style="width:70px;">还剩{{item.endDay}}天</view> -->
 						<view class="mark">
 							<text class="iconfont icon-zan"></text>
 							<text style="line-height: 44rpx; color: #d9480f;">{{item.themeTitle}}</text>
