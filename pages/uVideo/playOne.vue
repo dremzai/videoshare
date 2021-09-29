@@ -18,14 +18,14 @@
 							<view z-index="9999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
-										<view class="kw" style="vertical-align: top;"> {{item.numShow}}次浏览 </view>
+										<view class="kw" style="vertical-align: top;"> {{item.numShow}}人次浏览 </view>
 										<view class="kw" style=" overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">#{{item.sponsorNickName}} </view>
 
 									</view>
 									<view class="item subtext">{{item.themeDesc}}</view>
 									<view class="item uinfo flexbox flex_alignc">
-										<image class="avator" :src="shareUserData.userHeadpic" mode="aspectFill" /><text
-											class="name">{{shareUserData.nickName}}</text>
+										<image class="avator" :src="shareUserData.userHeadpic" mode="aspectFill" />
+										<text class="name">{{shareUserData.nickName}}</text> 
 									</view>
 								</view>
 								<view class="vd-sidebar">
@@ -44,8 +44,8 @@
 										<view class="ls"><text class="iconfont icon-share"></text><text
 												class="num">{{item.numRelay}}</text></view>
 									</button>
-									<!-- <view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
-											class="num">下载</text></view> -->
+									<view class="ls" @click="downloadFile(item.videoUrl)"><text class="iconfontnew icon-xiazai"></text><text
+											class="num">下载</text></view>
 								</view>
 							</view>
 						</view>
@@ -260,6 +260,13 @@
 			}
 		}, 
 		onShareAppMessage: (res) => {   //分享到朋友群聊
+			if(shareData.status!=1){
+				uni.showToast({
+					title: "视频待审核，不能分享！",
+					icon: "none"
+				});
+				return;
+			}
 			Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
 				videoId:shareData.id,
 				shareUserId:shareUserId,
@@ -277,6 +284,13 @@
 			}
 		}, 
 		onShareTimeline: (res) => {   //分享到朋友圈
+			if(shareData.status!=1){
+				uni.showToast({
+					title: "视频待审核，不能分享！",
+					icon: "none"
+				});
+				return;
+			}
 			Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
 				videoId:shareData.id,
 				shareUserId:shareUserId,

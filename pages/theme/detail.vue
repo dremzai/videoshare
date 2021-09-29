@@ -79,11 +79,13 @@
 					id: ''
 				},
 				homeHeader:false,
+				shareUserId:''
 			}
 		},
 		onLoad(option) {
 			if(option.shareUserId){
 				this.homeHeader = true 
+				this.shareUserId=option.shareUserId
 			}
 			this.userData = uni.getStorageSync('user')
 			Api.httpResponse("/stm/api/video/showTheme/getViewById", 'GET', {
@@ -103,7 +105,8 @@
 					success(res) {
 						if (res.code) {
 							Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST', {
-								code: res.code
+								code: res.code,
+								fromId:that.shareUserId
 							}).then(
 								resuser => {
 									that.userData = resuser;
@@ -165,10 +168,7 @@
 						this.userData.city = res.userInfo.city;
 						this.$store.commit('SET_USER', this.userData)
 						Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST', this.userData).then(
-							resUser => {
-								uni.navigateTo({
-									url: '/pages/theme/create'
-								})
+							resUser => { 
 							},
 							error => {
 								console.log(error);

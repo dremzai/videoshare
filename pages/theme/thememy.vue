@@ -23,9 +23,9 @@
 				</view>
 				<view class="fz_foot flexbox flex_alignc">
 					<view class="flex1">
-						<text class="fz_time">{{item.numShow}}次播放</text>
+						<text class="fz_time">{{item.numShow}}人次播放</text>
 						<view class="uni-distance ml_10">
-							<text class="iconfont "></text>{{item.numLike}}个转发
+							<text class="iconfont "></text>{{item.numRelay}}个转发
 						</view>
 						<text class="c_bbb fs_12 ml_10">{{item.numLike}}个赞</text>
 						<text class="c_bbb fs_12 ml_10">{{item.numComment}}个评论</text>

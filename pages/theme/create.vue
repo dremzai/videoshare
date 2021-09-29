@@ -28,7 +28,8 @@
 				</view>
 			 </view> 
 			 <view class="uni-btn-v"> 
-				<button class="uni__btn-primary bg_linear2" type="primary" form-type="submit" >提交</button>
+				<button class="uni__btn-primary bg_linear2" type="primary" form-type="submit" >提交</button> 
+				<uni-view class="common-page-head-title">提交后仅自己可见，审核通过后才能分享</uni-view>
 			</view>
 		</form>
 	</view>
@@ -240,4 +241,17 @@
 			margin-right: 20rpx;
 		}
 	}
+.common-page-head-title {
+    display: inline-block;
+    padding: 0 20px;
+	text-align: center;
+    font-size: 15px;
+    height: 44px;
+	width: 100%;
+    line-height: 44px;
+    color: #bebebe;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-bottom: 1px solid #d8d8d8;
+}
 </style>

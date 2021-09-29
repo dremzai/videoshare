@@ -28,7 +28,7 @@
 						</view>
 					</view>
 					<view class="fz_foot flexbox flex_alignc">
-						<view class="flex1"><text class="fz_time">{{item.totalNumVideo}}次推广</text>
+						<view class="flex1"><text class="fz_time">{{item.totalNumVideo}}个作品</text>
 							<view class="uni-distance ml_10">
 								<text class="iconfont "></text>{{item.totalNumRelay}}个转发
 							</view>
