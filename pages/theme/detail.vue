@@ -37,6 +37,7 @@
 				</view>
 			</view>
 		</view>
+
 		<view class="uni_videoLs">
 			<block v-for="(item,index) in dataList" :key="index">
 				<view class="item" @tap="GoVideoPlay(item)">
