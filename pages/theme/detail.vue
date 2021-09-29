@@ -4,12 +4,13 @@
 
 <template>
 	<view class="fz_container">
-		<header-bar :isBack="true" v-if="!homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
+		<header-bar  id="header_bar" :isBack="true" v-if="!homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="back" class="uni_btnIco iconfont icon-back"></text> 
 		</header-bar>
-		<header-bar :isBack="false" v-if="homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
+		<header-bar  :isBack="false" v-if="homeHeader" title="首页" titleTintColor="#353535" :bgColor="{background: '#f4f4f4'}">
 			<text slot="headerL" class="uni_btnIco iconfont icon-back"  @tap="onHome"></text> 
 		</header-bar>
+		<mescroll-uni ref="mescrollRef" :height="scrollH+ 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 		<view class="fz_item flexbox uni__material">
 			<image class="fzitem_avator" :src="dataItem.sponsorUserHeadpic" mode="aspectFill" />
 			<view class="fzitem_content flex1" @longtap="copyVal(dataItem.themeDesc)">
@@ -36,7 +37,6 @@
 				</view>
 			</view>
 		</view>
-<mescroll-uni ref="mescrollRef" :height="500 + 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 		<view class="uni_videoLs">
 			<block v-for="(item,index) in dataList" :key="index">
 				<view class="item" @tap="GoVideoPlay(item)">
@@ -53,10 +53,10 @@
 				</view>
 			</block>
 		</view> 
-</mescroll-uni>
 		<view class="join" @tap="toActivity">
 			参加活动<text class="iconfont icon-send"></text>
 		</view>
+		</mescroll-uni>
 	</view>
 </template>
 
@@ -83,10 +83,36 @@
 					id: ''
 				},
 				homeHeader:false,
-				shareUserId:''
+				shareUserId:'',
+				scrollH:0
 			}
 		},
+		onReady() {
+			let that = this;
+			uni.getSystemInfo({ //调用uni-app接口获取屏幕高度
+				success(res) { //成功回调函数
+					
+					that._data.pH = res.windowHeight //windoHeight为窗口高度，主要使用的是这个
+					let tab_bar = uni.createSelectorQuery().select("#tab_bar"); //想要获取高度的元素名（class/id）
+					
+					
+					let heightA = 0
+					let heightB = 0
+					// that._data.navHeight = pH-data.top  //计算高度：元素高度=窗口高度-元素距离顶部的距离（data.top）
+					let header_bar = uni.createSelectorQuery().select("#header_bar");
+					header_bar.boundingClientRect(data => {
+							
+							
+						 that._data.scrollH = res.windowHeight - data.bottom
+						 console.log(that._data)
+					}).exec()
+					
+					
+				}
+			})
+		},
 		onLoad(option) {
+			
 			if(option.shareUserId){
 				this.homeHeader = true 
 				this.shareUserId=option.shareUserId
