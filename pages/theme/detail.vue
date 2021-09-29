@@ -36,7 +36,7 @@
 				</view>
 			</view>
 		</view>
-<mescroll-uni ref="mescrollRef" :height="500 + 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
+<mescroll-uni ref="mescrollRef" :height="580 + 'px'" @down="downCallback" @up="upCallback" :down="{auto:false}" :up="{auto:false}">
 		<view class="uni_videoLs">
 			<block v-for="(item,index) in dataList" :key="index">
 				<view class="item" @tap="GoVideoPlay(item)">
