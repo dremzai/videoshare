@@ -17,11 +17,13 @@ const httpResponse = (url, method, data,method1) => {
 	}
 	//当前登入用户信息 
 	let userId=uni.getStorageSync('user').id
+	let openId=uni.getStorageSync('user').wxOpenid
 	if(userId!=null&&userId!=undefined&&userId!='')
 	{
 		headers={
 			...headers,
 			'userId':userId, 
+			'openId':openId, 
 		}
 	}
 	let httpDefault = {
