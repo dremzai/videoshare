@@ -335,29 +335,29 @@
 		color: #FFF;
 		line-height: 44rpx;
 		position: absolute;
-		left: 0rpx;
-		top: 0rpx;
+		 left: -14rpx;
+		 top: -14rpx;
 	}
 
 	.subscript {
 		position: relative;
 
 		.subscript_img {
-			width: 140rpx;
-			height: 140rpx;
+			    width: 100rpx;
+			    height: 100rpx;
 		}
-
+		
 		.subscript_text {
-			transform: rotate(-46deg);
-			position: absolute;
-			display: inline-block;
-			width: 106rpx;
-			left: 0px;
-			top: 35rpx;
-			text-align: center;
-			z-index: 20;
-			font-size: 26rpx;
-			font-weight: bold;
+			          transform: rotate(-46deg);
+			          position: absolute;
+			          display: inline-block;
+			          width: 77rpx;
+			          left: 0px;
+			          top: 20rpx;
+			          text-align: center;
+			          z-index: 20;
+			          font-size: 24rpx;
+			          font-weight: bold;
 		}
 	}
 	.like_y{
