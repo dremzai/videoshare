@@ -39,8 +39,7 @@
 											class="iconfont icon-liuyan"></text><text
 											class="num">{{item.numComment}}</text></view>
 
-									<button type="default" open-type="share" plain="true">
-
+									<button type="default" open-type="share" plain="true" v-show="item.status==1"> 
 										<view class="ls"><text class="iconfont icon-share"></text><text
 												class="num">{{item.numRelay}}</text></view>
 									</button>
@@ -85,6 +84,9 @@
 				homeHeader:false,
 				shareUserId:null,
 				shareUserData:{},
+				userData: {
+					id: ''
+				},
 			}
 		},
 		components: {
@@ -107,12 +109,40 @@
 					this.dataItem=res
 					this.listQuery.themeId = this.dataItem.themeId;
 					this.vlist.push(this.dataItem)
-					this.getList();
 					shareData = this.vlist[0]
 					this.init()
+					if(res.status==1){
+						
+						this.getList();
+					}
 				} 
 			) 
 			this.getShareUserData();
+			
+			this.userData = uni.getStorageSync('user')
+			if (this.userData == '' || this.userData.id == '') {
+				var that = this;
+				wx.login({
+					success(res) {
+						if (res.code) {
+							Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST', {
+								code: res.code,
+								fromId:that.shareUserId
+							}).then(
+								resuser => {
+									that.userData = resuser;
+									that.$store.commit('SET_USER', resuser)
+								},
+								error => {
+									console.log(error);
+								}
+							)
+						} else {
+							console.log('登录失败！' + res.errMsg)
+						}
+					}
+				})
+			}
 		},
 		onReady() {
 			wx.showShareMenu({
@@ -214,9 +244,14 @@
 				)
 			},
 			handleVideoComment(item) {
-				this.isCommentShow = true
-				this.videoCommentItem = item
-				this.$refs.videoComment.show()
+				if (this.userData != '' && this.userData.id != ''&& this.userData.nickName != null) { 
+					this.isCommentShow = true
+					this.videoCommentItem = item
+					this.$refs.videoComment.show()
+				}
+				else{
+					this.getWxUserInfo();
+				}
 			},
 			handleVideoCart(index) {
 				this.$refs.videoCart.show(index)
@@ -257,16 +292,33 @@
 						console.log(error);
 					}
 				)
-			}
+			}, 
+			getWxUserInfo(){ 
+				uni.showLoading({
+					title: "获取中...",
+					mask: true
+				})
+				wx.getUserProfile({
+					desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+					success: (res) => {
+						uni.hideLoading()
+						this.userData.nickName = res.userInfo.nickName;
+						this.userData.userHeadpic = res.userInfo.avatarUrl;
+						this.userData.prov = res.userInfo.province;
+						this.userData.city = res.userInfo.city;
+						this.$store.commit('SET_USER', this.userData)
+						Api.httpResponse("/stm/api/user/showUser/saveOrUpdate", 'POST', this.userData).then(
+							resUser => { 
+							},
+							error => {
+								console.log(error);
+							}
+						)
+					}
+				})
+			},
 		}, 
-		onShareAppMessage: (res) => {   //分享到朋友群聊
-			if(shareData.status!=1){
-				uni.showToast({
-					title: "视频待审核，不能分享！",
-					icon: "none"
-				});
-				return;
-			}
+		onShareAppMessage: (res) => {   //分享到朋友群聊 
 			Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
 				videoId:shareData.id,
 				shareUserId:shareUserId,
@@ -283,14 +335,7 @@
 				imageUrl: shareData.videoPic
 			}
 		}, 
-		onShareTimeline: (res) => {   //分享到朋友圈
-			if(shareData.status!=1){
-				uni.showToast({
-					title: "视频待审核，不能分享！",
-					icon: "none"
-				});
-				return;
-			}
+		onShareTimeline: (res) => {   //分享到朋友圈 
 			Api.httpResponse("/stm/api/video/showDate/save", 'POST', {
 				videoId:shareData.id,
 				shareUserId:shareUserId,

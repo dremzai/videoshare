@@ -112,7 +112,13 @@
 				)
 			},
 			GoVideoPlay(item) {
-				console.log(item)
+				if(item.status!=1){
+					uni.showToast({
+						title: "内容审核中",
+						icon: "none"
+					});
+					return;
+				} 
 				// #ifndef APP-PLUS
 				uni.navigateTo({
 					url: '/pages/uVideo/playOne?index=' + 0 + '&id=' + item.id

@@ -48,7 +48,8 @@
 							<view class="play flex1"><text class="iconfont icon-bofang"
 									style="display: inline-block;margin-right: 10rpx;"></text> {{item.numShow}}人次观看
 							</view>
-							<text class="like" style="margin-left: 15px;">{{item.numLike}}个赞</text>
+							<text class="like" style="margin-left: 15px;" v-if="item.status===1">{{item.numLike}}个赞</text>
+							<text class="like" style="margin-left: 15px;" v-else>审核中</text>
 						</view>
 					</view>
 				</view>
@@ -234,6 +235,13 @@
 				});
 			},
 			GoVideoPlay(item) {
+				if(item.status!=1){
+					uni.showToast({
+						title: "内容审核中",
+						icon: "none"
+					});
+					return;
+				}
 				if (this.userData != '' && this.userData.id != ''&& this.userData.nickName != null) { 
 					// #ifndef APP-PLUS
 					uni.navigateTo({
