@@ -14,8 +14,19 @@
 						<view class="flexbox flex_alignc">
 							<view class="play flex1"><text class="iconfont icon-bofang"></text> {{item.numShow}}人次观看</view>
 							<text class="like" style="margin-left: 15px;" v-if="item.status===1">{{item.numLike}}个赞</text>
-							<text class="like" style="margin-left: 15px;" v-else>审核中</text>
+							<text class="like like_y" style="margin-left: 15px;" v-else>审核中</text>
 						</view>
+					</view>
+					<view class="user_mark">
+						<view class="subscript" v-if="item.videoUserId===item.themeUserId">
+							<image class="subscript_img" src="../../static/mark1.png" mode=""></image>
+							<text class="subscript_text">官方</text>
+						</view>
+						<view class="subscript" v-else-if="item.videoUserId===userData.id">
+							<image class="subscript_img" src="../../static/mark.png" mode=""></image>
+							<text class="subscript_text">我的</text>
+						</view>
+					
 					</view>
 				</view>
 			</block>
@@ -106,6 +117,42 @@
 	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.user_mark {
+		color: #FFF;
+		line-height: 44rpx;
+		position: absolute;
+		left: 0rpx;
+		top: 0rpx;
+	}
 
+	.subscript {
+		position: relative;
+
+		.subscript_img {
+			width: 140rpx;
+			height: 140rpx;
+		}
+
+		.subscript_text {
+			transform: rotate(-46deg);
+			position: absolute;
+			display: inline-block;
+			width: 106rpx;
+			left: 0px;
+			top: 35rpx;
+			text-align: center;
+			z-index: 20;
+			font-size: 26rpx;
+			font-weight: bold;
+		}
+	}
+	.like_y{
+		background-color: #f59f00;
+		padding: 0 14rpx;
+		font-size: 22rpx !important;
+		line-height: 38rpx;
+		border-radius: 10rpx;
+		border-radius: 7rpx;
+	}
 </style>
