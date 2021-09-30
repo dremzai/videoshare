@@ -78,6 +78,7 @@
 					userId: '',
 					page: 1,
 					pageSize: 20,
+					status:1,
 				},
 				isCommentShow:false,
 				videoCommentItem:null,
