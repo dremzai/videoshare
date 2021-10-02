@@ -75,9 +75,34 @@
 			}
 		},
 		mounted() {
-			this.userData = uni.getStorageSync('user')
-			this.listQuery.userId = this.userData.id;
-			this.getList(); 
+			this.userData = uni.getStorageSync('user') 
+			this.listQuery.userId = this.userData.id; 
+			if(this.userData==''||this.userData.id==''){
+				var that=this;
+					wx.login({
+					  success (res) {
+						if (res.code) {
+						  Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
+							resuser => {    
+								that.userData=resuser;
+								that.$store.commit('SET_USER', resuser)	 
+								this.listQuery.userId = this.userData.id;
+								this.getList(); 
+							},
+							error => {
+								console.log(error);
+							}
+						  ) 
+						} else {
+						  console.log('登录失败！' + res.errMsg)
+						}
+					  }
+					})
+			}
+			else{ 
+				this.getList(); 
+			}
+					
 		},
 
 		methods: { 

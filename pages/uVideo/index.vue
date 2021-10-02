@@ -12,12 +12,12 @@
 					<view class="v-ftinfo">
 						<!-- <view class="title flexbox flex_alignb">{{item.videoTitle}}</view> -->
 						<view class="flexbox flex_alignc">
-							<view class="play flex1"><text class="iconfont icon-bofang"></text> {{item.numShow}}人次观看</view>
+							<view class="play flex1"><text class="iconfont icon-bofang"></text> {{item.numShow}}次浏览</view>
 							<text class="like" style="margin-left: 15px;" v-if="item.status===1">{{item.numLike}}个赞</text>
 							<text class="like like_y" style="margin-left: 15px;" v-else>审核中</text>
 						</view>
 					</view>
-					<view class="user_mark">
+					<!-- <view class="user_mark">
 						<view class="subscript" v-if="item.videoUserId===item.themeUserId">
 							<image class="subscript_img" src="../../static/mark1.png" mode=""></image>
 							<text class="subscript_text">官方</text>
@@ -27,7 +27,7 @@
 							<text class="subscript_text">我的</text>
 						</view>
 					
-					</view>
+					</view> -->
 				</view>
 			</block>
 		</view>

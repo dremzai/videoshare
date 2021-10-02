@@ -4,17 +4,12 @@ let baseUrl = 'https://test.videoapp.mianxiangkeji.com';
 const httpResponse = (url, method, data,method1) => {
 	// 判断method的请求类型,修改header参数
 	let headers = method == "POST" ? {
-		"Content-Type": "application/json",
+		"Content-Type": "application/json; charset=UTF-8",
 		"Access-Control-Allow-Origin": "*",
 	} : {
 		'X-Requested-With': 'XMLHttpRequest',
 		'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-	};
-	if(method1=="json"){
-		headers={
-			"Content-Type": "application/json; charset=UTF-8",
-		}
-	}
+	}; 
 	//当前登入用户信息 
 	let userId=uni.getStorageSync('user').id
 	let openId=uni.getStorageSync('user').wxOpenid

@@ -7,7 +7,7 @@
 		<header-bar id="header_bar" v-if="currentTabIndex == 0" :isBack="false" title=" " titleTintColor="#353535"
 			:bgColor="{'background': '#fff'}">
 			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(0)"><text class="fs_14"
-					:class="[currentNavIndex == 0 ? 'fs_20 bold' : '']">最新活动</text></view>
+					:class="[currentNavIndex == 0 ? 'fs_20 bold' : '']">活动</text></view>
 			<view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(1)"><text class="fs_14"
 					:class="[currentNavIndex == 1 ? 'fs_20 bold' : '']">我参与的</text></view>
 			<!-- <view slot="headerL" class="uni_btnIco flexbox" @tap="handleTopNav(2)"><text class="fs_14"
@@ -18,7 +18,7 @@
 		</header-bar>
 		<header-bar v-else-if="currentTabIndex == 1" :isBack="false" title=" " titleTintColor="#353535"
 			:bgColor="{'background': '#fff'}">
-			<view slot="headerL" class="uni_btnIco flexbox"><text class="fs_20 bold">推荐视频</text></view>
+			<view slot="headerL" class="uni_btnIco flexbox"><text class="fs_20 bold">视频</text></view>
 		</header-bar>
 		<header-bar v-else-if="currentTabIndex == 2" :isBack="false" title=" " titleTintColor="#353535"
 			:bgColor="{'background': '#fff'}">
@@ -110,32 +110,7 @@
 
 				}
 			})
-		},
-		onLoad(){ 
-				this.userData=uni.getStorageSync('user') 
-				console.log(111,this.userData)
-				if(this.userData==''||this.userData.id==''){
-					var that=this;
-						wx.login({
-						  success (res) {
-						    if (res.code) {
-						      Api.httpResponse("/stm/api/login/wxMiniLogin", 'POST',{code:res.code}).then(
-						      	resuser => {    
-									that.userData=resuser;
-									console.log(222,that.userData)
-						      		that.$store.commit('SET_USER', resuser)	 
-						      	},
-						      	error => {
-						      		console.log(error);
-						      	}
-						      ) 
-						    } else {
-						      console.log('登录失败！' + res.errMsg)
-						    }
-						  }
-						})
-				}
-		},
+		}, 
 		onShow(){
 			if (this.currentTabIndex == 3) {
 				this.$refs["ucenter"].init()

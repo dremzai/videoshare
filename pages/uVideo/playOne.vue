@@ -18,7 +18,7 @@
 							<view z-index="9999" class="vd-footToolbar flexbox flex_alignb">
 								<view class="vd-info flex1">
 									<view class="item at">
-										<view class="kw" style="vertical-align: top;"> {{item.numShow}}人次观看</view>
+										<view class="kw" style="vertical-align: top;"> {{item.numShow}}次浏览</view>
 										<view class="kw" style=" overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">#{{item.sponsorNickName}} </view>
 
 									</view>

@@ -23,7 +23,7 @@
 				</view>
 				<view class="fz_foot flexbox flex_alignc">
 					<view class="flex1">
-						<text class="fz_time">{{item.numShow}}人次观看</text>
+						<text class="fz_time">{{item.numShow}}次浏览</text>
 						<view class="uni-distance ml_10">
 							<text class="iconfont "></text>{{item.numRelay}}个转发
 						</view>
